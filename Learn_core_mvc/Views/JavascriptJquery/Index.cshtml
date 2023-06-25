@@ -1,0 +1,106 @@
+﻿@{ }
+
+<style>
+    .shop_list_box {
+        margin-top: 20px;
+    }
+
+        .shop_list_box h1 {
+            color: rgb(0 0 0);
+            font-weight: 500;
+            font-size: 20px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .shop_list_box ul li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgb(205 205 205);
+            padding: 7px 7px;
+            color: #000;
+        }
+</style>
+
+<button class="btn p-0" onclick="CreateShopName()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+
+<div id="create_shop" style="display:none;">
+    <label>Shop Name</label>
+    <input type="text" name="shop_name" id="txt_shop_name" />
+
+    <button id="btn_save">Save</button>
+</div>
+
+<div class="shop_list_box" id="userShopList">
+    <h1>Shop List</h1>
+    <ul>
+        
+    </ul>
+</div>
+
+@section Scripts{
+    <script>
+        var OpenShopUId;
+
+        $("#btn_save").click(function () {
+            var shop_name = $("#txt_shop_name").val().trim();
+            if (shop_name == "" || shop_name == null || shop_name == undefined) {
+                alert("Please enter name");
+                return;
+            }
+            if (OpenShopUId == undefined) {
+                var uId = GenerateUniqId();
+                AddShopNameInList(uId);
+            }
+            else {
+                UpdateShopNameInList(OpenShopUId);
+            }
+        });
+
+        function CreateShopName() {
+            OpenShopUId = undefined;
+            $("#txt_shop_name").val("");
+            $("#create_shop").show();
+        }
+
+        function UpdateShopNameInList(uId) {
+            var shop_name = $("#txt_shop_name").val().trim();
+            $(`#shopNameLi-${uId} > a[name=shopName-${uId}]`).html(shop_name);
+        }
+
+        function AddShopNameInList(uId) {
+            var shop_name = $("#txt_shop_name").val().trim();
+            var date = TodayDate();
+            var html = `<li id="shopNameLi-${uId}">
+                            <a href="javascript:void(0)" name="shopName-${uId}" onclick="LoadShopName('${uId}')">${shop_name}</a>
+                            <a href="javascript:void(0)" name="shopDate-${uId}" onclick="LoadShopName('${uId}')">${date}</a>
+                            <button class="btn p-0" onclick="DeleteShopName('${uId}')"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        </li>`;
+            $("#userShopList > ul").append(html);
+            $("#txt_shop_name").val("");
+        }
+
+        function LoadShopName(uId) {
+            OpenShopUId = uId;
+            var shop_name = $(`#shopNameLi-${uId} > a[name=shopName-${uId}]`).html();
+            $("#txt_shop_name").val("").val(shop_name);
+        }
+
+        function DeleteShopName(uId) {
+            OpenShopUId = undefined;
+            $(`#shopNameLi-${uId}`).remove();
+            $("#txt_shop_name").val("");
+        }
+
+        function TodayDate() {
+            var date = new Date();
+            var localeDate = date.toLocaleDateString();
+            return localeDate;
+        }
+
+        function GenerateUniqId() {
+            return Math.random().toString(16).slice(2);
+        }
+    </script>
+}

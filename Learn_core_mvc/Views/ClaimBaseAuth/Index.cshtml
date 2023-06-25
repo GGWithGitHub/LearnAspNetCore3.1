@@ -1,0 +1,22 @@
+﻿@model Learn_core_mvc.Core.Models.Login
+
+@{
+
+}
+
+<p> Do login with user 1 credentials : email=user1@gmail.com, password=111111 </p>
+<p>OR</p>
+<p> Do login with user 2 credentials : email=user2@gmail.com, password=111111 </p>
+
+<form asp-controller="ClaimBaseAuth" asp-action="LogIn" method="post">
+    <label>User Email</label>
+    <input asp-for="UserEmail" /><br />
+
+    <label>User Password</label>
+    <input asp-for="UserPassword" /><br />
+
+    <label>Remember Me</label>
+    <input asp-for="RememberMe" /><br />
+
+    <button type="submit">Sign in</button>
+</form>

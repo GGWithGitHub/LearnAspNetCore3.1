@@ -1,0 +1,21 @@
+﻿@model Learn_core_mvc.Core.Models.Login
+
+@{
+}
+
+@if (ViewBag.login!=null) { 
+    <h2>@ViewBag.login</h2>
+}
+
+<form asp-controller="RegisterLogin" asp-action="Login" method="post">
+    @Html.AntiForgeryToken()
+    <label>User Email</label>
+    <input asp-for="UserEmail" /><br />
+
+    <label>User Password</label>
+    <input asp-for="UserPassword" /><br />
+
+    <button type="submit">Sign In</button>
+</form>
+
+<a asp-controller="RegisterLogin" asp-action="Register">Register</a>

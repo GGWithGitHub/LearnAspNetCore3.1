@@ -1,0 +1,25 @@
+﻿@model Learn_core_mvc.Core.Models.Register
+
+@{
+}
+
+@if (ViewBag.register != null)
+{
+    <h2>@ViewBag.register</h2>
+}
+
+<form asp-controller="PasswordReset" asp-action="Register" method="post">
+    @Html.AntiForgeryToken()
+    <label>User Email</label>
+    <input asp-for="UserEmail" /><br />
+
+    <label>User Password</label>
+    <input asp-for="UserPassword" /><br />
+
+    <label>User Confirm Password</label>
+    <input asp-for="UserConfirmPassword" /><br />
+
+    <button type="submit">Register</button>
+</form>
+
+<a asp-controller="PasswordReset" asp-action="Index">login</a>

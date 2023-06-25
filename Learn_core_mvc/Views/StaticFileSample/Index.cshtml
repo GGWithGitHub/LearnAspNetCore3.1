@@ -1,0 +1,24 @@
+﻿
+@{
+}
+
+<h6>Image from "wwwroot" folder</h6>
+<img src="~/images/Panda.jpg" width="100" height="100" />
+
+<br/><br />
+
+<h6>Image from "TestStaticFiles" folder</h6>
+<img src="~/TestStaticFiles/images/sunEarth.jpg" width="100" height="100" />
+
+<br /><br />
+
+<h6>To get files from another folder rather than wwwroot folder we have to do some changes in "Startup.cs" file</h6>
+<span>
+    app.UseStaticFiles(new StaticFileOptions()
+    {
+    FileProvider = new PhysicalFileProvider(
+    Path.Combine(Directory.GetCurrentDirectory(), "TestStaticFiles")
+    ),
+    RequestPath = "/TestStaticFiles"
+    });
+</span>

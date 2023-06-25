@@ -1,0 +1,38 @@
+﻿
+@{
+    var param = new Dictionary<string, string>() {
+        { "param1","data1" },
+        { "param2","2" },
+        { "param3", "True" }
+    };
+}
+
+<h5>Anchor tag helper</h5>
+<br />
+
+<h6>Go to "Index" action method of the "TagHelperSample" controller</h6>
+<a asp-controller="TagHelperSample" asp-action="Index">Go to "Index" action method of the "TagHelperSample" controller</a>
+
+<br />
+<br />
+
+<h6>Pass query string parameters one by one inside anchor tag</h6>
+<a asp-controller="TagHelperSample" asp-action="AnchorTagRouteParam" asp-route-param1="data1" asp-route-param2="2">Pass query string parameters one by one inside anchor tag</a>
+
+<br />
+<br />
+
+<h6>Pass query string parameter in once inside anchor tag</h6>
+<a asp-controller="TagHelperSample" asp-action="AnchorTagAllRouteParam" asp-all-route-data="@param">Pass query string parameter in once inside anchor tag</a>
+
+<br />
+<br />
+
+<h6>Call action method by route name</h6>
+<a asp-route="ModifiedRouteName">Call action method by route name</a>
+
+<br />
+<br />
+
+<h6>Go to another URL/Website</h6>
+<a asp-protocol="https" asp-host="programmingcsharp.com">Go to another URL/Website</a>

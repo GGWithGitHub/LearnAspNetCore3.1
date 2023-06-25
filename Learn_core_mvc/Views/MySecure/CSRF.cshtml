@@ -1,0 +1,113 @@
+﻿@model Learn_core_mvc.Core.Models.MyUser
+
+@{
+}
+
+<style>
+    .TextColor{
+        color:red;
+    }
+</style>
+
+<p>Agar aap niche diye gye json data ko <span class="TextColor">Postman</span> se post kroge to action method tak nhi pahuch paoge
+    kyonki hmari action method <span class="TextColor">[ValidateAntiForgeryToken]</span> se decorated hai.
+</p>
+<h6>
+    {
+    "Name":"Gaurav",
+    "Email":"abcd@gmail.com",
+    "Address":"new colony",
+    "Phone":"9898989898"
+    }
+</h6>
+
+<hr />
+<h6>Form data is getting post through ASP.NET CORE approach</h6><br />
+<form asp-controller="MySecure" asp-action="CSRF" method="post">
+    <label>User name</label>
+    <input asp-for="Name" />
+
+    <label>User Email</label>
+    <input asp-for="Email" />
+
+    <label>User Address</label>
+    <input asp-for="Address" />
+
+    <label>User Phone</label>
+    <input asp-for="Phone" />
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+@if (ViewBag.PostedDataByCore != null)
+{
+    <span>@ViewBag.PostedDataByCore.Name</span><br/>
+    <span>@ViewBag.PostedDataByCore.Email</span><br />
+    <span>@ViewBag.PostedDataByCore.Address</span><br />
+    <span>@ViewBag.PostedDataByCore.Phone</span>
+}
+
+<hr />
+<h6>Form data is getting post through AJAX approach</h6><br />
+<form asp-controller="MySecure" asp-action="CSRF" method="post">
+    <label>User name</label>
+    <input id="txtName" />
+
+    <label>User Email</label>
+    <input id="txtEmail" />
+
+    <label>User Address</label>
+    <input id="txtAddress" />
+
+    <label>User Phone</label>
+    <input id="txtPhone" />
+
+    <button type="button" id="btnSave" class="btn btn-primary">Save</button>
+</form>
+<div id="postedDataByAjax">
+
+</div>
+
+@section Scripts{
+    <script>
+        $("#btnSave").click(function () {
+            var csrfToken = $("input[name=__RequestVerificationToken]").val();
+            var user = {
+                Name: $("#txtName").val(),
+                Email: $("#txtEmail").val(),
+                Address: $("#txtAddress").val(),
+                Phone: $("#txtPhone").val()
+            };
+            var type = "POST";
+            var url = "/MySecure/CSRFDataByAjax";
+            var jsonData = JSON.stringify(user);
+            AjaxCall(type, url, jsonData, csrfToken).then(function (res) {
+                var html = `<span>${res.name}</span><br/>
+                                        <span>${res.email}</span><br/>
+                                        <span>${res.address}</span><br/>
+                                        <span>${res.phone}</span>`;
+                $("#postedDataByAjax").empty().append(html);
+            }).catch(function (err) {
+                alert("Catch error");
+            });
+        });
+
+        function AjaxCall(type, url, data = "", csrfToken = "") {
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    type: type,
+                    url: url,
+                    headers: { "RequestVerificationToken": csrfToken },
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (res) {
+                        resolve(res)
+                    },
+                    error: function (err) {
+                        reject(err)
+                    }
+                });
+            });
+        }
+    </script>
+}

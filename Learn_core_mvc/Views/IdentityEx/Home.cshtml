@@ -1,0 +1,18 @@
+﻿@{
+
+}
+
+<button onclick="location.href='@Url.Action("LogOut", "IdentityEx")'">Log out</button>
+<br />
+<br />
+<button onclick="location.href='@Url.Action("ChangePassword", "IdentityEx")'">Change Password</button>
+<br />
+<br />
+
+<h6>User Id: @ViewBag.UserId</h6>
+<h6>User Name: @ViewBag.UserName</h6>
+<br />
+<a asp-controller="IdentityEx" asp-action="PublicPage">Public page</a>
+<br />
+<br />
+<a asp-controller="IdentityEx" asp-action="AuthorizePage">Admin page</a>

@@ -1,0 +1,105 @@
+﻿@model Learn_core_mvc.Core.Models.MyUser
+
+<h5>Input field with "Form" tag</h5>
+
+<div class="row">
+    <div class="col-md-9">
+        <form asp-controller="MySecure" asp-action="XssIndex" method="post">
+            <div class="form-group">
+                <label class="control-label">User name</label>
+                <input asp-for="Name" value="<h6>Ram</h6>" class="form-control" />
+                <label class="control-label">User email</label>
+                <input asp-for="Email" value="<i>ram@gmail.com</i>" class="form-control" />
+                <label class="control-label">User address</label>
+                <input asp-for="Address" value="<b>ram nagar</b>" class="form-control" />
+                <label class="control-label">User phone</label>
+                <input asp-for="Phone" value="<script>alert('9098789878');</script>" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<h5>Input text is:</h5>
+@if (ViewBag.inputText != null)
+{
+    <div>@Html.Raw(Model.Name)</div>
+    <div>@Html.Raw(Model.Email)</div>
+    <div>@Html.Raw(Model.Address)</div>
+    <div>@Html.Raw(Model.Phone)</div>
+}
+
+<hr />
+
+<h5>Input field without "Form" tag</h5>
+
+<div class="row">
+    <div class="col-md-9">
+        <div class="form-group">
+            <label class="control-label">User name</label>
+            <input id="txtName" value="<h6>Ram</h6>" class="form-control" />
+            <label class="control-label">User email</label>
+            <input id="txtEmail" value="<i>ram@gmail.com</i>" class="form-control" />
+            <label class="control-label">User address</label>
+            <input id="txtAddress" value="<b>ram nagar</b>" class="form-control" />
+            <label class="control-label">User phone</label>
+            <input id="txtPhone" value="<script>alert('9098789878');</script>" class="form-control" />
+        </div>
+        <div class="form-group">
+            <button id="btnSave" onclick="OnSaveClick()" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+</div>
+<h5>Input text is:</h5>
+<span id="inputText">
+
+</span>
+
+@section Scripts{
+    <script>
+        function OnSaveClick() {
+            var userName = $("#txtName").val().trim();
+            var userEmail = $("#txtEmail").val().trim();
+            var userAddress = $("#txtAddress").val().trim();
+            var userPhone = $("#txtPhone").val().trim();
+            var user = {
+                Name: userName,
+                Email: userEmail,
+                Address: userAddress,
+                Phone: userPhone
+            };
+            var type = "POST";
+            var url = "/MySecure/Index";
+            var jsonData = JSON.stringify(user);
+            AjaxCall(type, url, jsonData).then(function (res) {
+                debugger
+                var data = `<div>${res.name}</div>
+                                    <div>${res.email}</div>
+                                    <div>${res.address}</div>
+                                    <div>${res.phone}</div>`;
+                $("#inputText").html(data);
+            }).catch(function (err) {
+                alert("Catch error");
+            });
+        }
+
+        function AjaxCall(type, url, data = "") {
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    type: type,
+                    url: url,
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (res) {
+                        resolve(res)
+                    },
+                    error: function (err) {
+                        reject(err)
+                    }
+                });
+            });
+        }
+    </script>
+}

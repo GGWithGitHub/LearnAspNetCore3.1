@@ -1,0 +1,54 @@
+﻿@model List<Learn_core_mvc.Core.Models.Employee>
+
+@{
+
+}
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+</style>
+
+<h4>@ViewBag.errmsg</h4>
+
+@Html.ActionLink("Create", "AddUpdate", "ADO", new { id = 0 }, null)
+<span>|</span>
+@Html.ActionLink("Company List", "ListCompany", "ADO", new { id = 0 }, null)
+
+<table>
+    <tr>
+        <th>Employee Name</th>
+        <th>Employee Email</th>
+        <th>Employee Phone</th>
+        <th>Employee Address</th>
+        <th>Employee City</th>
+        <th>Employee State</th>
+        <th>Employee Country</th>
+        <th>Action</th>
+        <th>Action</th>
+    </tr>
+    @foreach (var emp in Model)
+    {
+        <tr>
+            <td>@emp.EmpName</td>
+            <td>@emp.EmpEmail</td>
+            <td>@emp.EmpPhone</td>
+            <td>@emp.EmpAddress</td>
+            <td>@emp.EmpCity</td>
+            <td>@emp.EmpState</td>
+            <td>@emp.EmpCountry</td>
+            <td>
+                @Html.ActionLink("Update", "AddUpdate", "ADO", new { id = emp.EmpId }, null)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", "ADO", new { id = emp.EmpId }, null)
+            </td>
+        </tr>
+    }
+</table>

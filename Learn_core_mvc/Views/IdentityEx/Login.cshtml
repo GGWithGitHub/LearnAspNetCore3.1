@@ -1,0 +1,28 @@
+﻿@model SignInModelIdentity
+
+@{
+}
+
+<h5>Use below credentials for user login:</h5>
+<h5>User email = myTest@gmail.com</h5>
+<h5>User password = 123456</h5>
+
+<br />
+
+<h5>Use below credentials for admin login:</h5>
+<h5>User email = admin@gmail.com</h5>
+<h5>User password = 123456</h5>
+
+<div asp-validation-summary="All"></div>
+<form asp-controller="IdentityEx" asp-action="Login" method="post">
+    <label>User Email</label>
+    <input asp-for="UserEmail" /><br />
+
+    <label>User Password</label>
+    <input asp-for="UserPassword" /><br />
+
+    <label>Remember</label>
+    @Html.CheckBoxFor(x => x.IsRemember)<br />
+
+    <button type="submit">Login</button>
+</form>

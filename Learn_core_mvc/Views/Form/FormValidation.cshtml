@@ -1,0 +1,114 @@
+﻿@model Learn_core_mvc.Models.FormValModel
+
+<div class="card">
+    <div class="card-header bg-primary text-white text-uppercase">
+        <h4>Student Information</h4>
+    </div>
+    <div class="card-body">
+        <form asp-controller="Form" asp-action="FormValidation" method="post">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Name" class="lable-control"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Gender" class="lable-control"></label>
+                        <div>
+                            <input asp-for="Gender" type="radio" value="M" />Male
+                            <input asp-for="Gender" type="radio" value="F" />Female
+                        </div>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Subject" class="lable-control"></label>
+                        <select asp-for="Subject" class="custom-select">
+                            <option value="">Choose Subject</option>
+                            <option value="c#">c#</option>
+                            <option value="java">java</option>
+                            <option value="c">c</option>
+                            <option value="c++">c++</option>
+                        </select>
+                        <span asp-validation-for="Subject" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="DateofBirth" class="lable-control"></label>
+                        <input asp-for="DateofBirth" class="form-control" />
+                        <span asp-validation-for="DateofBirth" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="BatchTime" class="lable-control"></label>
+                        <input asp-for="BatchTime" class="form-control" />
+                        <span asp-validation-for="BatchTime" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="lable-control"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Email" class="lable-control"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="WebSite" class="lable-control"></label>
+                        <input asp-for="WebSite" class="form-control" />
+                        <span asp-validation-for="WebSite" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="CardNumber" class="lable-control"></label>
+                        <input asp-for="CardNumber" class="form-control" />
+                        <span asp-validation-for="CardNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Password" class="lable-control"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="ConfirmPassword" class="lable-control"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary rounded-0">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <!-- For Client-Side Validation -->
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

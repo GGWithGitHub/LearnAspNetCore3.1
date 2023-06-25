@@ -1,0 +1,76 @@
+﻿@model LinqGroupJoinVM
+
+@{
+}
+
+<style>
+    table, td, th {
+        border: 1px solid;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-6">
+        <div>Department Table</div>
+        <table>
+            <tr>
+                <th>Department ID</th>
+                <th>Department Name</th>
+            </tr>
+            @foreach (var department in Model.DepartmentsProperty)
+            {
+                <tr>
+                    <td>@department.ID</td>
+                    <td>@department.Name</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-6">
+        <div>Employee Table</div>
+        <table>
+            <tr>
+                <th>Employee ID</th>
+                <th>Employee Name</th>
+                <th>Department ID</th>
+            </tr>
+            @foreach (var employee in Model.EmployeesProperty)
+            {
+                <tr>
+                    <td>@employee.ID</td>
+                    <td>@employee.Name</td>
+                    <td>@employee.DepartmentID</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div>Group Join between Book and Order collection</div>
+<table>
+    <tr>
+        <th>Department Name</th>
+        <th>Employee Name</th>
+    </tr>
+    @foreach (var departmentEmployee in Model.DepartmentEmployeeProperty)
+    {
+        @foreach (var emp in departmentEmployee.Employees)
+        {
+            <tr>
+                <td>@departmentEmployee.Department.Name</td>
+                <td>@emp.Name</td>
+            </tr>
+        }
+        @if (departmentEmployee.Employees.Count == 0)
+        {
+            <tr>
+                <td>@departmentEmployee.Department.Name</td>
+                <td></td>
+            </tr>            
+        }
+    }
+</table>

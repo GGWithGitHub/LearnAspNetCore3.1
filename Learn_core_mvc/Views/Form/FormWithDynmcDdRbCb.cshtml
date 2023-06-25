@@ -1,0 +1,67 @@
+﻿@model FormWithDynmcDdRbCbModel
+
+<style>
+    input.input-validation-error {
+        background: #FEF1EC;
+        border: 1px solid #CD0A0A;
+    }
+</style>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger form-message">@Html.Raw(ViewBag.Error)</div>
+}
+<div class="card">
+    <div class="card-header bg-primary text-white text-uppercase">
+        <h4>Student Information</h4>
+    </div>
+    <div class="card-body">
+        <form asp-controller="Form" asp-action="FormValidationWithCaptcha" method="post">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Name" class="lable-control"></label>
+                        <input asp-for="Name" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Phone" class="lable-control"></label>
+                        <input asp-for="Phone" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Email" class="lable-control"></label>
+                        <input asp-for="Email" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="City" class="lable-control"></label>
+                        <select asp-for="City" asp-items="Html.GetEnumSelectList(typeof (CityEnum))" class="form-control">
+                            <option disabled="" selected="">Choose City...</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="Class" class="lable-control"></label>
+                        @*@Html.RadioButtonsFor(s => s.Class)*@
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary rounded-0">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    
+}

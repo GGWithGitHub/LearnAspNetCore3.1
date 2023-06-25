@@ -1,0 +1,11 @@
+﻿@model List<TeamModel>
+
+@{
+    var playerGroupCountryWise = Model.GroupBy(x => x.Country).ToList();
+}
+
+@foreach (var team in playerGroupCountryWise)
+{
+    <h3>Country - @team.Key</h3>
+    <partial name="_playersCountryWisePV" model="@team.ToList()" />
+}

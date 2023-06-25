@@ -1,0 +1,110 @@
+﻿
+@model TestModel1
+
+@{
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h6>Function is not waiting of other function:</h6>
+        <button class="btn btn-primary" onclick="OnClickMe1(this)">Click on me</button>
+        <div id="dvResult1">
+            <ol>
+            </ol>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h6>Function is waiting of other function:</h6>
+        <button class="btn btn-primary" onclick="OnClickMe2(this)">Click on me</button>
+        <div id="dvResult2">
+            <ol>
+            </ol>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        function OnClickMe1(ele) {
+            $(ele).prop('disabled', true);
+            $("#dvResult1 ol").empty();
+            Fun1();
+            Fun2();
+            $(ele).prop('disabled', false);
+        }
+
+        function OnClickMe2(ele) {
+            $(ele).prop('disabled', true);
+            $("#dvResult2 ol").empty();
+            FunI().then(function (funIRes) {
+                FunII();
+                $(ele).prop('disabled', false);
+            });
+        }
+
+        function Fun1() {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("WaitFun1", "JavascriptJquery")',
+                success: function (response) {
+                    if (response.status) {
+                        $("#dvResult1 ol").append(`<li>${response.data}</li>`);
+                    }
+                },
+                error: function (err) {
+                    alert('An error occurred: '+err);
+                }
+            });
+        }
+
+        function Fun2() {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("WaitFun2", "JavascriptJquery")',
+                success: function (response) {
+                    if (response.status) {
+                        $("#dvResult1 ol").append(`<li>${response.data}</li>`);
+                    }
+                },
+                error: function (err) {
+                    alert('An error occurred: '+err);
+                }
+            });
+        }
+
+        function FunI() {
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("WaitFun1", "JavascriptJquery")',
+                    success: function (response) {
+                        if (response.status) {
+                            $("#dvResult2 ol").append(`<li>${response.data}</li>`);
+                            resolve(response);
+                        }
+                    },
+                    error: function (err) {
+                        alert('An error occurred: '+err);
+                        reject(err);
+                    }
+                });
+            });
+        }
+
+        function FunII() {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("WaitFun2", "JavascriptJquery")',
+                success: function (response) {
+                    if (response.status) {
+                        $("#dvResult2 ol").append(`<li>${response.data}</li>`);
+                    }
+                },
+                error: function (err) {
+                    alert('An error occurred: '+err);
+                }
+            });
+        }
+    </script>
+}

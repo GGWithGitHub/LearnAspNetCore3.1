@@ -1,0 +1,21 @@
+﻿
+@{
+}
+
+<h6>I am Main view</h6>
+<div id="_pv">
+
+</div>
+
+@section Scripts{ 
+    <script>
+        var obj = {
+            name: "Gaurav",
+            surname: "Ghogare",
+            email: "gaurav@gmail.com",
+            phone:"8956214785"
+        };
+        $("#_pv").load("/PartialViewSample/JqueryLoadPV",obj, function (responseTxt, statusTxt, xhr) {
+        });
+    </script>
+}

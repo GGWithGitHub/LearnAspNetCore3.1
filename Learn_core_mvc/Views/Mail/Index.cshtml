@@ -1,0 +1,13 @@
+﻿
+@{
+}
+
+@if (TempData["mail"] != null) {
+    <h2>@TempData["mail"]</h2>
+}
+
+<span>Enter Email-Id</span>
+<form asp-controller="Mail" asp-action="SendMail" method="post">
+    <input type="text" name="toMail" />
+    <button type="submit">Send</button>
+</form>

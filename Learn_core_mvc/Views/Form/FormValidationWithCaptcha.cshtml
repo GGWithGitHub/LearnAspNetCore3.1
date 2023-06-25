@@ -1,0 +1,71 @@
+﻿@model Learn_core_mvc.Models.CaptchaFormValModel
+
+<style>
+    input.input-validation-error {
+        background: #FEF1EC;
+        border: 1px solid #CD0A0A;
+    }
+</style>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger form-message">@Html.Raw(ViewBag.Error)</div>
+}
+<div class="card">
+    <div class="card-header bg-primary text-white text-uppercase">
+        <h4>Student Information</h4>
+    </div>
+    <div class="card-body">
+        <form asp-controller="Form" asp-action="FormValidationWithCaptcha" method="post">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Name" class="lable-control"></label>
+                        <input asp-for="Name" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="lable-control"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Email" class="lable-control"></label>
+                        <input asp-for="Email" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <input asp-for="RecaptchaResponse" type="hidden" />
+                        <div class="g-recaptcha clearfix" 
+                             data-size="large" 
+                             data-sitekey="6LeT3swUAAAAAKL9xu1731r-0My4f71AH718guaC" 
+                             data-callback="recaptchaCallback"
+                             data-expired-callback="recaptchaExpired"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary rounded-0">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script type="text/javascript">
+        var recaptchaCallback = function (response) {
+            
+            $("#RecaptchaResponse").val(response);
+        };
+        var recaptchaExpired = function () {
+            
+            $("#RecaptchaResponse").val('');
+        }
+    </script>
+}

@@ -1,0 +1,14 @@
+﻿@model List<TeamModel>
+
+<div>
+    @foreach (var teamItem in Model)
+    {
+        <ul>
+            <li>
+                <div>
+                    <b>Player Name:</b> @teamItem.PlayerName, <b>Century:</b> <partial name="_player100CountPV" model="@teamItem.Player100Count" />
+                </div>
+            </li>
+        </ul>
+    }
+</div>

@@ -1,0 +1,21 @@
+﻿
+@{
+}
+
+<h6>Dividing number from zero throw exception</h6>
+<h6>When you will click on the button you will get friendly error message</h6>
+
+<h6>In "Startup.cs" file, added "app.UseExceptionHandler("/Home/Error");" middleware, that show friendly error message</h6>
+
+<h6>HomeController have "Error" action method whose view is available inside "Shared" folder</h6>
+
+<br />
+<br />
+
+<input name="txt_A" type="text" value="10" disabled="disabled" />
+<br />
+<br />
+<input name="txt_B" type="text" value="0" disabled="disabled" />
+<br />
+<br />
+<button class="btn-primary" onclick="location.href='@Url.Action("GenerateError", "GenerateException",new { a="10",b="0" })'">Click on me</button>

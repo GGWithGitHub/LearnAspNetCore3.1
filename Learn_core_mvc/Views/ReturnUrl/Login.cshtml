@@ -1,0 +1,19 @@
+﻿@{
+
+}
+
+<a asp-controller="ReturnUrl" asp-action="Home">Go to Home page</a><br/>
+
+<p> Do login with credentials : email=Test@gmail.com, password=12345 </p>
+
+<form asp-controller="ReturnUrl" asp-action="LogInPost" method="post">
+    <label>User Email</label>
+    <input name="user_email" /><br />
+
+    <label>User Password</label>
+    <input name="user_pass" /><br />
+
+    <input type="hidden" name="user_return_url" value="@ViewBag.ReturnUrl" />
+
+    <button type="submit">Sign in</button>
+</form>

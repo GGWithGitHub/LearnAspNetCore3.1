@@ -1,0 +1,17 @@
+﻿
+@{
+}
+
+@if (ViewBag.LoginLogout != null)
+{
+    <a asp-controller="ReturnUrl" asp-action="Logout" style="float:right;">Logout</a>
+}
+else
+{
+    <a asp-controller="ReturnUrl" asp-action="Login" style="float:right;">Login</a>
+}
+
+<a asp-controller="ReturnUrl" asp-action="Home">Go to Home page</a>
+<br />
+
+<h1>Dream Page</h1>

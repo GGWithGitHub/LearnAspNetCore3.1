@@ -1,0 +1,157 @@
+﻿@using Newtonsoft.Json
+@model GamesJsJqVM
+
+@{
+}
+
+@if (!Model.IsValidData || Model.ShowAsEditable)
+{
+    <form id="myForm">
+        <div class="row">
+            <div class="col-md-6">
+                <div id="dvGameCheckbox">
+                    @for (var index = 0; index < Model.Games.Count; index++)
+                    {
+                        <input type="checkbox" asp-for="@Model.Games[index].IsChecked" class="form-check-input" data-gameid="@Model.Games[index].Id" data-gamename="@Model.Games[index].LabelName" />
+                        <label class="form-check-label">@Model.Games[index].LabelName</label>
+                        <input type="hidden" asp-for="@Model.Games[index].Id" />
+                        <input type="hidden" asp-for="@Model.Games[index].LabelName" />
+                        <br />
+                    }
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>Selected games section:</div>
+                <div id="dvSelectedGames">
+
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6">
+            <div id="dvGameCheckbox">
+                @for (var index = 0; index < Model.Games.Count; index++)
+                {
+                    <input type="checkbox"
+                           asp-for="@Model.Games[index].IsChecked"
+                           class="form-check-input"
+                           data-gameid="@Model.Games[index].Id"
+                           data-gamename="@Model.Games[index].LabelName"
+                           disabled />
+                    <label class="form-check-label">@Model.Games[index].LabelName</label>
+                    <input type="hidden" asp-for="@Model.Games[index].Id" />
+                    <input type="hidden" asp-for="@Model.Games[index].LabelName" />
+                    <br />
+                }
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div>Selected games section:</div>
+            <div id="dvSelectedGames">
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" onclick="onEdit()">Edit</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@section Scripts{
+    <script>
+        var gameIdArray = [];
+
+        $(document).ready(function () {
+            debugger
+            var gamesJsonList = '@Html.Raw(JsonConvert.SerializeObject(Model.SelectedGames))';
+            if (gamesJsonList != 'null' && gamesJsonList!=null) {
+                // Parse the JSON string to get the original list of objects
+                var gameListObjects = JSON.parse(gamesJsonList);
+                gameListObjects.forEach(function (obj) {
+                    gameIdArray.push(obj);
+                });
+                showSelectedGames();
+            }
+        });
+
+        // Select checkboxes inside the div with ID "dvGameCheckbox"
+        var checkboxes = $('#dvGameCheckbox input[type="checkbox"]');
+
+        checkboxes.change(function () {
+            var gameId = $(this).data('gameid');
+            var gameName = $(this).data('gamename');
+            if ($(this).is(':checked')) {
+                var gameObj = { 'Id': gameId, 'Name': gameName };
+                gameIdArray.push(gameObj);
+            }
+            else {
+                // Remove the object from the array
+                gameIdArray = gameIdArray.filter(function (obj) {
+                    return obj.Id !== gameId;
+                });
+            }
+
+            showSelectedGames();
+        });
+
+        function showSelectedGames() {
+            if (gameIdArray.length>0) {
+                var divSelectedGames = $('#dvSelectedGames');
+
+                // Clear the existing content of the div
+                divSelectedGames.empty();
+
+                // Loop through the array and generate HTML for each item
+                $.each(gameIdArray, function (index, item) {
+                    // Create a new element for each item
+                    var newItem = $('<p>').text(item.Name);
+
+                    // Append the new item to the div
+                    divSelectedGames.append(newItem);
+                });
+            }
+        }
+
+        $('#myForm').submit(function (event) {
+            event.preventDefault();
+
+            var formData = $(this).serialize(); // Serialize form data
+
+            $.ajax({
+                url: '@Url.Action("SaveAndReadOnly", "JavascriptJquery")',
+                type: 'POST',
+                data: formData, // Serialized form data
+                success: function (response) {
+                    if (response.status) {
+                        var url = '/JavascriptJquery/SaveAndReadOnly?showInEdit=false';
+                        window.location.href = url;
+                    }
+                    else {
+                        alert('Please select games.');
+                    }
+                },
+                error: function () {
+                    alert('An error occurred.'); // Handle error scenario
+                }
+            });
+        });
+
+        function onEdit() {
+            var url = '/JavascriptJquery/SaveAndReadOnly?showInEdit=true';
+            window.location.href = url;
+        }
+    </script>
+}

@@ -1,0 +1,35 @@
+﻿
+@{
+}
+
+<h6>Country India</h6>
+<a href="#" onclick="GetCriketersList('IND');">Click to get criketers list of India</a>
+<div id="IND_Criketers">
+
+</div>
+
+<br />
+
+<h6>Country Australiya</h6>
+<a href="#" onclick="GetCriketersList('AUS');">Click to get criketers list of Australiya</a>
+<div id="AUS_Criketers">
+
+</div>
+
+@section Scripts{
+    <script>
+        function GetCriketersList(shortCountryName) {
+            $.ajax({
+                type: "POST",
+                url: "/PartialViewSample/PartialViewActionMethod?shortCountryName=" + shortCountryName,
+                contentType: "application/text; charset=utf-8",
+                dataType: "text",
+                async: false,
+                success: function (data) {
+                    var dynamicId = "#" + shortCountryName + "_Criketers";
+                    $(dynamicId).html(data);
+                }
+            })
+        }
+    </script>
+}

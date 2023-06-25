@@ -1,0 +1,75 @@
+﻿@model Learn_core_mvc.Models.FormViewModel
+
+@{
+    ViewData["Title"] = "Index Page";
+}
+
+<div id="resultDiv"></div>
+
+<hr/>
+
+<form asp-controller="Form" asp-action="FormSubmitJqueryAjax" id="myForm" method="post">
+    <fieldset>
+        <legend>User Form:</legend>
+        <label>User name</label>
+        <input asp-for="UserName" /><br />
+
+        <label>User Password</label>
+        <input asp-for="UserPassword" /><br />
+
+        <label>User Country</label>
+        <select asp-for="UserCountry" asp-items="Model.UserCountries"></select><br />
+
+        <input asp-for="ApplicationType" /><br />
+
+        <div>
+            @for (var index = 0; index < Model.UserSubjects.Count; index++)
+            {
+                <input type="checkbox" asp-for="@Model.UserSubjects[index].IsChecked" class="form-check-input" />
+                <label class="form-check-label">
+                    @Model.UserSubjects[index].LabelName
+                </label>
+                <input type="hidden" asp-for="@Model.UserSubjects[index].Id" />
+                <input type="hidden" asp-for="@Model.UserSubjects[index].LabelName" />
+                <br />
+            }
+        </div>
+        <br/>
+
+        @foreach (var item in Model.UserGenders)
+        {
+            <br />
+            <label>
+                <input asp-for="UserGender" type="radio" value="@item.Value" id="rdo_@item.Value" />@item.Text
+            </label>
+        }       
+        <br/>
+        <label>User Accept Terms</label>
+        <input asp-for="AcceptsTerms" /><br />
+
+        <button type="submit">Submit Form</button>
+</fieldset>
+</form>
+
+@section Scripts{
+    <script>
+        $('#myForm').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var formData = $(this).serialize(); // Serialize form data
+
+            $.ajax({
+                url: $(this).attr('action'), // Form action URL
+                type: $(this).attr('method'), // Form method (POST in this case)
+                data: formData, // Serialized form data
+                success: function (response) {
+                    $('#resultDiv').html(response); // Update the div with the response
+                },
+                error: function () {
+                    alert('An error occurred.'); // Handle error scenario
+                }
+            });
+        });
+    </script>
+}
+

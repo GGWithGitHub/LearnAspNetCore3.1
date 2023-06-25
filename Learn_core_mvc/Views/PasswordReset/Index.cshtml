@@ -1,0 +1,23 @@
+﻿@model Learn_core_mvc.Core.Models.Login
+@{
+}
+
+@if (ViewBag.login != null)
+{
+    <h2>@ViewBag.login</h2>
+}
+
+<br/><br />
+
+<form asp-controller="PasswordReset" asp-action="Index" method="post">
+    @Html.AntiForgeryToken()
+    <label>User Email</label>
+    <input asp-for="UserEmail" /><br />
+
+    <label>User Password</label>
+    <input asp-for="UserPassword" /><br />
+
+    <button type="submit">Sign In</button>
+</form>
+<a id="register-link" href="/PasswordReset/register">Register</a> |
+<a id="forgot-password-link" href="/PasswordReset/requestpasswordreset">Forgot password?</a>

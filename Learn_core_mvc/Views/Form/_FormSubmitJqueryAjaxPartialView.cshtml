@@ -1,0 +1,24 @@
+﻿@model Learn_core_mvc.Models.FormViewModel
+
+<div>
+    <fieldset>
+        <legend>User Detail:</legend>
+        <label>User Name:</label>
+        <label>@Model.UserName</label>
+        <br />
+        <label>User Country:</label>
+        <label>@Model.UserCountry</label>
+        <br />
+        <label>User Gender:</label>
+        <label>@Model.UserGender</label>
+        <br />
+        <label>User Subjects:</label>
+        @foreach (var subject in Model.UserSubjects)
+        {
+            <label>@subject.LabelName,</label>
+        }
+        <br/>
+        <label>Terms Accepted:</label>
+        <label>@Model.AcceptsTerms</label>
+    </fieldset>
+</div>

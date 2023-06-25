@@ -1,0 +1,28 @@
+﻿
+@{
+}
+
+<button onclick="OnClick()">Click on me</button>
+
+<div id="dvResult">
+
+</div>
+
+@section Scripts{
+    <script>
+        function OnClick() {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetCachedData", "FiltersSample")',
+                success: function (response) {
+                    if (response.status) {
+                        
+                    }
+                },
+                error: function (err) {
+                    alert('An error occurred: '+err);
+                }
+            });
+        }
+    </script>
+}

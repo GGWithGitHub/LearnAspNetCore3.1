@@ -1,0 +1,55 @@
+﻿
+@{
+}
+
+<h2>Validation of a form</h2>
+<form id="form" method="post" action="">
+    First name:<br>
+    <input type="text" name="firstname">
+    <br>
+    Last name:<br>
+    <input type="text" name="lastname">
+    <br>
+    Email:<br>
+    <input type="email" name="u_email">
+    <br>
+    <br>
+    <input type="submit" value="Submit" id="btnSubmit">
+</form>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#form").validate({
+                rules: {
+                    firstname: 'required',
+                    lastname: 'required',
+                    u_email: {
+                        required: true,
+                        email: true,
+                        maxlength: 255,
+                    }
+                },
+                messages: {
+                    firstname: 'First name is required',
+                    lastname: 'Last name is required',
+                    u_email: 'Enter a valid email',
+                },
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
+
+            $("#btnSubmit").click(function () {
+                if ($("#form").valid()) {
+                    alert("Form Submitted Successfully...");
+                }
+                else {
+                    alert("Form Not Submitted...");
+                }
+            });
+        });
+    </script>
+}

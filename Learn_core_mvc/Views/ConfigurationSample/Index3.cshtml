@@ -1,0 +1,47 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.Options
+@inject IConfiguration _configuration
+@inject IOptions<InfoObjConfig> _infoObjConfigOptions
+
+@{
+    var infoObjConfig = new InfoObjConfig();
+    _configuration.Bind("infoObj", infoObjConfig);
+}
+
+<h3>Reading values from appsetting.json :</h3>
+@_configuration["AppName"]
+<br />
+@_configuration["infoObj:key1"]
+<br />
+@_configuration["infoObj:key2"]
+<br />
+@_configuration["infoObj:key3:key3obj1"]
+
+<hr />
+
+<h3>Reading values from appsetting.json using GetValue method :</h3>
+@(_configuration.GetValue<string>("AppName"))
+<br />
+@(_configuration.GetValue<string>("infoObj:key1"))
+<br />
+@(_configuration.GetValue<string>("infoObj:key2"))
+<br />
+@(_configuration.GetValue<string>("infoObj:key3:key3obj1"))
+
+<hr />
+
+<h3>Reading values from appsetting.json using Bind method :</h3>
+@infoObjConfig.Key1
+<br />
+@infoObjConfig.Key2
+<br />
+@infoObjConfig.Key3.Key3obj1
+
+<hr />
+
+<h3>Reading values from appsetting.json using option :</h3>
+@_infoObjConfigOptions.Value.Key1
+<br />
+@_infoObjConfigOptions.Value.Key2
+<br />
+@_infoObjConfigOptions.Value.Key3.Key3obj1

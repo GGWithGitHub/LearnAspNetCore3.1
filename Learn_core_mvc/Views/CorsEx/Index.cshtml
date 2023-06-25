@@ -1,0 +1,47 @@
+﻿
+@{
+}
+
+
+<h6>To enable CORS in "https://localhost:44384" project(location - F:\Gaurav_essential\ASP.NET CORE\CORS_Enable_Project\CorsEnabled), 
+    we registered CORS as a service in the Startup.cs file’s ConfigureServices() method</h6>
+<br/>
+<h6>Next we need to enable the CORS middleware in the Configure() method.</h6>
+
+<br/><br/>
+
+<h3>Call another domain page that is - https://localhost:44384/Home/Index</h3>
+<button onclick="OnClick()">Click on me</button>
+
+@section Scripts{
+    <script>
+        function AjaxCall(type, url, data = "") {
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    type: type,
+                    url: url,
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (res, status, xhr) {
+                        resolve(res)
+                    },
+                    error: function (err, status, xhr) {
+                        reject(err)
+                    }
+                });
+            });
+        }
+
+        function OnClick() {
+            var type = "GET";
+            var url = "https://localhost:44384/Home/Index";
+            AjaxCall(type, url).then(function (res) {
+                alert("Another domain page is successfully called");
+            }).catch(function (err) {
+                alert("Another domain page is not successfully called");
+            });
+        }
+
+    </script>
+}

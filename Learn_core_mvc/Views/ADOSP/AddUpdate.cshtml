@@ -1,0 +1,66 @@
+﻿@model Learn_core_mvc.Core.Models.Employee
+
+@{
+}
+
+<h4>@ViewBag.errmsg</h4>
+
+@using (Html.BeginForm("AddUpdate", "ADOSP", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <td>Employee Name</td>
+            <td>
+                @Html.TextBoxFor(x => x.EmpName)
+                @Html.ValidationMessageFor(x => x.EmpName)
+            </td>
+        </tr>
+        <tr>
+            <td>Employee Email</td>
+            <td>
+                @Html.TextBoxFor(x => x.EmpEmail)
+                @Html.ValidationMessageFor(x => x.EmpEmail)
+            </td>
+        </tr>
+        <tr>
+            <td>Employee Phone</td>
+            <td>
+                @Html.TextBoxFor(x => x.EmpPhone)
+                @Html.ValidationMessageFor(x => x.EmpPhone)
+            </td>
+        </tr>
+        <tr>
+            <td>Employee Address</td>
+            <td>
+                @Html.TextBoxFor(x => x.EmpAddress)
+                @Html.ValidationMessageFor(x => x.EmpAddress)
+            </td>
+        </tr>
+        <tr>
+            <td>Employee City</td>
+            <td>
+                @Html.TextBoxFor(x => x.EmpCity)
+                @Html.ValidationMessageFor(x => x.EmpCity)
+            </td>
+        </tr>
+        <tr>
+            <td>Employee State</td>
+            <td>
+                @Html.TextBoxFor(x => x.EmpState)
+                @Html.ValidationMessageFor(x => x.EmpState)
+            </td>
+        </tr>
+        <tr>
+            <td>Employee Country</td>
+            <td>
+                @Html.TextBoxFor(x => x.EmpCountry)
+                @Html.ValidationMessageFor(x => x.EmpCountry)
+            </td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Save" /></td>
+        </tr>
+    </table>
+
+    @Html.HiddenFor(x => x.EmpId)
+}

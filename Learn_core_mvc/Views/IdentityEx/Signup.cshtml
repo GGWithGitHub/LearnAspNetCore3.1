@@ -1,0 +1,22 @@
+﻿@model SignupModelIdentity
+
+@{
+}
+
+@if (ViewBag.UserCreated != null) { 
+    <h3>Go to your email and verify email</h3>
+}
+
+<div asp-validation-summary="All"></div>
+<form asp-controller="IdentityEx" asp-action="Signup" method="post">
+    <label>User Email</label>
+    <input asp-for="UserEmail" /><br />
+
+    <label>User Password</label>
+    <input asp-for="UserPassword" /><br />
+
+    <label>User Confirm Password</label>
+    <input asp-for="UserConfirmPassword" /><br />
+
+    <button type="submit">Submit Form</button>
+</form>

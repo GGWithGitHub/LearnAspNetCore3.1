@@ -1,0 +1,71 @@
+﻿@model LinqInnerJoinVM
+
+@{
+}
+
+<style>
+    table, td, th {
+        border: 1px solid;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-6">
+        <div>Book Table</div>
+        <table>
+            <tr>
+                <th>Book ID</th>
+                <th>Book Name</th>
+            </tr>
+            @foreach (var book in Model.BookProperty)
+            {
+                <tr>
+                    <td>@book.BookID</td>
+                    <td>@book.BookNm</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-6">
+        <div>Order Table</div>
+        <table>
+            <tr>
+                <th>Order ID</th>
+                <th>Book ID</th>
+                <th>Payment Mode</th>
+            </tr>
+            @foreach (var order in Model.OrderProperty)
+            {
+                <tr>
+                    <td>@order.OrderID</td>
+                    <td>@order.BookID</td>
+                    <td>@order.PaymentMode</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div>Inner Join between Book and Order collection</div>
+<table>
+    <tr>
+        <th>Book ID</th>
+        <th>Book Name</th>
+        <th>Payment Mode</th>
+    </tr>
+    @foreach (var bookOrder in Model.BookOrderProperty)
+    {
+        <tr>
+            <td>@bookOrder.BookID</td>
+            <td>@bookOrder.BookNm</td>
+            <td>@bookOrder.PaymentMode</td>
+        </tr>
+    }
+</table>
+
+
+

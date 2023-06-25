@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AWSSDK.Core" Version="3.7.12.13" />
+    <PackageReference Include="AWSSDK.SimpleEmail" Version="3.7.0.175" />
+    <PackageReference Include="MimeKit" Version="3.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Learn_core_mvc.Core\Learn_core_mvc.Core.csproj" />
+    <ProjectReference Include="..\Learn_core_mvc.Repository\Learn_core_mvc.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

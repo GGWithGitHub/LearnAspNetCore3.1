@@ -1,0 +1,54 @@
+﻿
+@{
+}
+
+@if (ViewBag.result != null)
+{
+    <h3>
+        @ViewBag.result
+    </h3>
+}
+<br />
+
+<span>{ Id:1, Name:"Tom", Email:"tom@gmail.com" }</span>
+<br />
+<span>{ Id:2, Name:"John", Email:"john@gmail.com" }</span>
+<br />
+<span>{ Id:3, Name:"Mark", Email:"mark@gmail.com" }</span>
+<br />
+<span>{ Id:4, Name:"Kim", Email:"kim@gmail.com" }</span>
+<br />
+<span>{ Id:5, Name:"John", Email:"john22@gmail.com" }</span>
+
+<br />
+<br />
+<span>Find the 'Kim' employee using 'First/FirstOrDefault/Single/SingleOrDefault' operator</span>
+<br />
+<button class="btn-primary" onclick="location.href='@Url.Action("IndexForFirst", "LinqEx",new { empname="Kim" })'">First</button>
+<button class="btn-primary" onclick="location.href='@Url.Action("IndexForFirstOrDefault", "LinqEx",new { empname="Kim" })'">FirstOrDefault</button>
+<button class="btn-primary" onclick="location.href='@Url.Action("IndexForSingle", "LinqEx",new { empname="Kim" })'">Single</button>
+<button class="btn-primary" onclick="location.href='@Url.Action("IndexForSingleOrDefault", "LinqEx",new { empname="Kim" })'">SingleOrDefault</button>
+
+<br />
+<br />
+
+<span>Find the 'John' employee(that is available in collection 2 times) using 'First/FirstOrDefault/Single/SingleOrDefault' operator</span>
+<br />
+<button class="btn-primary" onclick="location.href='@Url.Action("IndexForFirst", "LinqEx",new { empname="John" })'">First</button>
+<button class="btn-primary" onclick="location.href='@Url.Action("IndexForFirstOrDefault", "LinqEx",new { empname="John" })'">FirstOrDefault</button>
+<button class="btn-primary" onclick="location.href='@Url.Action("IndexForSingle", "LinqEx",new { empname="John" })'">Single</button>
+<button class="btn-primary" onclick="location.href='@Url.Action("IndexForSingleOrDefault", "LinqEx",new { empname="John" })'">SingleOrDefault</button>
+
+<br />
+<br />
+
+<span>Find the 'xyz' employee(that is not available in collection) using 'First/FirstOrDefault/Single/SingleOrDefault' operator</span>
+<br />
+<button class="btn-primary" onclick="location.href='@Url.Action("IndexForFirst", "LinqEx",new { empname="xyz" })'">First</button>
+<button class="btn-primary" onclick="location.href='@Url.Action("IndexForFirstOrDefault", "LinqEx",new { empname="xyz" })'">FirstOrDefault</button>
+<button class="btn-primary" onclick="location.href='@Url.Action("IndexForSingle", "LinqEx",new { empname="xyz" })'">Single</button>
+<button class="btn-primary" onclick="location.href='@Url.Action("IndexForSingleOrDefault", "LinqEx",new { empname="xyz" })'">SingleOrDefault</button>
+
+
+
+

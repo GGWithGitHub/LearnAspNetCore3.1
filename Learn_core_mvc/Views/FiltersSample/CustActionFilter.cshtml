@@ -1,0 +1,22 @@
+﻿@model FiltersBookModel
+
+@{
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <form asp-controller="FiltersSample" asp-action="CreateBook" method="post">
+            <div class="mb-3 mt-3">
+                <label class="form-label">Book Name:</label>
+                <input type="text" class="form-control" asp-for="BookName">
+                <span asp-validation-for="BookName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Book Price:</label>
+                <input type="text" class="form-control" asp-for="BookPrice">
+                <span asp-validation-for="BookPrice" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>

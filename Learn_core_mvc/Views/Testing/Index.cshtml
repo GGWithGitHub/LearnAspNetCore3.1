@@ -1,0 +1,17 @@
+﻿
+@{
+}
+
+@if (ViewBag.MaliciousData!=null)
+{
+    <h1>@ViewBag.MaliciousData</h1>
+}
+else
+{
+    <h1>Hello Guys</h1>
+}
+
+<form asp-action="Fun" asp-controller="Test" method="post">
+    <input name="check" type="text" />
+    <input type="submit" value="Save" />
+</form>

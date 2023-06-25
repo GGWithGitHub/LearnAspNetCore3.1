@@ -1,0 +1,47 @@
+﻿@{
+}
+
+<!-- Datatable CSS -->
+<link href='https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
+
+<!-- Table -->
+<table id='empTable' class='display dataTable'>
+
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Salary</th>
+            <th>City</th>
+        </tr>
+    </thead>
+
+</table>
+
+@section Scripts{
+    <!-- Datatable JS -->
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#empTable').DataTable(
+                {
+                    ajax: {
+                        url: "/DataTable/GetData",
+                        type: "POST",
+                    },
+                    processing: true,
+                    serverSide: true,
+                    filter: true,
+                    columns: [
+                        { data: "empName"},
+                        { data: "empEmail" },
+                        { data: "empGender" },
+                        { data: "empSalary" },
+                        { data: "empCity"},
+                    ]
+                }
+            );
+        });
+    </script>
+}

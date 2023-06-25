@@ -1,0 +1,46 @@
+﻿@model OfficeJsJqVM
+
+@{
+}
+
+<button class="btn btn-primary" onclick="onSubmit()">Submit</button>
+
+@section Scripts{
+    <script>
+        function onSubmit() {
+            var data = {
+                "Employees": [
+                    {
+                        "Id": 1,
+                        "Name": "Gaurav",
+                        "Email":"gaurv@gmail.com"
+                    },
+                    {
+                        "Id": 2,
+                        "Name": "Ramesh",
+                        "Email": "ramesh@gmail.com"
+                    }
+                ],
+                "Department": {
+                    "Id": 100,
+                    "Name": "IT",
+                }
+            }
+
+            $.ajax({
+                url: "@Url.Action("PostListObject","JavascriptJquery")",
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    alert('Success.');
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+    </script>
+}
+
+
