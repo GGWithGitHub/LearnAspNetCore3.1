@@ -13,10 +13,10 @@
         function OnClick() {
             $.ajax({
                 type: 'GET',
-                url: '@Url.Action("GetCachedData", "FiltersSample")',
+                url: '@Url.Action("GetLargeData", "FiltersSample")',
                 success: function (response) {
                     if (response.status) {
-                        
+                        $("#dvResult").empty().append(response.data);
                     }
                 },
                 error: function (err) {

@@ -48,9 +48,15 @@ namespace Learn_core_mvc.Controllers
             return View();
         }
 
-        public IActionResult GetCachedData()
+        [Attributes.CacheResource]
+        public IActionResult GetLargeData()
         {
             string data = "We conatin large amount of data"; // here you can get data from database
+            return Json(new { status = true, data = data });
+        }
+
+        public IActionResult GetCachedData(string data)
+        {
             return Json(new { status = true, data = data });
         }
     }
