@@ -1,0 +1,99 @@
+﻿@model AddEditContactVM
+
+@{
+}
+
+<div class="container mt-3">
+    <h2>Contact form</h2>
+    <form asp-controller="Form" asp-action="SaveAddEditContact" id="myForm" method="post">
+        <div class="mb-3 mt-3">
+            <label>Contat Name</label>
+            <input type="text" class="form-control" asp-for="ContactName">
+        </div>
+        <div class="mb-3">
+            <label>Contat Email</label>
+            <input type="text" class="form-control" asp-for="ContactEmail">
+        </div>
+        @for (var i = 0; i < Model.PhoneWithPhoneAttributes.Count; i++)
+        {
+            <div class="phAttrContainer">
+                <div class="row align-items-center">
+                    <div class="col-md-11">
+                        <div class="mb-3">
+                            <label>Contat Phone</label>
+                            <input type="text" class="form-control" asp-for="@Model.PhoneWithPhoneAttributes[i].Number">
+                            <input type="hidden" class="form-control" asp-for="@Model.PhoneWithPhoneAttributes[i].Id">
+                        </div>
+                    </div>
+                    @if (i != 0)
+                    {
+                        <div class="col-md-1 mt-2">
+                            <a href="javascript:void(0)" onclick="RemovePhoneAndPhAttribute(this)">
+                                <i class="fa fa-trash-o" style="color:red; font-size:25px;"></i>
+                            </a>
+                        </div>
+                    }
+                </div>
+                @for (var j = 0; j < Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes.Count; j++)
+                {
+                    <div class="form-check mb-3">
+                        <label class="form-check-label">
+                            <input type="checkbox" asp-for="@Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes[j].IsChecked" class="form-check-input" />@Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes[j].Name
+                            <input type="hidden" asp-for="@Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes[j].Id" />
+                            <input type="hidden" asp-for="@Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes[j].Name" />
+                        </label>
+                    </div>
+                }
+            </div>
+        }
+        <button type="submit" class="btn btn-primary pull-right" id="btnSubmit">Submit</button>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+        $('#myForm').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            if (IsFormValid()) {
+                var formData = $(this).serialize(); // Serialize form data
+
+                $.ajax({
+                    url: $(this).attr('action'), // Form action URL
+                    type: $(this).attr('method'), // Form method (POST in this case)
+                    data: formData, // Serialized form data
+                    success: function (response) {
+                        window.location.href = `@Url.Action("FormAddRemoveControls", "Form")`;
+                    },
+                    error: function () {
+                        alert('An error occurred.'); // Handle error scenario
+                    }
+                });
+            }
+            else {
+                alert("Please fill form correctly");
+            }
+        });
+
+        function RemovePhoneAndPhAttribute(ele) {
+            $(ele).parent().closest('.phAttrContainer').remove();
+        }
+
+        function IsFormValid() {
+            var status = false;
+            $(".phAttrContainer").each(function (index, ele) {
+                debugger
+                var inputPhone = $(ele).find('input[type=text]').val().trim();
+                var checkboxLen = $(ele).find('input[type=checkbox]:checked').length;
+                if (inputPhone == "" || checkboxLen == 0) {
+                    status = false;
+                    return false;
+                }
+                else {
+                    status = true;
+                }
+            });
+            return status;
+        }
+    </script>
+}

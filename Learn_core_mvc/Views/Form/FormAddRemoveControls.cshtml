@@ -1,0 +1,51 @@
+﻿@model List<ContactVM>
+
+@{
+}
+
+@if (Model.Count > 0)
+{
+    @foreach (var contactIdGrp in Model.GroupBy(x => x.ContactId).ToList())
+    {
+        var phoneIdGrp = contactIdGrp.GroupBy(x => x.PhoneId).ToList();
+        <div class="row">
+            <div class="col-md-10">
+                <h6>Name: @contactIdGrp.FirstOrDefault().ContactName</h6>
+                <p>Email: @contactIdGrp.FirstOrDefault().ContactEmail</p>
+                @foreach (var phone in phoneIdGrp)
+                {
+                    <p>Phone: @phone.FirstOrDefault().PhoneNumber</p>
+                    <p>
+                        Attribute:
+                        @foreach (var phAttr in phone.ToList())
+                        {
+                            <span class="ml-1">
+                                @phAttr.PhoneAttributeName
+                            </span>
+                        }
+                    </p>
+                }
+
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary pull-right mt-5" onclick="GoToContact('@contactIdGrp.FirstOrDefault().ContactId')">Edit</button>
+            </div>
+        </div>
+        <hr />
+    }
+}
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-primary pull-right mt-5" onclick="GoToContact(0)">Add</button>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function GoToContact(contactId) {
+            window.location.href = `@Url.Action("GetAddEditContact", "Form")?contactId=${contactId}`;
+        }
+    </script>
+}
+
+

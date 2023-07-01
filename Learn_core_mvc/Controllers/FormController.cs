@@ -1,5 +1,6 @@
 ﻿using Learn_core_mvc.Core.Models;
 using Learn_core_mvc.Models;
+using Learn_core_mvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -162,6 +163,100 @@ namespace Learn_core_mvc.Controllers
             formViewModel.UserSubjects = model.UserSubjects.Where(x => x.IsChecked == true).ToList();
 
             return PartialView("_FormSubmitJqueryAjaxPartialView", formViewModel); // Return a partial view or HTML content
+        }
+
+        public IActionResult FormAddRemoveControls()
+        {
+            List<ContactVM> contactList = new List<ContactVM>();
+            ContactVM contact = new ContactVM();
+            var contacts = contact.GetContacts();
+            var phones = contact.GetPhones();
+            var mapPhonePhoneAttributes = contact.GetMapPhoneAndPhoneAttributes();
+            var phoneAttributes = contact.GetPhoneAttributes();
+
+            contactList = (
+                         from c in contacts
+                         join ph in phones on c.Id equals ph.ContactId
+                         join mapPhAttr in mapPhonePhoneAttributes on ph.Id equals mapPhAttr.PhoneId
+                         join attr in phoneAttributes on mapPhAttr.PhoneAttributeId equals attr.Id
+                         orderby c.Id
+                         select new ContactVM() { 
+                             ContactId=c.Id,
+                             ContactEmail=c.Email,
+                             ContactName=c.Name,
+                             PhoneId=ph.Id,
+                             PhoneNumber=ph.Number,
+                             PhoneAttributeId=attr.Id,
+                             PhoneAttributeName=attr.Name
+                         }
+                     ).ToList();
+
+            return View(contactList);
+        }
+
+        public IActionResult GetAddEditContact(int contactId)
+        {
+            AddEditContactVM addEditContact = new AddEditContactVM();
+            ContactVM contact = new ContactVM();
+            var contacts = contact.GetContacts();
+            var phones = contact.GetPhones();
+            var mapPhonePhoneAttributes = contact.GetMapPhoneAndPhoneAttributes();
+            var phoneAttributes = contact.GetPhoneAttributes();
+
+            var qList = (
+                         from c in contacts
+                         join ph in phones on c.Id equals ph.ContactId 
+                         join mapPhAttr in mapPhonePhoneAttributes on ph.Id equals mapPhAttr.PhoneId
+                         join attr in phoneAttributes on mapPhAttr.PhoneAttributeId equals attr.Id
+                         orderby c.Id
+                         where c.Id == contactId
+                         group new { c, ph, mapPhAttr, attr } by new { c.Id } into cgrp
+                         select new
+                         {
+                             con = cgrp.Select(x => x.c).Distinct(),
+                             pho = cgrp.Select(x => x.ph).Distinct(),
+                             map = cgrp.Select(x=>x.mapPhAttr).Distinct(),
+                             att = cgrp.Select(x => x.attr).Distinct()
+                         }
+                     ).ToList();
+
+            foreach (var data in qList)
+            {
+                addEditContact.ContactId = data.con.FirstOrDefault().Id;
+                addEditContact.ContactName = data.con.FirstOrDefault().Name;
+                addEditContact.ContactEmail = data.con.FirstOrDefault().Email;
+                var phoneList = data.pho.ToList();
+                foreach (var phone in phoneList)
+                {
+                    var mapList = data.map.ToList();
+                    var contactPhoneAttributes = new List<ContactPhoneAttribute>();
+                    foreach (var phAttr in phoneAttributes)
+                    {
+                        var contactPhoneAttribute = new ContactPhoneAttribute()
+                        {
+                            Id = phAttr.Id,
+                            Name = phAttr.Name,
+                            IsChecked = mapList.Any(x=>x.PhoneAttributeId == phAttr.Id && x.PhoneId == phone.Id)
+                        };
+                        contactPhoneAttributes.Add(contactPhoneAttribute);
+                    }
+                    addEditContact.PhoneWithPhoneAttributes.Add(
+                        new PhoneWithPhoneAttributes()
+                        {
+                            Id = phone.Id,
+                            Number = phone.Number,
+                            ContactPhoneAttributes = contactPhoneAttributes
+                        }
+                     );
+                }
+            }
+
+            return View(addEditContact);
+        }
+
+        public IActionResult SaveAddEditContact(AddEditContactVM addEditContact)
+        {
+            return Json(new { success=true });
         }
     }
 }
