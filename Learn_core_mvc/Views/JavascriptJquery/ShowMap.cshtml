@@ -1,0 +1,109 @@
+﻿
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="loadingMessage" style="display: none;">
+            <h3>Loading...</h3>
+        </div>
+        <div id="myMap" style="height:600px;"></div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/gh/somanchiu/Keyless-Google-Maps-API@v5.9/mapsJavaScriptAPI.js" async defer></script>
+    <script>
+        var myMap;
+        var markers = [];
+        var placesLatLngArray = [
+            { "placeName": "Rajwada Chowk", "lat": 22.718435, "lng": 75.855217 },
+            { "placeName": "Location 1", "lat": 22.728435, "lng": 75.865217 },
+            { "placeName": "Location 2", "lat": 22.738435, "lng": 75.875217 },
+            { "placeName": "Location 3", "lat": 22.748435, "lng": 75.885217 },
+            { "placeName": "Location 4", "lat": 22.758435, "lng": 75.895217 },
+            { "placeName": "Location 5", "lat": 22.768435, "lng": 75.905217 },
+            { "placeName": "Location 6", "lat": 22.778435, "lng": 75.915217 }
+        ];
+
+        $(document).ready(function () {
+            $("#loadingMessage").show();
+            initMap();
+        });
+
+        // Draw a map without any marker
+        function initMap() {
+            myMap = new google.maps.Map(document.getElementById('myMap'), {
+                center: { lat: 22.718435, lng: 75.855217 },
+                zoom: 17
+            });
+            $("#loadingMessage").hide();
+            setTimeout(function () {
+                addMarker();
+            }, 3000);
+        }
+
+        // Add marker
+        function addMarker() {
+            debugger
+            deleteMarkers();
+
+            var latlngbounds = new google.maps.LatLngBounds();
+
+            $.each(placesLatLngArray, function (index, obj) {
+                var lat = obj.lat;
+                var lon = obj.lng;
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(lat, lon),
+                    map: myMap
+                });
+                markers.push(marker);
+                myMap.setCenter(new google.maps.LatLng(lat, lon));
+                latlngbounds.extend(new google.maps.LatLng(lat, lon));
+            });
+
+            evacZoneCircle();
+            hotZoneCircle();
+
+            // Fit the map around the markers we added
+            myMap.fitBounds(latlngbounds);
+        }
+
+        function evacZoneCircle() {
+            var circle = new google.maps.Circle({
+                radius: 2000,
+                center: { lat: 22.718435, lng: 75.855217 },
+                map: myMap,
+                fillColor: '#FF0000',
+                fillOpacity: 0.2,
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.6
+            });
+        }
+
+        function hotZoneCircle() {
+            var circle = new google.maps.Circle({
+                radius: 1000,
+                center: { lat: 22.718435, lng: 75.855217 },
+                map: myMap,
+                fillColor: '#808080',
+                fillOpacity: 0.2,
+                strokeColor: '#808080',
+                strokeOpacity: 0.6
+            });
+        }
+
+        // Removes the markers from the map, but keeps them in the array.
+        function clearMarkers() {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);  
+            }
+        }
+
+        // Deletes all markers in the array by removing references to them.
+        function deleteMarkers() {
+            clearMarkers();
+            markers = [];
+        }
+    </script>
+}

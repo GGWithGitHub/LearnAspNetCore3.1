@@ -106,5 +106,10 @@ namespace Learn_core_mvc.Controllers
         {
             return Json(new { status = true, data = "function 2 result" });
         }
+
+        public IActionResult ShowMap()
+        {
+            return View();
+        }
     }
 }

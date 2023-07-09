@@ -24,6 +24,7 @@
   <ItemGroup>
     <Folder Include="TestStaticFiles\images\" />
     <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\lib\fontawesome\" />
   </ItemGroup>
 
 </Project>
