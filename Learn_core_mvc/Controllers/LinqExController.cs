@@ -156,6 +156,33 @@ namespace Learn_core_mvc.Controllers
             return View(linqInnerJoinVM);
         }
 
+        public IActionResult InnerJoinOnMultipleTable()
+        {
+            LinqInnerJoinMulTblVM linqInnerJoinMulTblVM = new LinqInnerJoinMulTblVM();
+            linqInnerJoinMulTblVM.DepartmentsProperty = LinqDepartment.GetAllDepartments();
+            linqInnerJoinMulTblVM.EmployeesProperty = LinqEmployee.GetAllEmployees();
+            linqInnerJoinMulTblVM.AddressesProperty = LinqAddress.GetAllAddress();
+            linqInnerJoinMulTblVM.CountriesProperty = LinqCountry.GetAllCountries();
+
+            linqInnerJoinMulTblVM.DepEmpAddrCounProperty = (from d in LinqDepartment.GetAllDepartments()
+                                                            join e in LinqEmployee.GetAllEmployees() on d.ID equals e.DepartmentID
+                                                            join a in LinqAddress.GetAllAddress() on e.AddressId equals a.Id
+                                                            join c in LinqCountry.GetAllCountries() on a.CountryId equals c.Id
+                                                            select new LinqDepEmpAddrCoun
+                                                            {
+                                                                DepartmentId = d.ID,
+                                                                DepartmentName = d.Name,
+                                                                EmployeeId = e.ID,
+                                                                EmployeeName = e.Name,
+                                                                AddressId = a.Id,
+                                                                AddressName = a.Address,
+                                                                CountryId = c.Id,
+                                                                CountryName = c.Name
+                                                            }).ToList();
+
+            return View(linqInnerJoinMulTblVM);
+        }
+
         public IActionResult LeftJoin()
         {
             LinqLeftJoinVM linqLeftJoinVM = new LinqLeftJoinVM();

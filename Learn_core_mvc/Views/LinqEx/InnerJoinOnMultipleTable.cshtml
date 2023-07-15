@@ -1,0 +1,113 @@
+﻿@model LinqInnerJoinMulTblVM
+
+@{
+}
+
+<div class="row" style="height: 300px; overflow-y: scroll;">
+    <div class="col-md-6">
+        <div>Department Table</div>
+        <table class="table table-bordered">
+            <tr>
+                <th>Department ID</th>
+                <th>Department Name</th>
+            </tr>
+            @foreach (var department in Model.DepartmentsProperty)
+            {
+                <tr>
+                    <td>@department.ID</td>
+                    <td>@department.Name</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-6">
+        <div>Employee Table</div>
+        <table class="table table-bordered">
+            <tr>
+                <th>Employee ID</th>
+                <th>Employee Name</th>
+                <th>Department ID</th>
+            </tr>
+            @foreach (var employee in Model.EmployeesProperty)
+            {
+                <tr>
+                    <td>@employee.ID</td>
+                    <td>@employee.Name</td>
+                    <td>@employee.DepartmentID</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+<br />
+<div class="row" style="height: 300px; overflow-y: scroll;">
+    <div class="col-md-6">
+        <div>Address Table</div>
+        <table class="table table-bordered">
+            <tr>
+                <th>Address ID</th>
+                <th>Address Name</th>
+                <th>Country ID</th>
+            </tr>
+            @foreach (var address in Model.AddressesProperty)
+            {
+                <tr>
+                    <td>@address.Id</td>
+                    <td>@address.Address</td>
+                    <td>@address.CountryId</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-6">
+        <div>Country Table</div>
+        <table class="table table-bordered">
+            <tr>
+                <th>Country ID</th>
+                <th>Country Name</th>
+            </tr>
+            @foreach (var country in Model.CountriesProperty)
+            {
+                <tr>
+                    <td>@country.Id</td>
+                    <td>@country.Name</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<br/>
+
+<div>Multiple Join among Department, Employee, Address and Country collection</div>
+<div class="row" style="height: 500px; overflow-y: scroll;">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <tr>
+                <th>Department Id</th>
+                <th>Department Name</th>
+                <th>Employee Id</th>
+                <th>Employee Name</th>
+                <th>Address Id</th>
+                <th>Address Name</th>
+                <th>Country Id</th>
+                <th>Country Name</th>
+            </tr>
+            @foreach (var depEmpAddrCoun in Model.DepEmpAddrCounProperty)
+            {
+                <tr>
+                    <td>@depEmpAddrCoun.DepartmentId</td>
+                    <td>@depEmpAddrCoun.DepartmentName</td>
+                    <td>@depEmpAddrCoun.EmployeeId</td>
+                    <td>@depEmpAddrCoun.EmployeeName</td>
+                    <td>@depEmpAddrCoun.AddressId</td>
+                    <td>@depEmpAddrCoun.AddressName</td>
+                    <td>@depEmpAddrCoun.CountryId</td>
+                    <td>@depEmpAddrCoun.CountryName</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+
