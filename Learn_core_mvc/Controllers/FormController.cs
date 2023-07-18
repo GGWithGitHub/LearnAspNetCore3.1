@@ -254,6 +254,48 @@ namespace Learn_core_mvc.Controllers
             return View(addEditContact);
         }
 
+        public IActionResult AddPhoneWithPhoneAttributes(AddEditContactVM addEditContactVM)
+        {
+            ModelState.Clear();
+            ContactVM contact = new ContactVM();
+            var phoneAttributes = contact.GetPhoneAttributes();
+            var contactPhoneAttributes = new List<ContactPhoneAttribute>();
+            foreach (var phAttr in phoneAttributes)
+            {
+                var contactPhoneAttribute = new ContactPhoneAttribute()
+                {
+                    Id = phAttr.Id,
+                    Name = phAttr.Name,
+                    IsChecked = false
+                };
+                contactPhoneAttributes.Add(contactPhoneAttribute);
+            }
+            var newPhoneId = addEditContactVM.PhoneWithPhoneAttributes.Count + 1;
+            addEditContactVM.PhoneWithPhoneAttributes.Add(
+                new PhoneWithPhoneAttributes()
+                {
+                    Id = newPhoneId,
+                    Number = null,
+                    ContactPhoneAttributes = contactPhoneAttributes
+                }
+            );
+
+            return PartialView("_PhoneWithPhoneAttributesPV", addEditContactVM);
+        }
+
+        public IActionResult RemovePhoneWithPhoneAttributes(int phoneId, AddEditContactVM addEditContactVM)
+        {
+            //you posting back you model, and the values of your model are added to ModelState by the DefaultModeBinder
+            //You could solve this by using ModelState.Clear() before returning the view
+            ModelState.Clear();
+            var phoneWithPhoneAttribute = addEditContactVM.PhoneWithPhoneAttributes.Where(x => x.Id == phoneId).FirstOrDefault();
+            if (phoneWithPhoneAttribute != null)
+            {
+                addEditContactVM.PhoneWithPhoneAttributes.Remove(phoneWithPhoneAttribute);
+            }
+            return PartialView("_PhoneWithPhoneAttributesPV", addEditContactVM);
+        }
+
         public IActionResult SaveAddEditContact(AddEditContactVM addEditContact)
         {
             return Json(new { success=true });
