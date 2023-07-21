@@ -1,0 +1,17 @@
+﻿
+@{
+}
+
+<h3>This is main view content</h3>
+
+<div id="dvPVContent"></div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#dvPVContent").load(`@Url.Action("ContentForPDFPV", "PDFSample")`, function () {
+
+            });
+        });
+    </script>
+}

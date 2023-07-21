@@ -17,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Rotativa.AspNetCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -159,6 +160,8 @@ namespace Learn_core_mvc
                     pattern: "{**route}",
                     new { Controller = "Content", Action = "DynamicRoute" });
             });
+
+            RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
         }
     }
 }
