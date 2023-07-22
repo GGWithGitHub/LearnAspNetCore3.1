@@ -161,7 +161,7 @@ namespace Learn_core_mvc
                     new { Controller = "Content", Action = "DynamicRoute" });
             });
 
-            RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
+            RotativaConfiguration.Setup(env.WebRootPath, "Rotativa"); //For PDF Rotativa
         }
     }
 }
