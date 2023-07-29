@@ -1,0 +1,55 @@
+﻿@model SearchDrpDwnModel
+
+@{
+}
+
+@section Styles{ 
+    <style>
+        .select2-container {
+            width: 100% !important;
+            padding: 0;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <label>Select Country:</label>
+        <select class="form-control" id="ddlCountries" asp-for="UserCountry" asp-items="Model.UserCountries"></select>
+    </div>
+</div>
+<br />
+<button type="button" id="btnModal" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Search DropDown In Modal</button>
+
+<!-- Modal -->
+<div class="modal" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Select Country</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <select class="form-control" id="ddlCountries2" asp-for="UserCountry" asp-items="Model.UserCountries"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#ddlCountries").select2();
+            $("#ddlCountries2").select2(); 
+        });
+    </script>
+}
