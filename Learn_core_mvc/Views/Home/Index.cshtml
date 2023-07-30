@@ -2,200 +2,295 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h4>Form Validation(Custom, Remote) Example</h4>
-<a asp-controller="Form" asp-action="FormValidation">Form Validation Example</a>
+@section Styles{ 
+    <style>
+        .complete {
+            background-color: greenyellow;
+            padding: 10px;
+            border: 2px solid;
+        }
+        .remaining {
+            background-color: bisque;
+            padding: 10px;
+            border: 2px solid;
+        }
+    </style>
+}
+
+<div class="complete">
+    <h4>Form Validation(Custom, Remote) Example</h4>
+    <a asp-controller="Form" asp-action="FormValidation">Form Validation Example</a>
+</div>
 
 <hr />
 
-<h4>Form Submit And Fill Example</h4>
-<a asp-controller="Form" asp-action="Index">Form Submit And Fill Example</a>
+<div class="complete">
+    <h4>Form Submit And Fill Example</h4>
+    <a asp-controller="Form" asp-action="Index">Form Submit And Fill Example</a>
+</div>
 
 <hr />
 
-<h4>Form Submit Without Reloading The Entire Page Using Jquery Ajax</h4>
-<a asp-controller="Form" asp-action="FormSubmitJqueryAjax">Form Submit Without Reloading The Entire Page Using Jquery Ajax</a>
+<div class="complete">
+    <h4>Form Submit Without Reloading The Entire Page Using Jquery Ajax</h4>
+    <a asp-controller="Form" asp-action="FormSubmitJqueryAjax">Form Submit Without Reloading The Entire Page Using Jquery Ajax</a>
+</div>
 
 <hr />
 
-<h4>Form Validation With Captcha Example</h4>
-<a asp-controller="Form" asp-action="FormValidationWithCaptcha">Form Validation With Captcha Example</a>
+<div class="complete">
+    <h4>Form Validation With Captcha Example</h4>
+    <a asp-controller="Form" asp-action="FormValidationWithCaptcha">Form Validation With Captcha Example</a>
+</div>
 
 <hr />
 
-<h4>Form With Dynamic Dropdown, Radio And Checkbox Button Example</h4>
-<a asp-controller="Form" asp-action="FormWithDynmcDdRbCb">Form With Dynamic Dropdown, Radio And Checkbox Button Example</a>
+<div class="complete">
+    <h4>Form With Dynamic Dropdown, Radio And Checkbox Button Example</h4>
+    <a asp-controller="Form" asp-action="FormWithDynmcDdRbCb">Form With Dynamic Dropdown, Radio And Checkbox Button Example</a>
+</div>
 
 <hr />
 
-<h4>Validate Form Using JQuery</h4>
-<a asp-controller="JavascriptJquery" asp-action="FormValidation">Validate Form Using JQuery</a>
+<div class="complete">
+    <h4>Validate Form Using JQuery</h4>
+    <a asp-controller="JavascriptJquery" asp-action="FormValidation">Validate Form Using JQuery</a>
+</div>
 
 <hr />
 
-<h4>CRUD Using ADO.NET Example</h4>
-<a asp-controller="ADO" asp-action="Index">CRUD Using ADO.NET Example</a>
+<div class="complete">
+    <h4>CRUD Using ADO.NET Example</h4>
+    <a asp-controller="ADO" asp-action="Index">CRUD Using ADO.NET Example</a>
+</div>
 
 <hr />
 
-<h4>CRUD Using ADO.NET With Stored Procedure Example</h4>
-<a asp-controller="ADOSP" asp-action="Index">CRUD Using ADO.NET With Stored Procedure Example</a>
+<div class="complete">
+    <h4>CRUD Using ADO.NET With Stored Procedure Example</h4>
+    <a asp-controller="ADOSP" asp-action="Index">CRUD Using ADO.NET With Stored Procedure Example</a>
+</div>
 
 <hr />
 
-<h4>CRUD Using Entity Framework Core With Database First Approach Example</h4>
-<a asp-controller="EFCoreDbFirst" asp-action="Index">CRUD Entity Framework Core With Database First Approach Example</a>
+<div>
+    <h4>CRUD Using Entity Framework Core With Database First Approach Example</h4>
+    <a asp-controller="EFCoreDbFirst" asp-action="Index">CRUD Entity Framework Core With Database First Approach Example</a>
+</div>
 
 <hr />
 
-<h4>Claims-based Authentication And Authorization Example</h4>
-<a asp-controller="ClaimBaseAuth" asp-action="Index">Claims-based Authentication And Authorization Example</a>
+<div>
+    <h4>Claims-based Authentication And Authorization Example</h4>
+    <a asp-controller="ClaimBaseAuth" asp-action="Index">Claims-based Authentication And Authorization Example</a>
+</div>
 
 <hr />
 
-<h4>Send Mail By AWS-SES Example</h4>
-<a asp-controller="Mail" asp-action="Index">Send Mail By AWS-SES Example</a>
+<div>
+    <h4>Send Mail By AWS-SES Example</h4>
+    <a asp-controller="Mail" asp-action="Index">Send Mail By AWS-SES Example</a>
+</div>
 
 <hr />
 
-<h4>Hash & Salt Password In Register And Login Example</h4>
-<a asp-controller="RegisterLogin" asp-action="Register">Hash & Salt Password In Register And Login Example</a>
+<div>
+    <h4>Hash & Salt Password In Register And Login Example</h4>
+    <a asp-controller="RegisterLogin" asp-action="Register">Hash & Salt Password In Register And Login Example</a>
+</div>
 
 <hr />
 
-<h4>Searching Sorting Paging Using Jquery Datatable Example</h4>
-<a asp-controller="DataTable" asp-action="Index">Searching Sorting Paging Using Jquery Datatable Example</a>
+<div>
+    <h4>Searching Sorting Paging Using Jquery Datatable Example</h4>
+    <a asp-controller="DataTable" asp-action="Index">Searching Sorting Paging Using Jquery Datatable Example</a>
+</div>
 
 <hr />
 
-<h4>Return URL Example</h4>
-<a asp-controller="ReturnUrl" asp-action="Home">Return URL Example</a>
+<div>
+    <h4>Return URL Example</h4>
+    <a asp-controller="ReturnUrl" asp-action="Home">Return URL Example</a>
+</div>
 
 <hr />
 
-<h4>Handlebar JS Example</h4>
-<a asp-controller="HandleBarJs" asp-action="Index">Handlebar JS Example</a>
+<div>
+    <h4>Handlebar JS Example</h4>
+    <a asp-controller="HandleBarJs" asp-action="Index">Handlebar JS Example</a>
+</div>
 
 <hr />
 
-<h4>Page Does Not Exist Example</h4>
-<a href="UnwantedPage/abcd">Page Does Not Exist Example</a>
+<div>
+    <h4>Page Does Not Exist Example</h4>
+    <a href="UnwantedPage/abcd">Page Does Not Exist Example</a>
+</div>
 
 <hr />
 
-<h4>List Add Update Delete Using Jquery/Javascript Example</h4>
-<a asp-controller="JavascriptJquery" asp-action="Index">List Add Update Delete Using Jquery/Javascript Example</a>
+<div>
+    <h4>List Add Update Delete Using Jquery/Javascript Example</h4>
+    <a asp-controller="JavascriptJquery" asp-action="Index">List Add Update Delete Using Jquery/Javascript Example</a>
+</div>
 
 <hr />
 
-<h4>Insert Exception In Database By Query Example</h4>
-<a asp-controller="Home" asp-action="ExceptionGenerator">Insert Exception In Database By Query Example</a>
+<div>
+    <h4>Insert Exception In Database By Query Example</h4>
+    <a asp-controller="Home" asp-action="ExceptionGenerator">Insert Exception In Database By Query Example</a>
+</div>
 
 <hr />
 
-<h4>Password Reset With Email Notification Example</h4>
-<a asp-controller="PasswordReset" asp-action="Index">Password Reset With Email Notification Example</a>
+<div>
+    <h4>Password Reset With Email Notification Example</h4>
+    <a asp-controller="PasswordReset" asp-action="Index">Password Reset With Email Notification Example</a>
+</div>
 
 <hr />
 
-<h4>Automatic Code Execution Example</h4>
-<a asp-controller="Automatic" asp-action="Index">Automatic Code Execution Example</a>
+<div>
+    <h4>Automatic Code Execution Example</h4>
+    <a asp-controller="Automatic" asp-action="Index">Automatic Code Execution Example</a>
+</div>
 
 <hr />
 
-<h4>Xss Attack Solution Example</h4>
-<a asp-controller="MySecure" asp-action="Index">Xss Attack Solution Example</a>
+<div>
+    <h4>Xss Attack Solution Example</h4>
+    <a asp-controller="MySecure" asp-action="Index">Xss Attack Solution Example</a>
+</div>
 
 <hr />
 
-<h4>CSRF Attack Solution Example</h4>
-<a asp-controller="MySecure" asp-action="CSRF">CSRF Attack Solution Example</a>
+<div>
+    <h4>CSRF Attack Solution Example</h4>
+    <a asp-controller="MySecure" asp-action="CSRF">CSRF Attack Solution Example</a>
+</div>
 
 <hr />
 
-<h3>Call Dummy Rest API Using HttpClient Example</h3>
-<a asp-controller="CallApiViaHttpClient" asp-action="Index">Call Dummy Rest API Using HttpClient Example</a>
+<div>
+    <h3>Call Dummy Rest API Using HttpClient Example</h3>
+    <a asp-controller="CallApiViaHttpClient" asp-action="Index">Call Dummy Rest API Using HttpClient Example</a>
+</div>
 
 <hr/>
 
-<h3>Linq Example</h3>
-<a asp-controller="LinqEx" asp-action="Index">Linq Example</a>
+<div>
+    <h3>Linq Example</h3>
+    <a asp-controller="LinqEx" asp-action="Index">Linq Example</a>
+</div>
 
 <hr />
 
-<h3>Solve CORS Issue Example</h3>
-<a asp-controller="CorsEx" asp-action="Index">Solve CORS Issue Example</a>
+<div>
+    <h3>Solve CORS Issue Example</h3>
+    <a asp-controller="CorsEx" asp-action="Index">Solve CORS Issue Example</a>
+</div>
 
 <hr />
 
-<h3>Display Friendly Error Message On Exception Example</h3>
-<a asp-controller="GenerateException" asp-action="Index">Display Friendly Error Message On Exception Example</a>
+<div>
+    <h3>Display Friendly Error Message On Exception Example</h3>
+    <a asp-controller="GenerateException" asp-action="Index">Display Friendly Error Message On Exception Example</a>
+</div>
 
 <hr />
 
-<h3>Identity(Signup, login, logout, role base authorization, change password, account block, email confirmation) Example</h3>
-<a asp-controller="IdentityEx" asp-action="Index">Identity(Signup, login, logout, role base authorization, change password, account block, email confirmation) Example</a>
+<div>
+    <h3>Identity(Signup, login, logout, role base authorization, change password, account block, email confirmation) Example</h3>
+    <a asp-controller="IdentityEx" asp-action="Index">Identity(Signup, login, logout, role base authorization, change password, account block, email confirmation) Example</a>
+</div>
 
 <hr />
 
-<h3>Fetch Static File From "wwwroot" Folder And "TestStaticFiles" Folder Example</h3>
-<a asp-controller="StaticFileSample" asp-action="Index">Fetch Static File From "wwwroot" Folder And "TestStatic" Folder Example</a>
+<div>
+    <h3>Fetch Static File From "wwwroot" Folder And "TestStaticFiles" Folder Example</h3>
+    <a asp-controller="StaticFileSample" asp-action="Index">Fetch Static File From "wwwroot" Folder And "TestStatic" Folder Example</a>
+</div>
 
 <hr />
 
-<h3>TagHelper Example</h3>
-<a asp-controller="TagHelperSample" asp-action="Index">TagHelper Example</a>
+<div>
+    <h3>TagHelper Example</h3>
+    <a asp-controller="TagHelperSample" asp-action="Index">TagHelper Example</a>
+</div>
 
 <hr />
 
-<h3>Partial View Example</h3>
-<a asp-controller="PartialViewSample" asp-action="Index">Partial View Example</a>
+<div>
+    <h3>Partial View Example</h3>
+    <a asp-controller="PartialViewSample" asp-action="Index">Partial View Example</a>
+</div>
 
 <hr />
 
-<h3>Read Configuration Value Example</h3>
-<a asp-controller="ConfigurationSample" asp-action="Index">Read Configuration Value Example</a>
+<div>
+    <h3>Read Configuration Value Example</h3>
+    <a asp-controller="ConfigurationSample" asp-action="Index">Read Configuration Value Example</a>
+</div>
 
 <hr/>
 
-<h3>Show The Loading Alert Message Example</h3>
-<a asp-controller="JavascriptJquery" asp-action="ShowLoading">Show The Loading Alert Message Example</a>
+<div>
+    <h3>Show The Loading Alert Message Example</h3>
+    <a asp-controller="JavascriptJquery" asp-action="ShowLoading">Show The Loading Alert Message Example</a>
+</div>
 
 <hr/>
 
-<h3>Pass List Of Object From Ajax To Controller Example</h3>
-<a asp-controller="JavascriptJquery" asp-action="PostListObject">Pass List Of Object From Ajax To Controller Example</a>
+<div>
+    <h3>Pass List Of Object From Ajax To Controller Example</h3>
+    <a asp-controller="JavascriptJquery" asp-action="PostListObject">Pass List Of Object From Ajax To Controller Example</a>
+</div>
 
 <hr/>
 
-<h3>Save And Make Data Readonly Example</h3>
-<a asp-controller="JavascriptJquery" asp-action="SaveAndReadOnly">Save And Make Data Readonly Example</a>
+<div>
+    <h3>Save And Make Data Readonly Example</h3>
+    <a asp-controller="JavascriptJquery" asp-action="SaveAndReadOnly">Save And Make Data Readonly Example</a>
+</div>
 
 <hr />
 
-<h3>Wait For Function To Finish In Javascript Example</h3>
-<a asp-controller="JavascriptJquery" asp-action="WaitFunction">Wait For Function To Finish In Javascript Example</a>
+<div>
+    <h3>Wait For Function To Finish In Javascript Example</h3>
+    <a asp-controller="JavascriptJquery" asp-action="WaitFunction">Wait For Function To Finish In Javascript Example</a>
+</div>
 
 <hr />
 
-<h3>Filters Example</h3>
-<a asp-controller="FiltersSample" asp-action="Index">Filters Example</a>
+<div>
+    <h3>Filters Example</h3>
+    <a asp-controller="FiltersSample" asp-action="Index">Filters Example</a>
+</div>
 
 <hr/>
 
-<h3>Dynamic Add Remove Input With Mutiple Checkboxes In The Form</h3>
-<a asp-controller="Form" asp-action="FormAddRemoveControls">Dynamic Add Remove Input With Mutiple Checkboxes In The Form</a>
+<div class="remaining">
+    <h3>Dynamic Add Remove Input With Mutiple Checkboxes In The Form</h3>
+    <a asp-controller="Form" asp-action="FormAddRemoveControls">Dynamic Add Remove Input With Mutiple Checkboxes In The Form</a>
+</div>
 
 <hr/>
 
-<h3>Show Google Map And Markers Using Javascript Example</h3>
-<a asp-controller="JavascriptJquery" asp-action="ShowMap">Show Google Map And Markers Using Javascript Example</a>
+<div>
+    <h3>Show Google Map And Markers Using Javascript Example</h3>
+    <a asp-controller="JavascriptJquery" asp-action="ShowMap">Show Google Map And Markers Using Javascript Example</a>
+</div>
 
 <hr/>
 
-<h3>Creating PDF Using Rotativa</h3>
-<a asp-controller="PDFSample" asp-action="Index">Creating PDF Using Rotativa</a>
+<div>
+    <h3>Creating PDF Using Rotativa</h3>
+    <a asp-controller="PDFSample" asp-action="Index">Creating PDF Using Rotativa</a>
+</div>
 
 <hr/>
 
-<h3>Dropdown With Search Box Example</h3>
-<a asp-controller="JavascriptJquery" asp-action="SearchDropdown">Dropdown With Search Box Example</a>
+<div>
+    <h3>Dropdown With Search Box Example</h3>
+    <a asp-controller="JavascriptJquery" asp-action="SearchDropdown">Dropdown With Search Box Example</a>
+</div>

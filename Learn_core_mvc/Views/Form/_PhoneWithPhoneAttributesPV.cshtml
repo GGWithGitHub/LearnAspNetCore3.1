@@ -9,6 +9,7 @@
                     <label>Contat Phone</label>
                     <input type="text" class="form-control" asp-for="@Model.PhoneWithPhoneAttributes[i].Number">
                     <input type="hidden" class="form-control" asp-for="@Model.PhoneWithPhoneAttributes[i].Id">
+                    <span asp-validation-for="@Model.PhoneWithPhoneAttributes[i].Number" class="errorMsg"></span>
                 </div>
             </div>
             @if (i != 0)
@@ -20,16 +21,19 @@
                 </div>
             }
         </div>
-        @for (var j = 0; j < Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes.Count; j++)
-        {
-            <div class="form-check mb-3">
-                <label class="form-check-label">
-                    <input type="checkbox" asp-for="@Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes[j].IsChecked" class="form-check-input" />
-                    <label>@Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes[j].Name</label>
-                    <input type="hidden" asp-for="@Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes[j].Id" />
-                    <input type="hidden" asp-for="@Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes[j].Name" />
-                </label>
-            </div>
-        }
+        <div>
+            @for (var j = 0; j < Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes.Count; j++)
+            {
+                <div class="form-check mb-3">
+                    <label class="form-check-label">
+                        <input type="checkbox" asp-for="@Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes[j].IsChecked" class="form-check-input" />
+                        <label>@Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes[j].Name</label>
+                        <input type="hidden" asp-for="@Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes[j].Id" />
+                        <input type="hidden" asp-for="@Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes[j].Name" />
+                    </label>
+                </div>
+            }
+        </div>
+        <span asp-validation-for="@Model.PhoneWithPhoneAttributes[i].ContactPhoneAttributes" class="errorMsg"></span>
     </div>
 }

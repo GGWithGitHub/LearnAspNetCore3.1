@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Learn_core_mvc.Attributes;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,7 +35,11 @@ namespace Learn_core_mvc.Models
     public class PhoneWithPhoneAttributes
     {
         public int Id { get; set; }
+
+        [Required]
         public string Number { get; set; }
+
+        [AtLeastOneCheckboxChecked(ErrorMessage = "Please select at least one option.")]
         public List<ContactPhoneAttribute> ContactPhoneAttributes { get; set; } = new List<ContactPhoneAttribute>();
     }
 }

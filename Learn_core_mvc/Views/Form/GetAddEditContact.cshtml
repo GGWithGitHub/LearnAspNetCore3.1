@@ -2,19 +2,35 @@
 @model AddEditContactVM
 
 @{
-    
+    var phoneWithPhoneAttributesCount = Model.PhoneWithPhoneAttributes.Count;
+    var attributesCount = 0;
+    if (phoneWithPhoneAttributesCount > 0)
+    {
+        attributesCount = Model.PhoneWithPhoneAttributes[0].ContactPhoneAttributes.Count;
+    }
+}
+
+@section Styles
+{
+    <style>
+        .errorMsg{
+            color:red;
+        }
+    </style>
 }
 
 <div class="mt-3">
     <h2>Contact form</h2>
-    <form asp-controller="Form" asp-action="SaveAddEditContact" id="myForm" method="post">
+    <form asp-controller="Form" asp-action="GetAddEditContact" id="myForm" method="post">
         <div class="mb-3 mt-3">
             <label>Contat Name</label>
             <input type="text" class="form-control" asp-for="ContactName">
+            <span asp-validation-for="ContactName" class="errorMsg"></span>
         </div>
         <div class="mb-3">
             <label>Contat Email</label>
             <input type="text" class="form-control" asp-for="ContactEmail">
+            <span asp-validation-for="ContactEmail" class="errorMsg"></span>
         </div>
         <div id="phAttrMainContainer">
             <partial name="_PhoneWithPhoneAttributesPV" model="Model" />
@@ -29,44 +45,46 @@
 
 @section Scripts{
     <script>
-        //var attributeList = '@Html.Raw(JsonConvert.SerializeObject(Model.PhoneWithPhoneAttributes[0].ContactPhoneAttributes))';
+        @*var attributeList = '@Html.Raw(JsonConvert.SerializeObject(Model.PhoneWithPhoneAttributes[0].ContactPhoneAttributes))';*@
         //var attributeListObject = JSON.parse(attributeList);
+
+        var phoneWithPhoneAttributesCount = @phoneWithPhoneAttributesCount;
+        var attributesCount = @attributesCount;
 
         $(document).ready(function () {
             RemoveHiddenFieldsOfForm();
         });
 
         function RemoveHiddenFieldsOfForm() {
-            for (var i = 0; i <@Model.PhoneWithPhoneAttributes.Count; i++) {
-                var attributesCount = @Model.PhoneWithPhoneAttributes[0].ContactPhoneAttributes.Count;
+            for (var i = 0; i < phoneWithPhoneAttributesCount; i++) {
                 for (var j = 0; j < attributesCount; j++) {
                     $(`input:hidden[name='PhoneWithPhoneAttributes[${i}].ContactPhoneAttributes[${j}].IsChecked']`).remove();
                 }
             }
         }
 
-        $('#myForm').submit(function (event) {
-            event.preventDefault(); // Prevent default form submission
+        //$('#myForm').submit(function (event) {
+        //    event.preventDefault(); // Prevent default form submission
 
-            if (IsFormValid()) {
-                var formData = $(this).serialize(); // Serialize form data
-                debugger
-                $.ajax({
-                    url: $(this).attr('action'), // Form action URL
-                    type: $(this).attr('method'), // Form method (POST in this case)
-                    data: formData, // Serialized form data
-                    success: function (response) {
-                        window.location.href = `@Url.Action("FormAddRemoveControls", "Form")`;
-                    },
-                    error: function () {
-                        alert('An error occurred.'); // Handle error scenario
-                    }
-                });
-            }
-            else {
-                alert("Please fill form correctly");
-            }
-        });
+        //    if (IsFormValid()) {
+        //        var formData = $(this).serialize(); // Serialize form data
+        //        debugger
+        //        $.ajax({
+        //            url: $(this).attr('action'), // Form action URL
+        //            type: $(this).attr('method'), // Form method (POST in this case)
+        //            data: formData, // Serialized form data
+        //            success: function (response) {
+
+        //            },
+        //            error: function () {
+        //                alert('An error occurred.'); // Handle error scenario
+        //            }
+        //        });
+        //    }
+        //    else {
+        //        alert("Please fill form correctly");
+        //    }
+        //});
 
         function RemovePhoneAndPhAttribute(ele,phoneId) {
             var formData = $('#myForm').serialize();
@@ -102,6 +120,10 @@
         }
 
         function IsFormValid() {
+            return true;
+        }
+
+        function PhoneAndPhoneAttributesValidation() {
             var status = false;
             $(".phAttrContainer").each(function (index, ele) {
                 var inputPhone = $(ele).find('input[type=text]').val().trim();

@@ -251,6 +251,27 @@ namespace Learn_core_mvc.Controllers
                 }
             }
 
+            if (qList.Count == 0)
+            {
+                var contactPhoneAttributes = new List<ContactPhoneAttribute>();
+                foreach (var phAttr in phoneAttributes)
+                {
+                    var contactPhoneAttribute = new ContactPhoneAttribute()
+                    {
+                        Id = phAttr.Id,
+                        Name = phAttr.Name,
+                        IsChecked = false
+                    };
+                    contactPhoneAttributes.Add(contactPhoneAttribute);
+                }
+                addEditContact.PhoneWithPhoneAttributes.Add(
+                    new PhoneWithPhoneAttributes()
+                    {
+                        ContactPhoneAttributes = contactPhoneAttributes
+                    }
+                 );
+            }
+
             return View(addEditContact);
         }
 
@@ -292,13 +313,23 @@ namespace Learn_core_mvc.Controllers
             if (phoneWithPhoneAttribute != null)
             {
                 addEditContactVM.PhoneWithPhoneAttributes.Remove(phoneWithPhoneAttribute);
+                var k = ModelState.Keys;
             }
             return PartialView("_PhoneWithPhoneAttributesPV", addEditContactVM);
         }
 
-        public IActionResult SaveAddEditContact(AddEditContactVM addEditContact)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult GetAddEditContact(AddEditContactVM addEditContact)
         {
-            return Json(new { success=true });
+            if (ModelState.IsValid)
+            {
+                return Json(new { success = true });
+            }
+            else
+            {
+                return View(addEditContact);
+            }
         }
     }
 }

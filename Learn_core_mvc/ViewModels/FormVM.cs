@@ -1,6 +1,7 @@
 ﻿using Learn_core_mvc.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -65,7 +66,11 @@ namespace Learn_core_mvc.ViewModels
         //public List<MapContactPhoneAndPhoneAttribute> MapPhoneAndPhoneAttributes { get; set; }
 
         public int ContactId { get; set; }
+
+        [Required]
         public string ContactName { get; set; }
+
+        [Required]
         public string ContactEmail { get; set; }
         public List<PhoneWithPhoneAttributes> PhoneWithPhoneAttributes { get; set; } = new List<PhoneWithPhoneAttributes>();
     }
