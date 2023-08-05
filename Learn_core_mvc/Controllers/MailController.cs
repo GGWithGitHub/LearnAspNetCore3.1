@@ -33,5 +33,10 @@ namespace Learn_core_mvc.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        public IActionResult MailToLink()
+        {
+            return View();
+        }
     }
 }

@@ -1,0 +1,24 @@
+﻿
+@{
+    
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <button onclick="SendMailToLink()">Send mail to link</button>
+    </div>
+</div>
+
+@section Scripts{ 
+    <script>
+        function SendMailToLink() {
+            var toEmailId = "ghogareg1996@gmail.com";
+            var subject = "Test subject of mail to link example.";
+            var body = `Your Email Id: ${toEmailId}
+                        Your Password: PWD12`;
+            var encodeBody = encodeURIComponent(body);
+            var mailToLink = `mailto:${toEmailId}?subject=${subject}&body=${encodeBody}`;
+            window.location.href = mailToLink;
+        }
+    </script>
+}
