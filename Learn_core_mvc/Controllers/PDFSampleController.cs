@@ -55,12 +55,20 @@ namespace Learn_core_mvc.Controllers
 
             _httpContextAccessor.HttpContext.Session.Remove("PageHtml");
 
+            string relativeTocStyleFilePath = "xsl/tocStyle.xsl";
+            // Construct the absolute file path
+            string absoluteTocStyleFilePath = Path.Combine(_hostEnvironment.WebRootPath, relativeTocStyleFilePath);
+
+            var relativeCoverPageFilePath = "html/coverPage.html";
+            string absoluteCoverPageFilePath = Path.Combine(_hostEnvironment.WebRootPath, relativeCoverPageFilePath);
+
             //string customSwitches = "--footer-html " + Path.GetFullPath("~/Views/PDFSample/Footer.html").Replace("~\\", "");
             var viewPdf = new ViewAsPdf("PdfFromHtml",null, html)
             {
                 PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 //PageMargins = new Rotativa.AspNetCore.Options.Margins(10, 20, 10, 20),
-                CustomSwitches = "--page-offset 0 --footer-center [page] toc"
+                CustomSwitches = $"--print-media-type --page-offset 0 --footer-center [page] cover {Url.Action("CoverPage", "PDFSample", null, Request.Scheme)} toc --toc-text-size-shrink 1"
+                //CustomSwitches = $"--page-offset 0 --footer-center [page] toc --xsl-style-sheet {relativeTocStyleFilePath}"
                 //CustomSwitches = $"--footer-html {Url.Action("TableOfContentsFooter", "PDFSample", null, Request.Scheme)}"
                 //CustomSwitches = "--enable-local-file-access"
                 //PageWidth = 200,
@@ -75,6 +83,16 @@ namespace Learn_core_mvc.Controllers
         {
             // Create a partial view with the dynamically generated table of contents
             return PartialView("_TableOfContents");
+        }
+
+        public IActionResult CoverPage()
+        {
+            return View();
+        }
+
+        public IActionResult TocStyle()
+        {
+            return View();
         }
     }
 }

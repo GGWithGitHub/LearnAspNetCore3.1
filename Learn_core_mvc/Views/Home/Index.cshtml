@@ -18,6 +18,12 @@
     </style>
 }
 
+<div class="float-right">
+    <a href="#" onclick="GoTo('BOTTOM')">Go to bottom</a>
+</div>
+
+<br/><br />
+
 <div class="complete">
     <h4>Form Validation(Custom, Remote) Example</h4>
     <a asp-controller="Form" asp-action="FormValidation">Form Validation Example</a>
@@ -303,15 +309,33 @@
     <a asp-controller="Mail" asp-action="MailToLink">Mail To Link Example</a>
 </div>
 
-<hr/>
+<hr />
 
 <div class="complete">
     <h3>Submit Form Of Partial View Example</h3>
     <a asp-controller="PartialViewSample" asp-action="SubmitFormPartial">Submit Form Of Partial View Example</a>
 </div>
 
-<hr />
-
+<br/>
 <div class="float-right">
-    <a href="#">Go to top</a>
+    <a href="#" onclick="GoTo('TOP')">Go to top</a>
 </div>
+<br /><br />
+
+@section Scripts{
+    <script>
+        function GoTo(flag) {
+            if (flag=="TOP") {
+                // Scroll to the top of the page
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+            }
+            else if (flag=="BOTTOM") {
+                // Get the height of the entire page
+                var totalHeight = $(document).height();
+
+                // Scroll to the bottom of the page
+                $("html, body").animate({ scrollTop: totalHeight }, "slow");
+            }
+        }
+    </script>
+}
