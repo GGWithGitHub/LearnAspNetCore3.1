@@ -1,0 +1,44 @@
+﻿@model SubmitFormPartialVM
+
+@{
+}
+
+<div>
+    <h3>Main view content</h3>
+</div>
+<br />
+
+<h3>Partial view content</h3>
+<div id="dvPartial">
+    <partial name="_SubmitFormPV" model="Model.SubmitFormPVVM" />
+</div>
+
+
+@section Scripts{
+    <!-- For Client-Side Validation -->
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script>
+        function partialFormSubmit() {
+            var formData = $("#myForm").serialize();
+
+            $.ajax({
+                url: "@Url.Action("MyParialForm", "PartialViewSample")",
+                type: "POST",
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        $("#myForm")[0].reset();
+                        alert("Form is submitted...");
+                    }
+                    else {
+                        $("#dvPartial").empty().html(response);
+                    }
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+    </script>
+}

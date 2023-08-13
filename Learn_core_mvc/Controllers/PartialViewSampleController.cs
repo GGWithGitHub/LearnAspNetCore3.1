@@ -1,4 +1,5 @@
 ﻿using Learn_core_mvc.Models;
+using Learn_core_mvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -57,6 +58,24 @@ namespace Learn_core_mvc.Controllers
         public IActionResult JqueryLoadPV(TestModel1 testModel1)
         {
             return PartialView("_jqueryLoadPV", testModel1);
+        }
+        
+        public IActionResult SubmitFormPartial()
+        {
+            SubmitFormPartialVM submitFormPartialVM = new SubmitFormPartialVM();
+            return View(submitFormPartialVM);
+        }
+
+        public IActionResult MyParialForm(SubmitFormPVVM submitFormPVVM)
+        {
+            if (ModelState.IsValid)
+            {
+                return Json(new { success=true });
+            }
+            else
+            {
+                return PartialView("_SubmitFormPV", submitFormPVVM);
+            }
         }
     }
 }

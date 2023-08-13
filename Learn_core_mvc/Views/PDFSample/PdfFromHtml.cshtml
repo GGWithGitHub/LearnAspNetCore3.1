@@ -1,5 +1,4 @@
 ﻿@model string
-
 @{
     Layout = null;
 }
@@ -10,6 +9,22 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        .breakhere {
+            page-break-after: always;
+        }
+
+        .hideOnPdf {
+            display: none;
+        }
+
+        /*@@media print {*/
+            /* Hide the table of contents footer when printing */
+            /*.page-number {
+                display: none;
+            }
+        }*/
+    </style>
 </head>
 <body>
     <div class="container">
