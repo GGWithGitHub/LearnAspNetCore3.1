@@ -66,6 +66,13 @@ namespace Learn_core_mvc.Controllers
             return View(submitFormPartialVM);
         }
 
+        public IActionResult MyParialForm()
+        {
+            return PartialView("_SubmitFormPV", new SubmitFormPVVM());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult MyParialForm(SubmitFormPVVM submitFormPVVM)
         {
             if (ModelState.IsValid)

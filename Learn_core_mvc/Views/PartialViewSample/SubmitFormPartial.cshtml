@@ -15,12 +15,12 @@
 
 
 @section Scripts{
-    <!-- For Client-Side Validation -->
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    
     <script>
         function partialFormSubmit() {
+            //var form = $('#myForm');
             var formData = $("#myForm").serialize();
+            //var token = $('input[name="__RequestVerificationToken"]', form).val();
 
             $.ajax({
                 url: "@Url.Action("MyParialForm", "PartialViewSample")",
@@ -28,8 +28,9 @@
                 data: formData,
                 success: function (response) {
                     if (response.success) {
-                        $("#myForm")[0].reset();
+                        //$("#myForm")[0].reset();
                         alert("Form is submitted...");
+                        $("#dvPartial").load(`@Url.Action("MyParialForm", "PartialViewSample")`, function () { });
                     }
                     else {
                         $("#dvPartial").empty().html(response);
