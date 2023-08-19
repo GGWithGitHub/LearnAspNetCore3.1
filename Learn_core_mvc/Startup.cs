@@ -73,7 +73,8 @@ namespace Learn_core_mvc
             .AddDefaultTokenProviders();
 
             // If unauthenticated user, access authorize resource then 
-            services.ConfigureApplicationCookie(config=> {
+            services.ConfigureApplicationCookie(config =>
+            {
                 config.LoginPath = "/IdentityEx/Login";
             });
 
