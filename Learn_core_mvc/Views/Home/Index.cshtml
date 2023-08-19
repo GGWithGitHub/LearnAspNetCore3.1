@@ -22,7 +22,8 @@
     <a href="#" onclick="GoTo('BOTTOM')">Go to bottom</a>
 </div>
 
-<br/><br />
+<br />
+<br />
 
 <div class="complete">
     <h4>Form Validation(Custom, Remote) Example</h4>
@@ -316,20 +317,28 @@
     <a asp-controller="PartialViewSample" asp-action="SubmitFormPartial">Submit Form Of Partial View Example</a>
 </div>
 
-<br/>
+<hr />
+
+<div class="complete">
+    <h3>Logging To File Using NLOG Example</h3>
+    <a asp-controller="Logging" asp-action="Index">Logging To File Using NLOG Example</a>
+</div>
+
+<br />
 <div class="float-right">
     <a href="#" onclick="GoTo('TOP')">Go to top</a>
 </div>
-<br /><br />
+<br />
+<br />
 
 @section Scripts{
     <script>
         function GoTo(flag) {
-            if (flag=="TOP") {
+            if (flag == "TOP") {
                 // Scroll to the top of the page
                 $("html, body").animate({ scrollTop: 0 }, "slow");
             }
-            else if (flag=="BOTTOM") {
+            else if (flag == "BOTTOM") {
                 // Get the height of the entire page
                 var totalHeight = $(document).height();
 
