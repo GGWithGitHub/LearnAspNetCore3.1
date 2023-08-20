@@ -1,0 +1,43 @@
+﻿@model SessionVM
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+}
+
+@if (HttpContextAccessor.HttpContext.Session.GetString("UserName") != null)
+{
+    <button class="btn btn-primary" onclick="window.location.href = `@Url.Action("Logout","Session")`">Sign out</button>
+    <br />
+}
+
+<a href="/Session/Home">Go to home page</a>
+<br />
+<a href="/Session/Dashboard">Go to dashboard page</a>
+<br />
+
+@if (HttpContextAccessor.HttpContext.Session.GetString("UserName") == null)
+{
+    <p> Do login with following credentials : email=user@gmail.com, password=111111 </p>
+
+    <form asp-controller="Session" asp-action="Index" method="post">
+        <label>User Email</label>
+        <input asp-for="@Model.SessionLoginModel.UserEmail" />
+        <span class="text-danger" asp-validation-for="@Model.SessionLoginModel.UserEmail"></span>
+        <br />
+
+        <label>User Password</label>
+        <input asp-for="@Model.SessionLoginModel.UserPassword" />
+        <span class="text-danger" asp-validation-for="@Model.SessionLoginModel.UserPassword"></span>
+        <br />
+
+        <button type="submit">Sign in</button>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    </form>
+}
+
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

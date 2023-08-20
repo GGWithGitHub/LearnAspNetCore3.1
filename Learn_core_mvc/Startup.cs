@@ -83,6 +83,8 @@ namespace Learn_core_mvc
 
             services.AddScoped<ActionEncodeFilter>();
 
+            services.AddScoped<SessionAuthorizationFilter>();
+
             //services.AddScoped<ISampleSqlRepository<Employee>, SampleSqlRepository<Employee>>((ctx) =>
             //{
             //    return new SampleSqlRepository<Employee>(
