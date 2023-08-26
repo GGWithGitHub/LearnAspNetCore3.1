@@ -1,9 +1,18 @@
 ﻿@model OfficeJsJqVM
+@using Newtonsoft.Json
 
 @{
+    var dataObject = Html.Raw(JsonConvert.SerializeObject(Model));
+    var empList = Html.Raw(JsonConvert.SerializeObject(Model.Employees));
 }
 
 <button class="btn btn-primary" onclick="onSubmit()">Submit</button>
+<br />
+<br />
+<button class="btn btn-primary" onclick="onSubmit2()">Get list of object from controller and submit</button>
+<br />
+<br />
+<button class="btn btn-primary" onclick="onSubmit3()">Create dynamic list of object and pass to controller</button>
 
 @section Scripts{
     <script>
@@ -26,6 +35,57 @@
                     "Name": "IT",
                 }
             }
+
+            $.ajax({
+                url: "@Url.Action("PostListObject","JavascriptJquery")",
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    alert('Success.');
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+
+        function onSubmit2() {
+            var data = @dataObject;
+
+            $.ajax({
+                url: "@Url.Action("PostListObject","JavascriptJquery")",
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    alert('Success.');
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+
+        function onSubmit3() {
+            var empArray = [];
+            var empModelList = [];
+            empModelList = @empList;
+
+            empModelList.forEach((item, index) => {
+                var empObj = {};
+                empObj["Id"] = item.Id;
+                empObj["Name"] = item.Name;
+                empObj["Email"] = item.Email;
+                empArray.push(empObj);
+            });
+
+            var deptObj = {
+                "Id": 100,
+                "Name": "IT",
+            };
+
+            var data = { Employees: empArray, Department: deptObj };
 
             $.ajax({
                 url: "@Url.Action("PostListObject","JavascriptJquery")",

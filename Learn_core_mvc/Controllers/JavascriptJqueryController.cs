@@ -36,6 +36,16 @@ namespace Learn_core_mvc.Controllers
         public IActionResult PostListObject()
         {
             OfficeJsJqVM officeJsJqVM = new OfficeJsJqVM();
+
+            officeJsJqVM.Employees.Add(new EmployeeJsJqModel { Id=1, Name= "Gaurav", Email= "gaurv@gmail.com" });
+            officeJsJqVM.Employees.Add(new EmployeeJsJqModel { Id=2, Name= "Aurav", Email= "aaurv@gmail.com" });
+            officeJsJqVM.Employees.Add(new EmployeeJsJqModel { Id=3, Name= "Daurav", Email= "daurv@gmail.com" });
+            officeJsJqVM.Department = new DepartmentJsJqModel()
+            {
+                Id = 100,
+                Name = "IT"
+            };
+
             return View(officeJsJqVM);
         }
 
