@@ -1,0 +1,38 @@
+﻿
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="myForm" asp-controller="ImportFile" asp-action="PostCSV" method="post" enctype="multipart/form-data">
+            <input type="file" name="postedFile" class="form-control-file" />
+            <span id="fileError" class="text-danger"></span>
+            <input type="submit" value="Import" class="btn btn-primary mt-3" />
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $('#myForm').submit(function (event) {
+            event.preventDefault();
+
+            //var formData = new FormData($("#myForm")[0]);
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                url: $(this).attr('action'), 
+                type: $(this).attr('method'), 
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert("Success");
+                },
+                error: function () {
+                    alert('An error occurred.'); 
+                }
+            });
+        });
+    </script>
+}
