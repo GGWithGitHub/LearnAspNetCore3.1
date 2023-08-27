@@ -84,14 +84,14 @@ namespace Learn_core_mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(EmployeeForEFCoreDbFirst emp)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 bool isDeleted = await _eFCoreDBFirstService.DeleteEmployee(emp.EmpId);
                 if (isDeleted)
                 {
                     return RedirectToAction("GetEmployees");
                 }
-            }
+            //}
             return View(emp);
         }
     }

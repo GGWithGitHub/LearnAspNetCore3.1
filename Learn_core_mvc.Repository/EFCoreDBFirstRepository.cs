@@ -71,19 +71,21 @@ namespace Learn_core_mvc.Repository
             bool isSuccessful = false;
             using (var dbContext = new MyDBDbContext())
             {
-                TblEmployee employee = new TblEmployee();
-                employee.EmpAddress = emp.EmpAddress;
-                employee.EmpCity = emp.EmpCity;
-                employee.EmpCountry = emp.EmpCountry;
-                employee.EmpEmail = emp.EmpEmail;
-                employee.EmpName = emp.EmpName;
-                employee.EmpPhone = emp.EmpPhone;
-                employee.EmpState = emp.EmpState;
+                var employee = await dbContext.TblEmployee.Where(x => x.EmpId == emp.EmpId).FirstOrDefaultAsync();
+                if (employee != null)
+                {
+                    employee.EmpAddress = emp.EmpAddress;
+                    employee.EmpCity = emp.EmpCity;
+                    employee.EmpCountry = emp.EmpCountry;
+                    employee.EmpEmail = emp.EmpEmail;
+                    employee.EmpName = emp.EmpName;
+                    employee.EmpPhone = emp.EmpPhone;
+                    employee.EmpState = emp.EmpState;
 
-                dbContext.TblEmployee.Update(employee);
-                //dbContext.Entry(emp).State = EntityState.Modified;
-                await dbContext.SaveChangesAsync();
-                isSuccessful = true;
+                    await dbContext.SaveChangesAsync();
+
+                    isSuccessful = true;
+                }
             }
             return isSuccessful;
         }
