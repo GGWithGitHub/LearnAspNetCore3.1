@@ -50,6 +50,11 @@ namespace Learn_core_mvc
                 options.AccessDeniedPath = "/Home/AccessDenied";
             });
 
+            //For Unit of work
+            services.AddDbContext<MyDBDbContext>(options => {
+                options.UseSqlServer(this.Configuration.GetConnectionString("MyConnectionString"));
+            });
+
             // For Identity
             services.AddDbContext<AppDbContext>(options => {
                 options.UseSqlServer(this.Configuration.GetConnectionString("MyConnectionString"));
@@ -107,8 +112,14 @@ namespace Learn_core_mvc
             });
             services.AddScoped<IEFCoreDBFirstRepository, EFCoreDBFirstRepository>();
 
+            services.AddScoped<IUnitOfWork, UnitOfWork>(); //For Unit of work
+            services.AddScoped<IEFCoreDBFirstUowRepository, EFCoreDBFirstUowRepository>(); //For Unit of work
+
             services.AddScoped<ISampleService, SampleService>();
+
             services.AddScoped<IEFCoreDBFirstService, EFCoreDBFirstService>();
+
+            services.AddScoped<IEFCoreDBFirstRepoUowService, EFCoreDBFirstRepoUowService>(); //For Unit of work
 
             services.AddScoped<IEmailService, EmailService>();
 

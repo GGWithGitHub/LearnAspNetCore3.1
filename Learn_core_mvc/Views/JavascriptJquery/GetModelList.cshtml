@@ -1,0 +1,71 @@
+﻿@model StudentJsJqVM
+
+@using Newtonsoft.Json
+
+@{
+    var stModelList = Html.Raw(JsonConvert.SerializeObject(Model.Students));
+}
+
+@section Styles{ 
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+    </style>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-primary" onclick="btnClick()">Click on me to fill the table</button>
+    </div>
+    <div class="col-md-12">
+        <div>
+            <table id="tblStudents">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function btnClick() {
+            var table = $("#tblStudents tbody");
+            var stModelListArray = [];
+            stModelListArray = @stModelList;
+
+            stModelListArray.forEach((item, index) => {
+                var tr = `<tr>
+                            <td>${item.Name}</td>
+                            <td>${item.Email}</td>
+                            <td>${item.Phone}</td>
+                            </tr>`;
+                table.append(tr);
+            });
+        }
+    </script>
+}
+
+

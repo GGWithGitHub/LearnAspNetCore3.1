@@ -143,6 +143,17 @@ namespace Learn_core_mvc.Controllers
             linqInnerJoinVM.BookProperty = bookList;
             linqInnerJoinVM.OrderProperty = bookOrders;
 
+            //Using Method Syntax
+            linqInnerJoinVM.BookOrderProperty = bookList.Join(bookOrders,
+                bken => bken.BookID, bkOen => bkOen.BookID,
+                (bken, bkOen) => new { bken, bkOen })
+                .Select(sel => new LinqBookOrder {
+                    BookID = sel.bken.BookID,
+                    BookNm = sel.bken.BookNm,
+                    PaymentMode = sel.bkOen.PaymentMode
+                }).ToList();
+
+            //Using Query Syntax
             linqInnerJoinVM.BookOrderProperty = (from bk in bookList
                                 join ordr in bookOrders
                                 on bk.BookID equals ordr.BookID
@@ -189,6 +200,19 @@ namespace Learn_core_mvc.Controllers
             linqLeftJoinVM.BookProperty = bookList;
             linqLeftJoinVM.OrderProperty = bookOrders;
 
+            //Using Method Syntax
+            linqLeftJoinVM.BookOrderProperty = bookList.GroupJoin(bookOrders,
+                bken => bken.BookID, bkOen => bkOen.BookID,
+                (bken, bkOen) => new { bken, bkOen })
+                .SelectMany(sel => sel.bkOen.DefaultIfEmpty(new LinqOrder()),
+                (selbken, selbkOen) => new LinqBookOrder
+                {
+                    BookID = selbken.bken.BookID,
+                    BookNm = selbken.bken.BookNm,
+                    PaymentMode = selbkOen.PaymentMode
+                }).ToList();
+
+            //Using Query Syntax
             linqLeftJoinVM.BookOrderProperty = (from bk in bookList
                                                  join ordr in bookOrders
                                                  on bk.BookID equals ordr.BookID

@@ -127,5 +127,13 @@ namespace Learn_core_mvc.Controllers
             SearchDrpDwnModel searchDrpDwnModel = new SearchDrpDwnModel();
             return View(searchDrpDwnModel);
         }
+
+        public IActionResult GetModelList()
+        {
+            StudentJsJqVM studentJsJqVM = new StudentJsJqVM() { Students = new List<StudentJsJqModel>() };
+            studentJsJqVM.Students.Add(new StudentJsJqModel() { Id = 1,Name = "Golu",Email = "golu@gmail.com",Phone = "9854785698"});
+            studentJsJqVM.Students.Add(new StudentJsJqModel(){Id = 2,Name = "Molu",Email = "molu@gmail.com",Phone = "8854785698"});
+            return View(studentJsJqVM);
+        }
     }
 }

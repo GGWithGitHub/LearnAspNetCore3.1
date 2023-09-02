@@ -37,4 +37,9 @@ namespace Learn_core_mvc.ViewModels
             return gameList;
         }
     }
+
+    public class StudentJsJqVM
+    {
+        public List<StudentJsJqModel> Students { get; set; }
+    }
 }

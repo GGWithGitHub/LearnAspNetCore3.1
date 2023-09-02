@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Learn_core_mvc.Core.Models.EmpDbFirstRepoUowModel>
+
+@{
+    ViewData["Title"] = "GetEmployeesUow";
+}
+
+<p>
+    <a asp-action="CreateEmployee">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.EmpId)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.EmpName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpCountry)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.EmpId)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpPhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpCity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpState)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpCountry)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "UpdateEmployeeUow", new { empId = item.EmpId }) |
+                    @Html.ActionLink("Details", "GetEmployeeDetailUow", new { empId = item.EmpId }) |
+                    @Html.ActionLink("Delete", "DeleteEmployeeUow", new { empId = item.EmpId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
