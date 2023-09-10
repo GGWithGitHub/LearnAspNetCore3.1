@@ -1,4 +1,5 @@
-﻿using Learn_core_mvc.Repository.EFDBFirstRepo.Models;
+﻿using Learn_core_mvc.Core.Models;
+using Learn_core_mvc.Repository.EFDBFirstRepo.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,5 +14,11 @@ namespace Learn_core_mvc.Repository
         Task<bool> DeleteEmployee(int empId);
         Task<bool> CreateEmployee(TblEmployee emp);
         Task<bool> UpdateEmployee(TblEmployee emp);
+
+        Task<List<EmpSpDbFirstRepoUowModel>> GetEmployeesSP();
+        Task<EmpSpDbFirstRepoUowModel> GetEmployeeByIdSP(int empId);
+        Task<bool> CreateEmployeeSp(EmpSpDbFirstRepoUowModel emp);
+        Task<bool> UpdateEmployeeSp(EmpSpDbFirstRepoUowModel emp);
+        Task<bool> DeleteEmployeeByIdSp(int empId);
     }
 }

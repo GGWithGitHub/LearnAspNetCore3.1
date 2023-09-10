@@ -1,0 +1,20 @@
+﻿
+@{
+}
+
+<h5>To CRUD by EntityFrameworkCore DB First Approach, First install below packages:</h5>
+<h5>Microsoft.EntityFrameworkCore</h5>
+<h5>Microsoft.EntityFrameworkCore.SqlServer</h5>
+<h5>Microsoft.EntityFrameworkCore.Tools</h5>
+
+<br />
+<h5>Put below command in "Package Manage Console" to generate DbContext class and entity classes:</h5>
+<p>Scaffold-DbContext "Server=DESKTOP-F92A9QM\SQLEXPRESS;Database=MyDB;Trusted_Connection=True;" Microsoft.EntityFrameWorkCore.SqlServer -outputdir EFDBFirstRepo/Models -context MyDBDbContext -contextdir EFDBFirstRepo -DataAnnotations -Force</p>
+<p>OR</p>
+<p>Scaffold-DbContext "Server=DESKTOP-F92A9QM\SQLEXPRESS;Database=MyDB;Trusted_Connection=True;" Microsoft.EntityFrameWorkCore.SqlServer -outputdir EFDBFirstRepo/Models -context MyDBDbContext -contextdir EFDBFirstRepo -force</p>
+
+<br />
+<h5>I have also installed "AutoMapper" package for automapper</h5>
+
+<br />
+<a asp-controller="EFCoreDbFirst" asp-action="GetEmployeesSpUow">Click here to do CRUD</a>

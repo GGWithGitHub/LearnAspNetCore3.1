@@ -59,5 +59,37 @@ namespace Learn_core_mvc.Service
             _unitOfWork.Save();
             return res;
         }
+
+        // -------------------------------------------------------------------------------------------------------------- //
+
+        public async Task<List<EmpSpDbFirstRepoUowModel>> GetEmployeesSP()
+        {
+            var employeesData = await _eFCoreDBFirstUowRepository.GetEmployeesSP();
+            return employeesData;
+        }
+
+        public async Task<EmpSpDbFirstRepoUowModel> GetEmployeeSP(int empId)
+        {
+            var employeeData = await _eFCoreDBFirstUowRepository.GetEmployeeByIdSP(empId);
+            return employeeData;
+        }
+
+        public async Task<bool> DeleteEmployeeSP(int empId)
+        {
+            var res = await _eFCoreDBFirstUowRepository.DeleteEmployeeByIdSp(empId);
+            return res;
+        }
+
+        public async Task<bool> CreateEmployeeSP(EmpSpDbFirstRepoUowModel emp)
+        {
+            var res = await _eFCoreDBFirstUowRepository.CreateEmployeeSp(emp);
+            return res;
+        }
+
+        public async Task<bool> UpdateEmployeeSP(EmpSpDbFirstRepoUowModel emp)
+        {
+            var res = await _eFCoreDBFirstUowRepository.UpdateEmployeeSp(emp);
+            return res;
+        }
     }
 }

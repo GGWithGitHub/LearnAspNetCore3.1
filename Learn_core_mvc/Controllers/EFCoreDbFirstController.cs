@@ -18,6 +18,7 @@ namespace Learn_core_mvc.Controllers
             _eFCoreDBFirstService = eFCoreDBFirstService;
             _eFCoreDBFirstRepoUowService = eFCoreDBFirstRepoUowService;
         }
+        #region CRUD EF Core With DB First Approach And Repository Pattern
         public async Task<IActionResult> Index()
         {
             return View();
@@ -97,7 +98,9 @@ namespace Learn_core_mvc.Controllers
             //}
             return View(emp);
         }
+        #endregion
 
+        #region CRUD Using EF Core With DB First Approach And Repository And Unit Of Work Pattern
         public async Task<IActionResult> CrudRepoUow()
         {
             return View();
@@ -177,5 +180,88 @@ namespace Learn_core_mvc.Controllers
             //}
             return View(emp);
         }
+        #endregion
+
+        #region CRUD Using SP In EF Core With DB First Approach And Repository And Unit Of Work Pattern
+        public async Task<IActionResult> CrudSpRepoUow()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> GetEmployeesSpUow()
+        {
+            List<EmpSpDbFirstRepoUowModel> lst_employee = await _eFCoreDBFirstRepoUowService.GetEmployeesSP();
+            return View(lst_employee);
+        }
+
+        public async Task<IActionResult> GetEmployeeDetailSpUow(int empId)
+        {
+            EmpSpDbFirstRepoUowModel emp = await _eFCoreDBFirstRepoUowService.GetEmployeeSP(empId);
+            return View(emp);
+        }
+
+        public async Task<IActionResult> CreateEmployeeSpUow()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateEmployeeSpUow(EmpSpDbFirstRepoUowModel emp)
+        {
+            if (ModelState.IsValid)
+            {
+                bool isCreated = await _eFCoreDBFirstRepoUowService.CreateEmployeeSP(emp);
+                if (isCreated)
+                {
+                    return RedirectToAction("GetEmployeesSpUow");
+                }
+            }
+
+            return View();
+        }
+
+        public async Task<IActionResult> UpdateEmployeeSpUow(int empId)
+        {
+            EmpSpDbFirstRepoUowModel emp = await _eFCoreDBFirstRepoUowService.GetEmployeeSP(empId);
+            return View(emp);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateEmployeeSpUow(EmpSpDbFirstRepoUowModel emp)
+        {
+            if (ModelState.IsValid)
+            {
+                bool isUpdated = await _eFCoreDBFirstRepoUowService.UpdateEmployeeSP(emp);
+                if (isUpdated)
+                {
+                    return RedirectToAction("GetEmployeesSpUow");
+                }
+            }
+            return View(emp);
+        }
+
+        public async Task<IActionResult> DeleteEmployeeSpUow(int empId)
+        {
+            EmpSpDbFirstRepoUowModel emp = await _eFCoreDBFirstRepoUowService.GetEmployeeSP(empId);
+            return View(emp);
+        }
+
+        [HttpPost, ActionName("DeleteEmployeeSpUow")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmedSpUow(EmpSpDbFirstRepoUowModel emp)
+        {
+            //if (ModelState.IsValid)
+            //{
+            bool isDeleted = await _eFCoreDBFirstRepoUowService.DeleteEmployeeSP(emp.EmpId);
+            if (isDeleted)
+            {
+                return RedirectToAction("GetEmployeesSpUow");
+            }
+            //}
+            return View(emp);
+        }
+        #endregion
     }
 }

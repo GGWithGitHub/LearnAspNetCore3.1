@@ -13,5 +13,11 @@ namespace Learn_core_mvc.Service
         Task<bool> DeleteEmployee(int empId);
         Task<bool> CreateEmployee(EmpDbFirstRepoUowModel emp);
         Task<bool> UpdateEmployee(EmpDbFirstRepoUowModel emp);
+
+        Task<List<EmpSpDbFirstRepoUowModel>> GetEmployeesSP();
+        Task<EmpSpDbFirstRepoUowModel> GetEmployeeSP(int empId);
+        Task<bool> DeleteEmployeeSP(int empId);
+        Task<bool> CreateEmployeeSP(EmpSpDbFirstRepoUowModel emp);
+        Task<bool> UpdateEmployeeSP(EmpSpDbFirstRepoUowModel emp);
     }
 }

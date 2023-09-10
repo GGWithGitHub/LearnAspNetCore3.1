@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Learn_core_mvc.Core.Models
 {
-    public class EmpDbFirstRepoUowModel
+    public class EmpSpDbFirstRepoUowModel
     {
         public int EmpId { get; set; }
 
@@ -30,7 +30,5 @@ namespace Learn_core_mvc.Core.Models
 
         [Display(Name = "Country")]
         public string EmpCountry { get; set; }
-
-        public int MyProperty { get; set; }
     }
 }
