@@ -2,48 +2,391 @@
 @{
 }
 
-<h2>Validation of a form</h2>
-<form id="form" method="post" action="">
-    First name:<br>
-    <input type="text" name="firstname">
-    <br>
-    Last name:<br>
-    <input type="text" name="lastname">
-    <br>
-    Email:<br>
-    <input type="email" name="u_email">
-    <br>
-    <br>
-    <input type="submit" value="Submit" id="btnSubmit">
-</form>
+@section Styles{ 
+    <style type="text/css">
+        #myForm .form-group label.error {
+            color: #FB3A3A;
+            display: inline-block;
+            margin: 0px 0 0px 0px;
+            padding: 0;
+            text-align: left;
+        }
+    </style>
+}
+
+<div class="card">
+    <div class="card-header bg-primary text-white text-uppercase">
+        <h4>Form Validation</h4>
+    </div>
+    <div class="card-body">
+        <form name="myForm" class="form-horizontal" id="myForm" action="#" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <div>
+                            <input type="text" class="form-control" name="name" placeholder="Enter Name" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="Mobile">Mobile</label>
+                        <div>
+                            <input type="text" class="form-control" name="phone" placeholder="Enter Mobile Number" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="email">Email </label>
+                        <div>
+                            <input type="text" class="form-control" name="email" placeholder="Enter  Email">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="code">Code(Exact 11 digit) </label>
+                        <div>
+                            <input type="text" class="form-control" name="code" placeholder="Enter code">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="code">Min Length </label>
+                        <div>
+                            <input type="text" class="form-control" name="min_length" placeholder="Enter min length">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="code">Number </label>
+                        <div>
+                            <input type="text" class="form-control" name="number" placeholder="Enter Only digits">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="url">Website </label>
+                        <div>
+                            <input type="text" class="form-control" name="url" placeholder="Enter Url">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="url">Upload video </label>
+                        <div>
+                            <input type="file" class="form-control" name="videoUploader" id="videoUploader">
+                            <video controls id="vid" style="display:none"></video>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="url">Password </label>
+                        <div>
+                            <input type="password" id="pw" class="form-control" name="password" placeholder="Enter Password">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="url">Confirm password </label>
+                        <div>
+                            <input type="password" class="form-control" name="confirm_password" placeholder="Enter Confirm Password">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="hobby">Please Select Hobby </label>
+                        <div>
+                            <input type="checkbox" name="hobby">Cricket
+                            <input type="checkbox" name="hobby">Kabbadi
+                            <input type="checkbox" name="hobby">Football
+                            <input type="checkbox" name="hobby">Balliball
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="gender">Please Select Gender </label>
+                        <div>
+                            <input type="radio" name="gender">Male
+                            <input type="radio" name="gender">Female
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="city">Please Select City </label>
+                        <div>
+                            <select class="form-control" name="city" id="city">
+                                <option value="">Select One...</option>
+                                <option value="indore">Indore</option>
+                                <option value="bhopal">Bhopal</option>
+                                <option value="dewas">Dewas</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Select DOB</label>
+                        <div>
+                            <input class="form-control" type="date" name="dob" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Select Start date</label>
+                        <div>
+                            <input class="form-control" type="date" name="startDate" id="stDate" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Select End date</label>
+                        <div>
+                            <input class="form-control" type="date" name="endDate" id="eDate" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Select Image</label>
+                        <div>
+                            <input class="form-control" type="file" name="imgUploader" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" id="btnSubmit" value="Submit" />
+            </div>
+        </form>
+    </div>
+</div>
 
 @section Scripts{
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
 
     <script>
-        $(document).ready(function () {
-            $("#form").validate({
-                rules: {
-                    firstname: 'required',
-                    lastname: 'required',
-                    u_email: {
-                        required: true,
-                        email: true,
-                        maxlength: 255,
-                    }
+        
+        $.validator.addMethod("imgFileSize", function (value, element, param) {
+            return this.optional(element) || (element.files[0].size <= param)
+        });
+        $.validator.addMethod("videoFileSize", function (value, element, param) {
+            return this.optional(element) || (element.files[0].size <= param)
+        });
+        $.validator.addMethod("videoFileDuration", function (value, element, param) {
+            var seconds = $("#vid")[0].duration;
+            if (seconds < param)
+                return true;
+            else
+                return false;
+        });
+        $.validator.addMethod("regex", function (value, element, param) {
+            var re = new RegExp(param);
+            return this.optional(element) || re.test(value);
+        });
+        $.validator.addMethod("birth", function (value, element) {
+            var dob = value.split('-');
+            if (parseInt(dob[0]) <= new Date().getFullYear()
+                && parseInt(dob[1]) <= new Date().getMonth() + 1
+                && parseInt(dob[2]) <= new Date().getDate())
+                return true;
+            else
+                return false;
+        });
+        $.validator.addMethod("greaterThan", function (value, element, params) {
+            if (!/Invalid|NaN/.test(new Date(value))) {
+                return new Date(value) > new Date($(params).val());
+            }
+            return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
+        });
+        $("#videoUploader").change(function (e) {
+            var file = e.currentTarget.files[0];
+            var objectUrl = URL.createObjectURL(file);
+            $("#vid").prop("src", objectUrl);
+        });
+        $("#myForm").validate({
+            rules: {
+                name: "required",
+                url: {
+                    required: true,
+                    url: true
                 },
-                messages: {
-                    firstname: 'First name is required',
-                    lastname: 'Last name is required',
-                    u_email: 'Enter a valid email',
+                phone: {
+                    required: true,
+                    //pattern: "^[7-9]{1}[0-9]{9}$/"
+                    rangelength: [10, 10],
+                    digits: true,
                 },
-                submitHandler: function (form) {
-                    form.submit();
+                email: {
+                    required: true,
+                    email: true
+                },
+                code: {
+                    required: true,
+                    rangelength: [11, 11]
+                },
+                min_length: {
+                    required: true,
+                    minlength: 3
+                },
+                number: {
+                    digits: true,
+                    required: true
+                },
+                videoUploader: {
+                    required: true,
+                    extension: 'ogg|mp4|avi',
+                    videoFileSize: 10253326,
+                    videoFileDuration: 60
+                },
+                password: {
+                    required: true,
+                    regex: "^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@@#$%^&+=]).*$"
+                },
+                confirm_password: {
+                    required: true,
+                    equalTo: "#pw"
+                },
+                hobby: {
+                    required: true,
+                    minlength: 2
+                },
+                gender: {
+                    required: true
+                },
+                city: {
+                    required: true
+                },
+                dob: {
+                    required: true,
+                    birth: true
+                },
+                startDate: {
+                    required: true
+                },
+                endDate: {
+                    required: true,
+                    greaterThan: "#stDate"
+                },
+                imgUploader: {
+                    required: true,
+                    extension: 'jpg|png',
+                    imgFileSize: 10000,
                 }
-            });
+            },
+            messages: {
+                name: "Please Enter Name",
+                url: {
+                    required: "Please enter URL",
+                    url: "Please Enter Website Url"
+                },
+                phone: {
+                    required: "Please Enter Phone",
+                    //pattern: "Please Enter Valid Phone Number"
+                    rangelength: "Phone number must be 10 digits",
+                    digits: "Phone number must be 10 digits"
+                },
+                email: {
+                    required: "Please Enter Email",
+                    email: "Please Enter Valid Email"
+                },
+                code: {
+                    required: "Please Enter Code",
+                    rangelength: "Please Enter 11 Digit code"
+                },
+                min_length: {
+                    required: "Please Enter min_length",
+                    minlength: "Please Enter Minimum 3 Digit"
+                },
+                number: {
+                    digits: "Please Enter only digits",
+                    required: "Please Enter number"
+                },
+                videoUploader: {
+                    required: "Please choose file",
+                    extension: 'Please choose ogg|mp4|avi file',
+                    videoFileSize: "Please upload less than 10 mb file",
+                    videoFileDuration: "Video length/duration must be less than 1 min"
+                },
+                password: {
+                    required: "Please provide a password",
+                    regex: "Password must have 6 character and one uppercase, one lowercase, one digit and one special character"
+                },
+                confirm_password: {
+                    required: "Please provide a password",
+                    minlength: "Your password must be at least 6 characters long",
+                    equalTo: "Please enter the same password as above"
+                },
+                hobby: {
+                    required: "Please select hobby",
+                    minlength: "Please select 2 hobby"
+                },
+                gender: {
+                    required: "Please select gender"
+                },
+                city: {
+                    required: "Please select a city"
+                },
+                dob: {
+                    required: "Please select DOB",
+                    birth: "Please select correct DOB"
+                },
+                startDate: {
+                    required: "Please select start date"
+                },
+                endDate: {
+                    required: "Please select end date",
+                    greaterThan: "Must be greater than start date."
+                },
+                imgUploader: {
+                    required: "Please select image",
+                    extension: "Please choose jpg or png file",
+                    imgFileSize: "Please upload less than 10 kb image"
+                }
+            },
+            errorPlacement: function (error, element) {
+                if (element[0].type == 'checkbox') {
+                    error.appendTo(element.parent());
+                }
+                else if (element.is(":radio")) {
+                    error.appendTo(element.parent());
+                }
+                else {
+                    error.insertAfter(element);
+                }
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
 
+        $(document).ready(function () {
             $("#btnSubmit").click(function () {
-                if ($("#form").valid()) {
+                if ($("#myForm").valid()) {
                     alert("Form Submitted Successfully...");
                 }
                 else {
