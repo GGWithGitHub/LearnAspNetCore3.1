@@ -1,0 +1,27 @@
+﻿@model ImageModel
+
+@{
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Upload" asp-action="CreateImage" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" accept="image/*" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (ViewBag.ImagePath != null) { 
+    <div class="row">
+        <div class="col-md-12">
+            <img src="@ViewBag.ImagePath" width="300" height="300" />
+        </div>
+    </div>
+}
