@@ -35,4 +35,24 @@ namespace Learn_core_mvc.Core.Models
             }
         }
     }
+
+    public class ServerSideDataTableRequest
+    {
+        public int Draw { get; set; }
+        public int Start { get; set; }
+        public int Length { get; set; }
+        public List<ColumnOrder> Order { get; set; }
+        public DataSearch Search { get; set; }
+
+        public class ColumnOrder
+        {
+            public int Column { get; set; }
+            public string Dir { get; set; }
+        }
+
+        public class DataSearch
+        {
+            public string Value { get; set; }
+        }
+    }
 }

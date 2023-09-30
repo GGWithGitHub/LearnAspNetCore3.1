@@ -1,0 +1,54 @@
+﻿
+@{
+}
+
+@section Styles{ 
+    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
+}
+
+<table id="dataTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Salary</th>
+            <th>Joining Date</th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                "serverSide": true,
+                "ajax": {
+                    "url": "/DataTable/GetServerSideDTData",
+                    "type": "POST",
+                    //"datatype": "json",
+                    //"contentType": "application/json",
+                    "data": function (d) {
+                        debugger
+                        d.draw = d.draw || 1;
+                        d.start = d.start || 0;
+                        d.length = d.length || 10;
+                        d.order = d.order || [{ column: 0, dir: 'asc' }];
+                        d.search = d.search || { value: '' };
+                        return d;//JSON.stringify(d);
+                    }
+                },
+                "pageLength": 5,
+                "columns": [
+                    { "data": "empName" }, // Map to your data properties
+                    { "data": "empEmail" },
+                    { "data": "empAddress" },
+                    { "data": "empSalary" },
+                    { "data": "empJoinDate" }
+                ]
+            });
+        });
+    </script>
+}
+
