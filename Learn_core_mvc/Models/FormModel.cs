@@ -42,4 +42,9 @@ namespace Learn_core_mvc.Models
         [AtLeastOneCheckboxChecked(ErrorMessage = "Please select at least one option.")]
         public List<ContactPhoneAttribute> ContactPhoneAttributes { get; set; } = new List<ContactPhoneAttribute>();
     }
+
+    public class MultiSelect
+    {
+        public List<string> MultiLanguages { get; set; }
+    }
 }

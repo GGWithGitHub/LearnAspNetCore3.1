@@ -1,0 +1,66 @@
+﻿@model DotInNameModel
+
+@{
+}
+
+<form id="myForm" method="post" asp-controller="Testing" asp-action="Index2">
+    <label>Emp Name</label>
+    <input asp-for="Emp.EmpName" />
+
+    <br /><br />
+
+    <label>Emp Email</label>
+    <input asp-for="Emp.EmpEmail" />
+
+    <br /><br />
+
+    <input type="submit" value="Submit" />
+</form>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
+    <script>
+        $('#myForm').submit(function (event) {
+
+            event.preventDefault(); // Prevent default form submission
+
+            if ($("#myForm").valid() == false) {
+                return;
+            }
+
+            var formData = $(this).serialize(); // Serialize form data
+
+            $.ajax({
+                url: $(this).attr('action'), // Form action URL
+                type: $(this).attr('method'), // Form method (POST in this case)
+                data: formData, // Serialized form data
+                success: function (response) {
+
+                },
+                error: function () {
+                    alert('An error occurred.'); // Handle error scenario
+                }
+            });
+        });
+
+        $("#myForm").validate({
+            rules: {
+                "Emp.EmpName": {
+                    required: true
+                },
+                "Emp.EmpEmail": {
+                    required: true
+                }
+            },
+            messages: {
+                "Emp.EmpName": {
+                    required: "Please Enter Name"
+                },
+                "Emp.EmpEmail": {
+                    required: "Please Enter Email"
+                }
+            }
+        });
+    </script>
+}

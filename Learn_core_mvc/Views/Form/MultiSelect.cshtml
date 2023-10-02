@@ -1,0 +1,51 @@
+﻿@model MultiSelect
+
+@{
+    ViewBag.Languages = new List<SelectListItem>
+    {
+        new SelectListItem{ Text="Hindi", Value="hnL"},
+        new SelectListItem{ Text="English", Value="enL"},
+        new SelectListItem{ Text="Spanish", Value="spnL"},
+        new SelectListItem{ Text="French", Value="frL"},
+    };
+}
+
+@section Styles{ 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/css/bootstrap-multiselect.css" rel="stylesheet" />
+}
+
+<select id="myMultiSelect" class="form-control" multiple>
+    <option value="1">Option 1</option>
+    <option value="2">Option 2</option>
+    <option value="3">Option 3</option>
+    <!-- Add more options as needed -->
+</select>
+
+<form method="post" asp-action="MultiSelect" asp-controller="Form">
+    <div class="form-group">
+        <label class="control-label">Select Language</label>
+        <select asp-for="MultiLanguages" class="form-control" asp-items="ViewBag.Languages">
+            <option value="">Please choose your language</option>
+        </select>
+    </div>
+</form>
+
+<select id="myMultiSelect2" class="form-control" multiple>
+    <option value="1">Option 1</option>
+    <option value="2">Option 2</option>
+    <option value="3">Option 3</option>
+    <!-- Add more options as needed -->
+</select>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/js/bootstrap-multiselect.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myMultiSelect').select2();
+
+            $('#myMultiSelect2').multiselect({
+                includeSelectAllOption: true // Adds a "Select All" option
+            });
+        });
+    </script>
+}

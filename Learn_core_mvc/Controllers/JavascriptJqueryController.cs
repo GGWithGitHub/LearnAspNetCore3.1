@@ -135,5 +135,17 @@ namespace Learn_core_mvc.Controllers
             studentJsJqVM.Students.Add(new StudentJsJqModel(){Id = 2,Name = "Molu",Email = "molu@gmail.com",Phone = "8854785698"});
             return View(studentJsJqVM);
         }
+
+        public IActionResult DotInName()
+        {
+            DotInNameModel model = new DotInNameModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult DotInName(DotInNameModel model)
+        {
+            return View(model);
+        }
     }
 }

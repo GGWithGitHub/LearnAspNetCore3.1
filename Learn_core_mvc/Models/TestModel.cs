@@ -13,4 +13,8 @@ namespace Learn_core_mvc.Models
         public string Phone { get; set; }
         public bool IsValid { get; set; }
     }
+
+    
+
+    
 }

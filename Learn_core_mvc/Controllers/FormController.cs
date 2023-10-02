@@ -331,5 +331,17 @@ namespace Learn_core_mvc.Controllers
                 return View(addEditContact);
             }
         }
+
+        public IActionResult MultiSelect()
+        {
+            MultiSelect model = new MultiSelect();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult MultiSelect(MultiSelect model)
+        {
+            return View(model);
+        }
     }
 }

@@ -55,4 +55,23 @@ namespace Learn_core_mvc.Models
         public string Email { get; set; }
         public string Phone { get; set; }
     }
+
+    public class DotInNameModel
+    {
+        public EmpTestModel Emp { get; set; }
+        public StdTestModel Std { get; set; }
+    }
+
+    public class EmpTestModel
+    {
+        public int EmpId { get; set; }
+        public string EmpName { get; set; }
+        public string EmpEmail { get; set; }
+    }
+    public class StdTestModel
+    {
+        public int StdId { get; set; }
+        public string StdName { get; set; }
+        public string StdEmail { get; set; }
+    }
 }
