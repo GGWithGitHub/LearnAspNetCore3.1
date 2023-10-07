@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Learn_core_mvc.Repository
 {
-    public class EFCoreDBFirstUowRepository: IEFCoreDBFirstUowRepository
+    public class EFCoreDBFirstUowRepository : IEFCoreDBFirstUowRepository
     {
         private readonly MyDBDbContext _dbContext;
         public EFCoreDBFirstUowRepository(MyDBDbContext dbContext)

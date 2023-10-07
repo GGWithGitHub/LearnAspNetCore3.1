@@ -113,6 +113,11 @@ namespace Learn_core_mvc
             services.AddScoped<IEFCoreDBFirstRepository, EFCoreDBFirstRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>(); //For Unit of work
+
+            //If you use UnitOfWork2.cs then you do not need to register other repository classes in Startup.cs
+            //because in UnitOfWork2.cs we are using other repository classes
+            services.AddScoped<IUnitOfWork2, UnitOfWork2>(); //For Unit of work part 2
+
             services.AddScoped<IEFCoreDBFirstUowRepository, EFCoreDBFirstUowRepository>(); //For Unit of work
 
             services.AddScoped<ISampleService, SampleService>();

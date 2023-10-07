@@ -263,5 +263,87 @@ namespace Learn_core_mvc.Controllers
             return View(emp);
         }
         #endregion
+
+        #region CRUD Using EF Core With DB First Approach And Repository And Unit Of Work Pattern Part 2
+        public async Task<IActionResult> CrudRepoUow2()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> GetEmployeesUow2()
+        {
+            List<EmpDbFirstRepoUowModel> lst_employee = await _eFCoreDBFirstRepoUowService.GetEmployees2();
+            return View("GetEmployeesUow", lst_employee);
+        }
+
+        public async Task<IActionResult> GetEmployeeDetailUow2(int empId)
+        {
+            EmpDbFirstRepoUowModel emp = await _eFCoreDBFirstRepoUowService.GetEmployeeById2(empId);
+            return View("GetEmployeeDetailUow",emp);
+        }
+
+        public async Task<IActionResult> CreateEmployeeUow2()
+        {
+            return View("CreateEmployeeUow");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateEmployeeUow2(EmpDbFirstRepoUowModel emp)
+        {
+            if (ModelState.IsValid)
+            {
+                bool isCreated = await _eFCoreDBFirstRepoUowService.CreateEmployee2(emp);
+                if (isCreated)
+                {
+                    return RedirectToAction("GetEmployeesUow2");
+                }
+            }
+
+            return View("CreateEmployeeUow");
+        }
+
+        public async Task<IActionResult> UpdateEmployeeUow2(int empId)
+        {
+            EmpDbFirstRepoUowModel emp = await _eFCoreDBFirstRepoUowService.GetEmployeeById2(empId);
+            return View("UpdateEmployeeUow",emp);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateEmployeeUow2(EmpDbFirstRepoUowModel emp)
+        {
+            if (ModelState.IsValid)
+            {
+                bool isUpdated = await _eFCoreDBFirstRepoUowService.UpdateEmployee2(emp);
+                if (isUpdated)
+                {
+                    return RedirectToAction("GetEmployeesUow2");
+                }
+            }
+            return View("UpdateEmployeeUow", emp);
+        }
+
+        public async Task<IActionResult> DeleteEmployeeUow2(int empId)
+        {
+            EmpDbFirstRepoUowModel emp = await _eFCoreDBFirstRepoUowService.GetEmployeeById2(empId);
+            return View("DeleteEmployeeUow", emp);
+        }
+
+        [HttpPost, ActionName("DeleteEmployeeUow2")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmedUow2(EmpDbFirstRepoUowModel emp)
+        {
+            //if (ModelState.IsValid)
+            //{
+            bool isDeleted = await _eFCoreDBFirstRepoUowService.DeleteEmployee2(emp.EmpId);
+            if (isDeleted)
+            {
+                return RedirectToAction("GetEmployeesUow2");
+            }
+            //}
+            return View("DeleteEmployeeUow", emp);
+        }
+        #endregion
     }
 }
