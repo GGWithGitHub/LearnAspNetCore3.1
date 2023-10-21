@@ -1,0 +1,19 @@
+﻿
+
+@{
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <p>10 / 0</p>
+    </div>
+    <div class="col-md-12">
+        @Html.ActionLink(
+            "Click",
+            "CustomLogErrInFile",
+            "Logging",
+            new { firstValue = 10, secondValue = 0 },
+            new { @class = "btn btn-primary" })
+    </div>
+</div>

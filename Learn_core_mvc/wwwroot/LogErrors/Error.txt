@@ -1,0 +1,11 @@
+
+------------Start-----------
+Message: Attempted to divide by zero. 
+StackTrace:    at Learn_core_mvc.Controllers.LoggingController.CustomLogErrInFile(Int32 firstValue, Int32 secondValue) in F:\Gaurav_essential\ASP.NET CORE\Learn_core_mvc\Learn_core_mvc\Controllers\LoggingController.cs:line 63 
+Time: 10/21/2023 10:30:08 AM
+------------End-----------
+------------Start-----------
+Message: Attempted to divide by zero. 
+StackTrace:    at Learn_core_mvc.Controllers.LoggingController.CustomLogErrInFile(Int32 firstValue, Int32 secondValue) in F:\Gaurav_essential\ASP.NET CORE\Learn_core_mvc\Learn_core_mvc\Controllers\LoggingController.cs:line 63 
+Time: 10/21/2023 10:30:13 AM
+------------End-----------

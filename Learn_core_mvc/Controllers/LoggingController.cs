@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,6 +10,12 @@ namespace Learn_core_mvc.Controllers
 {
     public class LoggingController : Controller
     {
+        private readonly IWebHostEnvironment _hostEnvironment;
+
+        public LoggingController(IWebHostEnvironment hostEnvironment)
+        {
+            _hostEnvironment = hostEnvironment;
+        }
         public IActionResult Index()
         {
             return View();
@@ -41,6 +49,40 @@ namespace Learn_core_mvc.Controllers
                 ViewBag.Msg = $"Error is logged on the following file - {file}";
             }
             return View("Index");
+        }
+
+        public IActionResult LogErrInFile()
+        {
+            return View();
+        }
+
+        public IActionResult CustomLogErrInFile(int firstValue,int secondValue)
+        {
+            try
+            {
+                var res = firstValue / secondValue;
+            }
+            catch (Exception ex)
+            {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = "Error.txt";
+                var dir = Path.Combine(wwwRootPath, "LogErrors");
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+                var filePath = Path.Combine(dir, fileName);
+
+                var errorMessage = ex.InnerException?.Message ?? ex.Message;
+                var stackTrace = ex.StackTrace;
+                var logTime = DateTime.Now;
+                var fullErrMsg = "\n------------Start-----------";
+                fullErrMsg += $"\nMessage: {errorMessage} \nStackTrace: {stackTrace} \nTime: {logTime}";
+                fullErrMsg += "\n------------End-----------";
+
+                System.IO.File.AppendAllText(filePath, fullErrMsg);
+            }
+            return View("LogErrInFile");
         }
     }
 }
