@@ -1,0 +1,29 @@
+﻿@model List<FillModelFromDt>
+
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <p>Records of mapped columns from DataTable to properties of a model class</p>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Id </th>
+                <th>Name </th>
+                <th>Salary</th>
+                <th>JoinDate</th>
+                <th>IsQuit</th>
+            </tr>
+            @foreach (var d in Model)
+            {
+                <tr>
+                    <td>@d.Id</td>
+                    <td>@d.Name</td>
+                    <td>@d.Salary</td>
+                    <td>@d.JoinDate</td>
+                    <td>@d.IsQuit</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
