@@ -56,7 +56,8 @@ namespace Learn_core_mvc
             });
 
             // For Identity
-            services.AddDbContext<AppDbContext>(options => {
+            services.AddDbContext<AppDbContext>(options =>
+            {
                 options.UseSqlServer(this.Configuration.GetConnectionString("MyConnectionString"));
             });
 
@@ -88,7 +89,7 @@ namespace Learn_core_mvc
 
             services.AddScoped<ActionEncodeFilter>();
 
-            services.AddScoped<SessionAuthorizationFilter>();
+            //services.AddScoped<SessionAuthorizationFilter>();
 
             //services.AddScoped<ISampleSqlRepository<Employee>, SampleSqlRepository<Employee>>((ctx) =>
             //{

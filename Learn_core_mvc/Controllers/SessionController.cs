@@ -1,6 +1,7 @@
 ﻿using Learn_core_mvc.Filters;
 using Learn_core_mvc.Models;
 using Learn_core_mvc.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Learn_core_mvc.Controllers
 {
+    [AllowAnonymous]
     public class SessionController : Controller
     {
         public IActionResult Index()
@@ -23,18 +25,25 @@ namespace Learn_core_mvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("Index");
+                return View("Index",model);
             }
 
-            if (model.SessionLoginModel.UserEmail == "user@gmail.com" && model.SessionLoginModel.UserPassword == "111111")
+            if (model.SessionLoginModel.UserEmail == "user@gmail.com" && model.SessionLoginModel.UserPassword == "1234")
             {
                 HttpContext.Session.SetString("UserName", model.SessionLoginModel.UserEmail);
+                HttpContext.Session.SetString("UserRole", "User");
+            }
+            else if (model.SessionLoginModel.UserEmail == "admin@gmail.com" && model.SessionLoginModel.UserPassword == "4567")
+            {
+                HttpContext.Session.SetString("UserName", model.SessionLoginModel.UserEmail);
+                HttpContext.Session.SetString("UserRole", "Admin");
             }
             else
             {
                 ModelState.AddModelError("", "UserName or Password is incorrect");
+                return View("Index", model);
             }
-            return View(model);
+            return RedirectToAction("Dashboard");
         }
 
         public IActionResult Home()
@@ -42,9 +51,14 @@ namespace Learn_core_mvc.Controllers
             return View();
         }
 
-        //[Session]
-        [ServiceFilter(typeof(SessionAuthorizationFilter))]
         public IActionResult Dashboard()
+        {
+            return View();
+        }
+
+        //[ServiceFilter(typeof(SessionAuthorizationFilter))]
+        [SessionAuthorizationFilter(Roles ="Admin")]
+        public IActionResult Restricted()
         {
             return View();
         }
