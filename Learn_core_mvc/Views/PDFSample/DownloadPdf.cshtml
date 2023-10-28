@@ -1,0 +1,25 @@
+﻿@model DownloadPdfModel
+
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-primary" onclick="OnDownload()">Download</button>
+    </div>
+    <div class="col-md-12">
+        <h5>This is a static content.</h5>
+        <h5>@Model.Content</h5>
+        <div>
+            <img src="@Model.ImagePath" />
+        </div>
+    </div>
+</div>
+
+@section Scripts{ 
+    <script>
+        function OnDownload() {
+            window.location.href = "/PDFSample/DownloadView"
+        }
+    </script>
+}

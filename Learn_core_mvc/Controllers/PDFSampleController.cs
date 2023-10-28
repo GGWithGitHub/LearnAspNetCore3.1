@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Learn_core_mvc.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Rotativa.AspNetCore;
@@ -93,6 +94,36 @@ namespace Learn_core_mvc.Controllers
         public IActionResult TocStyle()
         {
             return View();
+        }
+
+        public IActionResult DownloadPdf()
+        {
+            string imageUrl = Url.Content("~/images/Panda.jpg"); // Adjust the path as per your project structure
+            string hostUrl = $"{Request.Scheme}://{Request.Host}";
+            string fullImageUrl = $"{hostUrl}{imageUrl}";
+            DownloadPdfModel model = new DownloadPdfModel
+            {
+                Content = "This is a dynamic content.",
+                ImagePath = fullImageUrl
+            };
+            return View(model);
+        }
+
+        public IActionResult DownloadView()
+        {
+            string imageUrl = Url.Content("~/images/Panda.jpg"); // Adjust the path as per your project structure
+            string hostUrl = $"{Request.Scheme}://{Request.Host}";
+            string fullImageUrl = $"{hostUrl}{imageUrl}";
+            DownloadPdfModel model = new DownloadPdfModel
+            {
+                Content = "This is a dynamic content.",
+                ImagePath = fullImageUrl
+            };
+            var viewPdf = new ViewAsPdf("DownloadView", model) {
+                FileName = "PdfExample.pdf",
+            }; 
+
+            return viewPdf;
         }
     }
 }
