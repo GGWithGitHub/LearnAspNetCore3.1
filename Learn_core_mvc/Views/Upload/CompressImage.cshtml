@@ -1,0 +1,37 @@
+﻿
+@{
+}
+
+@*<div class="alert alert-success alert-dismissible" id="dvSuccessAlert" style="display:none;">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>Success!</strong> <span id="alertSuccessMsg"></span>
+</div>*@
+
+<form id="myForm" method="post" enctype="multipart/form-data" asp-controller="Upload" asp-action="CompressImage">
+    <input type="file" name="file" /><br /><br />
+    <input type="submit" value="Upload" class="btn btn-primary" />
+</form>
+
+@*@section Scripts{
+    <script>
+        $('#myForm').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var formData = $(this).serialize(); // Serialize form data
+
+            $.ajax({
+                url: $(this).attr('action'), // Form action URL
+                type: $(this).attr('method'), // Form method (POST in this case)
+                data: formData, // Serialized form data
+                success: function (response) {
+                    debugger
+                    $("#dvSuccessAlert").show();
+                    $("#dvSuccessAlert #alertSuccessMsg").html("Image compressed successfully.");
+                },
+                error: function () {
+                    alert('An error occurred.'); // Handle error scenario
+                }
+            });
+        });
+    </script>
+}*@
