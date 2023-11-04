@@ -173,4 +173,35 @@ namespace Learn_core_mvc.Models
         }
     }
 
+    public class LinqEmployee2
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Gender { get; set; }
+        public string Department { get; set; }
+
+        public static List<LinqEmployee2> GetAllEmployees()
+        {
+            return new List<LinqEmployee2>()
+            {
+                new LinqEmployee2 { ID = 1, Name = "Mark", Gender = "Male", Department = "IT" },
+                new LinqEmployee2 { ID = 2, Name = "Steve", Gender = "Male", Department = "HR" },
+                new LinqEmployee2 { ID = 3, Name = "Ben", Gender = "Male", Department = "IT" },
+                new LinqEmployee2 { ID = 4, Name = "Philip", Gender = "Male", Department = "IT" },
+                new LinqEmployee2 { ID = 5, Name = "Mary", Gender = "Female", Department = "HR" },
+                new LinqEmployee2 { ID = 6, Name = "Valarie", Gender = "Female", Department = "HR" },
+                new LinqEmployee2 { ID = 7, Name = "John", Gender = "Male", Department = "IT" },
+                new LinqEmployee2 { ID = 8, Name = "Pam", Gender = "Female", Department = "IT" },
+                new LinqEmployee2 { ID = 9, Name = "Stacey", Gender = "Female", Department = "HR" },
+                new LinqEmployee2 { ID = 10, Name = "Andy", Gender = "Male", Department = "IT" },
+            };
+        }
+    }
+
+    public class GrpMulKeyModel
+    {
+        public string Dept { get; set; }
+        public string Gender { get; set; }
+        public List<LinqEmployee2> Employees { get; set; }
+    }
 }

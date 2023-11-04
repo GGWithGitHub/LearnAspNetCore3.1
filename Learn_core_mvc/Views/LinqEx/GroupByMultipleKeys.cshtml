@@ -1,0 +1,22 @@
+﻿@model List<GrpMulKeyModel>
+
+@{
+}
+
+<h4>Grouping record based on department and gender:</h4>
+<br/>
+
+@foreach (var group in Model)
+{
+    <div>@group.Dept department (@group.Gender)</div>
+    <div>--------------------------------------------</div>
+    foreach (var employee in group.Employees)
+    {
+        <div>
+            <span>@employee.Name</span>&nbsp;&nbsp;&nbsp;
+            <span>@employee.Gender</span>&nbsp;&nbsp;&nbsp;
+            <span>@employee.Department</span>&nbsp;&nbsp;&nbsp;
+        </div>
+    }
+    <br />
+}

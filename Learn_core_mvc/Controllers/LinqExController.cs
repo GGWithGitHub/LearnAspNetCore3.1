@@ -143,6 +143,37 @@ namespace Learn_core_mvc.Controllers
             return View(students);
         }
 
+        public IActionResult GroupByMultipleKeys()
+        {
+            //By method linq syntax:
+            var employeeGroups = LinqEmployee2.GetAllEmployees()
+                                        .GroupBy(x => new { x.Department, x.Gender })
+                                        .OrderBy(g => g.Key.Department).ThenBy(g => g.Key.Gender)
+                                        .Select(g => new GrpMulKeyModel
+                                        {
+                                            Dept = g.Key.Department,
+                                            Gender = g.Key.Gender,
+                                            Employees = g.OrderBy(x => x.Name).ToList()
+                                        }).ToList();
+
+            //By query linq syntax:
+            employeeGroups = (from employee in LinqEmployee2.GetAllEmployees()
+                             group employee by new
+                             {
+                                 employee.Department,
+                                 employee.Gender
+                             } into eGroup
+                             orderby eGroup.Key.Department ascending,
+                                           eGroup.Key.Gender ascending
+                             select new GrpMulKeyModel
+                             {
+                                 Dept = eGroup.Key.Department,
+                                 Gender = eGroup.Key.Gender,
+                                 Employees = eGroup.OrderBy(x => x.Name).ToList()
+                             }).ToList();
+            return View(employeeGroups);
+        }
+
         public IActionResult InnerJoin()
         {
             LinqInnerJoinVM linqInnerJoinVM = new LinqInnerJoinVM();
