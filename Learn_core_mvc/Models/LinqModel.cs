@@ -204,4 +204,10 @@ namespace Learn_core_mvc.Models
         public string Gender { get; set; }
         public List<LinqEmployee2> Employees { get; set; }
     }
+
+    public class DistRecForCompTypeModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
 }

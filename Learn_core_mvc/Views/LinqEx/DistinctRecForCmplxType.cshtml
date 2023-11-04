@@ -1,0 +1,51 @@
+﻿@model List<DistRecForCompTypeModel>
+
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <span>List of employees before distinct:</span>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>101</td>
+                    <td>Mike</td>
+                </tr>
+                <tr>
+                    <td>101</td>
+                    <td>Mike</td>
+                </tr>
+                <tr>
+                    <td>102</td>
+                    <td>Mary</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <span>List of employees after distinct:</span>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var emp in Model)
+                {
+                    <tr>
+                        <td>@emp.Id</td>
+                        <td>@emp.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

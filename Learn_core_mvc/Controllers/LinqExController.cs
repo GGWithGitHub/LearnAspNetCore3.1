@@ -281,6 +281,23 @@ namespace Learn_core_mvc.Controllers
                                                             }).ToList();
             return View(linqGroupJoinVM);
         }
+
+        public IActionResult DistinctRecForCmplxType()
+        {
+            List<DistRecForCompTypeModel> list = new List<DistRecForCompTypeModel>()
+            {
+                new DistRecForCompTypeModel { Id = 101, Name = "Mike"},
+                new DistRecForCompTypeModel { Id = 101, Name = "Mike"},
+                new DistRecForCompTypeModel { Id = 102, Name = "Mary"}
+            };
+
+            var result = list.Select(x => new { x.Id, x.Name }).Distinct()
+                        .Select(x=>new DistRecForCompTypeModel { 
+                            Id = x.Id,
+                            Name = x.Name
+                        }).ToList();
+            return View(result);
+        }
     }
     
 }
