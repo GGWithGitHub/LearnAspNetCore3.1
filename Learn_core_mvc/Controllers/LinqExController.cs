@@ -137,6 +137,12 @@ namespace Learn_core_mvc.Controllers
             return View("FirstFirstOrDefaultSingleSingleOrDefault");
         }
 
+        public IActionResult SelectSelectMany()
+        {
+            var students = LinqStudent.GetAllStudetns();
+            return View(students);
+        }
+
         public IActionResult InnerJoin()
         {
             LinqInnerJoinVM linqInnerJoinVM = new LinqInnerJoinVM();

@@ -132,4 +132,45 @@ namespace Learn_core_mvc.Models
             };
         }
     }
+
+    public class LinqStudent
+    {
+        public string Name { get; set; }
+        public string Gender { get; set; }
+        public List<string> Subjects { get; set; }
+
+        public static List<LinqStudent> GetAllStudetns()
+        {
+            List<LinqStudent> listStudents = new List<LinqStudent>
+            {
+                new LinqStudent
+                {
+                    Name = "Tom",
+                    Gender = "Male",
+                    Subjects = new List<string> { "ASP.NET", "C#" }
+                },
+                new LinqStudent
+                {
+                    Name = "Mike",
+                    Gender = "Male",
+                    Subjects = new List<string> { "ADO.NET", "C#", "AJAX" }
+                },
+                new LinqStudent
+                {
+                    Name = "Pam",
+                    Gender = "Female",
+                    Subjects = new List<string> { "WCF", "SQL Server", "C#" }
+                },
+                new LinqStudent
+                {
+                    Name = "Mary",
+                    Gender = "Female",
+                    Subjects = new List<string> { "WPF", "LINQ", "ASP.NET" }
+                },
+            };
+
+            return listStudents;
+        }
+    }
+
 }

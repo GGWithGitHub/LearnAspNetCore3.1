@@ -1,0 +1,80 @@
+﻿@model List<LinqStudent>
+
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Subjects</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var std in Model)
+                {
+                    <tr>
+                        <td>@std.Name</td>
+                        <td>@std.Gender</td>
+                        <td>
+                            <ol>
+                                @foreach (var stdsub in std.Subjects)
+                                {
+                                    <li>@stdsub</li>
+                                }
+                            </ol>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="col-md-12">
+            <label>Find student's subjects using 'Select' :</label>
+            @{ 
+                IEnumerable<List<string>> stdSubjects = Model.Select(s => s.Subjects);
+            }
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Subjects</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        @foreach (var stdSub in stdSubjects)
+                        {
+                            @foreach (var ss in stdSub)
+                            {
+                                <td>@ss</td>
+                            }
+                        }
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <label>Find student's subjects 'SelectMany' :</label>
+            @{
+                IEnumerable<string> stdSubjects2 = Model.SelectMany(s => s.Subjects);
+            }
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Subjects</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        @foreach (var stdSub in stdSubjects2)
+                        {
+                            <td>@stdSub</td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
