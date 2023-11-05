@@ -291,11 +291,15 @@ namespace Learn_core_mvc.Controllers
                 new DistRecForCompTypeModel { Id = 102, Name = "Mary"}
             };
 
-            var result = list.Select(x => new { x.Id, x.Name }).Distinct()
-                        .Select(x=>new DistRecForCompTypeModel { 
+            var result = list
+                        .Select(x => new { x.Id, x.Name })
+                        .Distinct()
+                        .Select(x => new DistRecForCompTypeModel
+                        {
                             Id = x.Id,
                             Name = x.Name
-                        }).ToList();
+                        })
+                        .ToList();
             return View(result);
         }
     }

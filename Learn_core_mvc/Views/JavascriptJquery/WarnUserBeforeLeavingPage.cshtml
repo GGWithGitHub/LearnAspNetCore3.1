@@ -1,0 +1,33 @@
+﻿
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="myForm">
+            <textarea id="txtArea" rows="5" cols="30" onkeyup="hasPendingChanges()"></textarea>
+
+            <button onclick="onSaveButtonClick()" id="btnSave">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts{ 
+    <script>
+        var changesSaved = true;
+
+        function onSaveButtonClick() {
+            changesSaved = true;
+        }
+
+        function hasPendingChanges() {
+            changesSaved = $('#txtArea').val().length == 0;
+        }
+
+        window.onbeforeunload = function () {
+            if (!changesSaved) {
+                return "You haven't saved your changes";
+            }
+        };
+    </script>
+}

@@ -147,5 +147,10 @@ namespace Learn_core_mvc.Controllers
         {
             return View(model);
         }
+
+        public IActionResult WarnUserBeforeLeavingPage()
+        {
+            return View();
+        }
     }
 }
