@@ -74,4 +74,24 @@ namespace Learn_core_mvc.Models
         public string StdName { get; set; }
         public string StdEmail { get; set; }
     }
+
+    public class CascadCountryModel
+    {
+        public string CountryId { get; set; }
+        public string CountryName { get; set; }
+    }
+
+    public class CascadStateModel
+    {
+        public string StateId { get; set; }
+        public string StateName { get; set; }
+        public string CountryId { get; set; }
+    }
+
+    public class CascadCityModel
+    {
+        public string CityId { get; set; }
+        public string CityName { get; set; }
+        public string StateId { get; set; }
+    }
 }

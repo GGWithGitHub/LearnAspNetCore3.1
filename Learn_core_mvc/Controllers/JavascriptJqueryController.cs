@@ -152,5 +152,118 @@ namespace Learn_core_mvc.Controllers
         {
             return View();
         }
+
+        public IActionResult Cascading()
+        {
+            var countries = new List<CascadCountryModel>
+            {
+                new CascadCountryModel{ CountryId="IND", CountryName="India"},
+                new CascadCountryModel{ CountryId="FR", CountryName="France"},
+                new CascadCountryModel{ CountryId="AUS", CountryName="Australia"},
+                new CascadCountryModel{ CountryId="BRZ", CountryName="Brazil"},
+                new CascadCountryModel{ CountryId="CND", CountryName="Canada"}
+            };
+            ViewBag.Countries = countries.ToList();
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult GetStates(string countryId)
+        {
+            var statesList = new List<CascadStateModel>
+            {
+                new CascadStateModel{ StateId="AP", StateName="Andhra Pradesh", CountryId="IND" },
+                new CascadStateModel{ StateId="JHA", StateName="Jharkhand", CountryId="IND" },
+                new CascadStateModel{ StateId="GUJ", StateName="Gujarat", CountryId="IND" },
+
+                new CascadStateModel{ StateId="BRI", StateName="Brittany", CountryId="FR" },
+                new CascadStateModel{ StateId="COR", StateName="Corsica", CountryId="FR" },
+                new CascadStateModel{ StateId="ALS", StateName="Alsace", CountryId="FR" },
+
+                new CascadStateModel{ StateId="QLD", StateName="Queensland", CountryId="AUS" },
+                new CascadStateModel{ StateId="TAS", StateName="Tasmania", CountryId="AUS" },
+                new CascadStateModel{ StateId="VIC", StateName="Victoria", CountryId="AUS" },
+
+                new CascadStateModel{ StateId="AM", StateName="Amazonas", CountryId="BRZ" },
+                new CascadStateModel{ StateId="AC", StateName="Acre", CountryId="BRZ" },
+                new CascadStateModel{ StateId="TO", StateName="Tocantins", CountryId="BRZ" },
+
+                new CascadStateModel{ StateId="AB", StateName="Alberta", CountryId="CND" },
+                new CascadStateModel{ StateId="MB", StateName="Manitoba", CountryId="CND" },
+                new CascadStateModel{ StateId="YT", StateName="Yukon", CountryId="CND" }
+            };
+
+            var states = statesList.Where(s => s.CountryId == countryId).ToList();
+            return Json(states);
+        }
+
+        [HttpGet]
+        public JsonResult GetCities(string stateId)
+        {
+            var citiesList = new List<CascadCityModel>
+            {
+                new CascadCityModel{ StateId="AP",  CityName="Visakhapatnam", CityId="VIS" },
+                new CascadCityModel{ StateId="AP",  CityName="Guntur", CityId="GUN" },
+                new CascadCityModel{ StateId="AP",  CityName="Kurnool", CityId="KUR" },
+
+                new CascadCityModel{ StateId="JHA", CityName="Jamshedpur", CityId="JAM" },
+                new CascadCityModel{ StateId="JHA", CityName="Ranchi", CityId="RAN" },
+                new CascadCityModel{ StateId="JHA", CityName="Dhanbad", CityId="DHN" },
+
+                new CascadCityModel{ StateId="GUJ", CityName="", CityId="" },
+                new CascadCityModel{ StateId="GUJ", CityName="", CityId="" },
+                new CascadCityModel{ StateId="GUJ", CityName="", CityId="" },
+
+                new CascadCityModel{ StateId="BRI", CityName="", CityId="" },
+                new CascadCityModel{ StateId="BRI", CityName="", CityId="" },
+                new CascadCityModel{ StateId="BRI", CityName="", CityId="" },
+
+                new CascadCityModel{ StateId="COR", CityName="", CityId="" },
+                new CascadCityModel{ StateId="COR", CityName="", CityId="" },
+                new CascadCityModel{ StateId="COR", CityName="", CityId="" },
+
+                new CascadCityModel{ StateId="ALS", CityName="", CityId="" },
+                new CascadCityModel{ StateId="ALS", CityName="", CityId="" },
+                new CascadCityModel{ StateId="ALS", CityName="", CityId="" },
+
+                new CascadCityModel{ StateId="QLD", CityName="", CityId="" },
+                new CascadCityModel{ StateId="QLD", CityName="", CityId="" },
+                new CascadCityModel{ StateId="QLD", CityName="", CityId="" },
+
+                new CascadCityModel{ StateId="TAS", CityName="", CityId="" },
+                new CascadCityModel{ StateId="TAS", CityName="", CityId="" },
+                new CascadCityModel{ StateId="TAS", CityName="", CityId="" },
+
+                new CascadCityModel{ StateId="VIC", CityName="", CityId="" },
+                new CascadCityModel{ StateId="VIC", CityName="", CityId="" },
+                new CascadCityModel{ StateId="VIC", CityName="", CityId="" },
+
+                new CascadCityModel{ StateId="AM",  CityName="", CityId="" },
+                new CascadCityModel{ StateId="AM",  CityName="", CityId="" },
+                new CascadCityModel{ StateId="AM",  CityName="", CityId="" },
+
+                new CascadCityModel{ StateId="AC",  CityName="", CityId="" },
+                new CascadCityModel{ StateId="AC",  CityName="", CityId="" },
+                new CascadCityModel{ StateId="AC",  CityName="", CityId="" },
+
+                new CascadCityModel{ StateId="TO",  CityName="", CityId="" },
+                new CascadCityModel{ StateId="TO",  CityName="", CityId="" },
+                new CascadCityModel{ StateId="TO",  CityName="", CityId="" },
+
+                new CascadCityModel{ StateId="AB",  CityName="", CityId="" },
+                new CascadCityModel{ StateId="AB",  CityName="", CityId="" },
+                new CascadCityModel{ StateId="AB",  CityName="", CityId="" },
+
+                new CascadCityModel{ StateId="MB",  CityName="", CityId="" },
+                new CascadCityModel{ StateId="MB",  CityName="", CityId="" },
+                new CascadCityModel{ StateId="MB",  CityName="", CityId="" },
+
+                new CascadCityModel{ StateId="YT",  CityName="", CityId="" },
+                new CascadCityModel{ StateId="YT",  CityName="", CityId="" },
+                new CascadCityModel{ StateId="YT",  CityName="", CityId="" }
+            };
+            var cities = citiesList.Where(c => c.StateId == stateId).ToList();
+            return Json(cities);
+        }
     }
 }

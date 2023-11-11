@@ -1,0 +1,69 @@
+﻿
+@{
+}
+
+<form>
+    <label for="countries">Country:</label>
+    <select id="countries">
+        <option value="">-- Select Country --</option>
+        @foreach (var country in ViewBag.Countries)
+        {
+            <option value="@country.CountryId">@country.CountryName</option>
+        }
+    </select>
+
+    <label for="states">State:</label>
+    <select id="states" disabled>
+        <option value="">-- Select State --</option>
+    </select>
+
+    <label for="cities">City:</label>
+    <select id="cities" disabled>
+        <option value="">-- Select City --</option>
+    </select>
+</form>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#countries").change(function () {
+                var countryId = $(this).val();
+                if (countryId) {
+                    $("#states").prop("disabled", false);
+                    $.getJSON("/JavascriptJquery/GetStates", { countryId: countryId }, function (data) {
+                        $("#states").empty();
+                        $("#cities").empty();
+                        $("#states").append("<option value=''>-- Select State --</option>");
+                        $("#cities").append("<option value=''>-- Select City --</option>");
+                        $("#cities").prop("disabled", true);
+                        $.each(data, function (index, item) {
+                            $("#states").append("<option value='" + item.stateId + "'>" + item.stateName + "</option>");
+                        });
+                    });
+                } else {
+                    $("#states").empty().prop("disabled", true);
+                    $("#states").append("<option value=''>-- Select State --</option>");
+                    $("#cities").empty().prop("disabled", true);
+                    $("#cities").append("<option value=''>-- Select City --</option>");
+                }
+            });
+
+            $("#states").change(function () {
+                var stateId = $(this).val();
+                if (stateId) {
+                    $("#cities").prop("disabled", false);
+                    $.getJSON("/JavascriptJquery/GetCities", { stateId: stateId }, function (data) {
+                        $("#cities").empty();
+                        $("#cities").append("<option value=''>-- Select City --</option>");
+                        $.each(data, function (index, item) {
+                            $("#cities").append("<option value='" + item.cityId + "'>" + item.cityName + "</option>");
+                        });
+                    });
+                } else {
+                    $("#cities").empty().prop("disabled", true);
+                    $("#cities").append("<option value=''>-- Select City --</option>");
+                }
+            });
+        });
+    </script>
+}

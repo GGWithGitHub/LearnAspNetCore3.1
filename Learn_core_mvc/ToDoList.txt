@@ -1,6 +1,17 @@
 ﻿Implement program for "All" and "Any" in linq.
 
+Implement program for "Lazy" and "Eager" loading data in linq.
+
 Implement program for sweet alert.
 
-Implement program for "Auto showing list below the textbox".
+Implement program for "Auto complete textbox".
 
+Implement program of view component.
+
+Implement program for "Forget password" with Identity.
+
+Implement program for Cascading dropdownlist.
+
+Implement program for multiple file upload with progress bar.
+
+Implement program for remove server side validation for specific condition.
