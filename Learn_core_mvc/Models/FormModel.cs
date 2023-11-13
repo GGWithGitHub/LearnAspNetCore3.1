@@ -47,4 +47,22 @@ namespace Learn_core_mvc.Models
     {
         public List<string> MultiLanguages { get; set; }
     }
+
+    public class RemoveServerValidationModel
+    {
+        [Required]
+        public string CardNumber { get; set; }
+
+        [Required]
+        public int CVV { get; set; }
+
+        [Required]
+        public string Email { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+
+        public bool NeedCard { get; set; }
+
+    }
 }

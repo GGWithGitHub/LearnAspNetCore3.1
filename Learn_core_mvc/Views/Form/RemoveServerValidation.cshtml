@@ -1,0 +1,90 @@
+﻿@model RemoveServerValidationModel
+
+@{
+    var isCardNeed = Model.NeedCard;
+    var displayCard = "block";
+    if (!isCardNeed)
+    {
+        displayCard = "none";
+    }
+}
+
+<style>
+    .field-validation-error{
+        color:red;
+    }
+
+    #dvCardInfo{
+        display:@displayCard;
+    }
+</style>
+
+@if (ViewBag.FormSucceedMsg != null) {
+    <h2>@ViewBag.FormSucceedMsg</h2>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-controller="Form" asp-action="RemoveServerValidation" method="post">
+            @if (isCardNeed)
+            {
+                <input type="hidden" asp-for="NeedCard" value="true" />
+            }
+            else
+            {
+                <input type="hidden" asp-for="NeedCard" value="false" />
+            }
+
+            <div>
+                <div class="custom-control custom-switch">
+                    @if (isCardNeed)
+                    {
+                        <input type="checkbox" class="custom-control-input" id="customSwitches" checked>
+                    }
+                    else
+                    {
+                        <input type="checkbox" class="custom-control-input" id="customSwitches">
+                    }
+                    
+                    <label class="custom-control-label" for="customSwitches">Do you want to fill credit information</label>
+                </div>
+            </div>
+            <div id="dvCardInfo">
+                <label>Card Number:</label>
+                <input type="text" asp-for="CardNumber" />
+                <span asp-validation-for="CardNumber"></span>
+
+                <label>CVV:</label>
+                <input type="text" asp-for="CVV" />
+                <span asp-validation-for="CVV"></span>
+            </div>
+            <div>
+                <label>Email:</label>
+                <input type="text" asp-for="Email" />
+                <span asp-validation-for="Email"></span>
+
+                <label>Password:</label>
+                <input type="text" asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div>
+                <input type="submit" value="Submit" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#customSwitches").change(function () {
+                $("#dvCardInfo").toggle();
+                if ($('#dvCardInfo').is(':hidden')) {
+                    $("#NeedCard").val("false");
+                } else {
+                    $("#NeedCard").val("true");
+                }
+            });
+        });
+    </script>
+}

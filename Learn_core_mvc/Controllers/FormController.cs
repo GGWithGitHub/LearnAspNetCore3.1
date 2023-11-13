@@ -343,5 +343,28 @@ namespace Learn_core_mvc.Controllers
         {
             return View(model);
         }
+
+        public IActionResult RemoveServerValidation()
+        {
+            var model = new RemoveServerValidationModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult RemoveServerValidation(RemoveServerValidationModel model)
+        {
+            if (model.NeedCard == false)
+            {
+                ModelState.Remove(nameof(model.CardNumber));
+                ModelState.Remove(nameof(model.CVV));
+            }
+
+            if (ModelState.IsValid)
+            {
+                ViewBag.FormSucceedMsg = "Form was submitted.";
+            }
+            
+            return View(model);
+        }
     }
 }
