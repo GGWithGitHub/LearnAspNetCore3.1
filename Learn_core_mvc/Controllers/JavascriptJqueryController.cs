@@ -265,5 +265,43 @@ namespace Learn_core_mvc.Controllers
             var cities = citiesList.Where(c => c.StateId == stateId).ToList();
             return Json(cities);
         }
+
+        public IActionResult AutoComplete()
+        {
+            return View();
+        }
+
+        public IActionResult AutocompleteMovieName(string query)
+        {
+            var data = new List<MovieModel>
+            {
+                new MovieModel{ MovieId=1, MovieName="Andaz Apna Apna"},
+                new MovieModel{ MovieId=2, MovieName="Amar Akbar Anthony"},
+                new MovieModel{ MovieId=3, MovieName="Ae Dil Hai Mushkil"},
+                new MovieModel{ MovieId=4, MovieName="Agneepath"},
+                new MovieModel{ MovieId=5, MovieName="Aashiqui"},
+                new MovieModel{ MovieId=6, MovieName="Andhadhun"},
+                new MovieModel{ MovieId=7, MovieName="Anand"},
+                new MovieModel{ MovieId=8, MovieName="Ajab Prem Ki Ghazab Kahani"},
+                new MovieModel{ MovieId=9, MovieName="Ae Dil Hai Mushkil"},
+                new MovieModel{ MovieId=10, MovieName="Awara"},
+                new MovieModel{ MovieId=11, MovieName="Baahubali"},
+                new MovieModel{ MovieId=12, MovieName="Bajrangi Bhaijaan"},
+                new MovieModel{ MovieId=13, MovieName="Barfi"},
+                new MovieModel{ MovieId=14, MovieName="Bhagam Bhag"},
+                new MovieModel{ MovieId=15, MovieName="Bhool Bhulaiyaa"},
+                new MovieModel{ MovieId=16, MovieName="Black"},
+                new MovieModel{ MovieId=17, MovieName="Border"},
+                new MovieModel{ MovieId=18, MovieName="Bobby"},
+                new MovieModel{ MovieId=19, MovieName="Bunty Aur Babli"},
+                new MovieModel{ MovieId=20, MovieName="Bhaag Milkha Bhaag"}
+            };
+
+            var findedMovieList = data.Where(x => x.MovieName.StartsWith(query,StringComparison.OrdinalIgnoreCase)).ToList();
+
+            Dictionary<string,string> dictMovies = findedMovieList.ToDictionary(x=>x.MovieId.ToString(),x=>x.MovieName);
+
+            return Json(dictMovies);
+        }
     }
 }

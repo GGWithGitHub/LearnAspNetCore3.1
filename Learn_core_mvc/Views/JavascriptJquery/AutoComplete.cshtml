@@ -1,0 +1,61 @@
+﻿
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <p>Search movies</p>
+        <input type="text" id="inpMovieName" />
+        <input type="hidden" id="hiddenMovieId" />
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        var mcache = {}, lastMXhr;
+
+        $(document).ready(function () {
+            $('#inpMovieName')
+            .autocomplete({
+                scroll: true,
+                source: function (request, response) {
+                    var prefixText = request.term.toLowerCase();
+
+                    if (prefixText in mcache) {
+                        response(formatAutocompleteResponse(mcache[prefixText]));
+                        return;
+                    }
+
+                    lastMXhr = $.getJSON('/JavascriptJquery/AutocompleteMovieName', { query: prefixText }, function (data, status, xhr) {
+                        mcache[prefixText] = data;
+                        if (xhr === lastMXhr) {
+                            response(formatAutocompleteResponse(data));
+                        }
+                    });
+                },
+                focus: function (event, ui) {
+                    event.preventDefault();
+                    $(this).val(ui.item.label);
+                },
+                select: function (event, ui) {
+                    event.preventDefault();
+                    $(this).val(ui.item.label);
+                    $("#hiddenMovieId").val(ui.item.value);
+                }
+            })
+        });
+
+        function formatAutocompleteResponse(data) {
+            var uiData = []
+            $.each(data, function (key, val) {
+                uiData.push({
+                    label: val,
+                    value: key
+                });
+            });
+            return uiData;
+        }
+
+        
+    </script>
+}

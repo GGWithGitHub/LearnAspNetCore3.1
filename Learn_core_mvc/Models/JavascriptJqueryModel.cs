@@ -94,4 +94,10 @@ namespace Learn_core_mvc.Models
         public string CityName { get; set; }
         public string StateId { get; set; }
     }
+
+    public class MovieModel
+    {
+        public int MovieId { get; set; }
+        public string MovieName { get; set; }
+    }
 }
