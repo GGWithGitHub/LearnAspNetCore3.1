@@ -100,4 +100,12 @@ namespace Learn_core_mvc.Models
         public int MovieId { get; set; }
         public string MovieName { get; set; }
     }
+
+    public class UserAddressModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Address { get; set; }
+    }
 }

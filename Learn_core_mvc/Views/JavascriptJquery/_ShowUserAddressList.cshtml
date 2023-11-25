@@ -1,0 +1,17 @@
+﻿@model List<UserAddressModel>
+
+
+@foreach (var m in Model)
+{
+    <tr id="usr_@m.Id">
+        <td class="lstUsrName">@m.Name</td>
+        <td class="lstUsrEmail">@m.Email</td>
+        <td class="lstUsrAddress">@m.Address</td>
+        <td>
+            <button onclick="UpdateUserAddress('@m.Id')">Update</button>
+        </td>
+        <td>
+            <button onclick="DeleteUserAddress('@m.Id')">Delete</button>
+        </td>
+    </tr>
+}

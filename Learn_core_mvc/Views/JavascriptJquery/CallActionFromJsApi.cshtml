@@ -1,0 +1,139 @@
+﻿
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <button onclick="AddUserAddress()">Add address</button>
+
+        <div id="addUpdateDiv" style="display:none;">
+            <form id="myForm">
+                <input type="hidden" id="userId" />
+                <table>
+                    <tr>
+                        <td>
+                            <label>Name</label><br />
+                            <input type="text" id="userName" />
+                        </td>
+                        <td>
+                            <label>Email</label><br />
+                            <input type="text" id="userEmail" />
+                        </td>
+                        <td>
+                            <label>Address</label><br />
+                            <input type="text" id="userAddress" />
+                        </td>
+                        <td>
+                            <br />
+                            <button type="submit">Save</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <br/>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Action</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="getUsersAddressTbody">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/rest-api.js"></script>
+    <script>
+        $(document).ready(function () {
+            GetAllUserAddress();
+        });
+
+        function GetAllUserAddress() {
+            API.addresses.getAll()
+            .then(function (data) {
+                var dataObj = {
+                    modelList: data
+                };
+                var url = "/JavascriptJquery/ShowUserAddressList";
+                $("#getUsersAddressTbody").load(url, dataObj, function (response, status, xhr) {
+
+                });
+            });
+        }
+
+        function AddUserAddress() {
+            $("#userId").val(0);
+            $("#myForm")[0].reset();
+            $("#addUpdateDiv").show();
+        }
+
+        function UpdateUserAddress(id) {
+            $("#addUpdateDiv").show();
+            API.addresses.get(id)
+            .then(function (data) {
+                $("#userId").val(data.id);
+                $("#userName").val(data.name);
+                $("#userEmail").val(data.email);
+                $("#userAddress").val(data.address);
+            });
+        }
+
+        function DeleteUserAddress(id) {
+            $("#userId").val(0);
+            $("#myForm")[0].reset();
+            $("#addUpdateDiv").hide();
+            API.addresses.delete(id)
+            .then(function (data) {
+                $("#getUsersAddressTbody").find(`#usr_${data.id}`).remove();
+            });
+        }
+
+        $('#myForm').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var formData = {
+                Id: $("#userId").val(),
+                Name: $("#userName").val(),
+                Email: $("#userEmail").val(),
+                Address: $("#userAddress").val()
+            };
+
+            API.addresses.save(formData)
+            .then(function (data) {
+                debugger
+                if (formData.Id <= 0) { //Add
+                    var tr = `<tr id="usr_${data.id}">
+                                <td class="lstUsrName">${data.name}</td>
+                                <td class="lstUsrEmail">${data.email}</td>
+                                <td class="lstUsrAddress">${data.address}</td>
+                                <td>
+                                    <button onclick="UpdateUserAddress('${data.id}')">Update</button>
+                                </td>
+                                <td>
+                                    <button onclick="DeleteUserAddress('${data.id}')">Delete</button>
+                                </td>
+                            </tr>`;
+                    $("#getUsersAddressTbody").append(tr);
+                }
+                else { //Update
+                    var userRow = $("#getUsersAddressTbody").find(`#usr_${data.id}`);
+                    userRow.find(".lstUsrName").html(data.name);
+                    userRow.find(".lstUsrEmail").html(data.email);
+                    userRow.find(".lstUsrAddress").html(data.address);
+                }
+
+                $("#userId").val(0);
+                $("#myForm")[0].reset();
+                $("#addUpdateDiv").hide();
+            });
+        });
+    </script>
+}

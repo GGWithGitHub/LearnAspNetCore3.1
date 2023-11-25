@@ -303,5 +303,71 @@ namespace Learn_core_mvc.Controllers
 
             return Json(dictMovies);
         }
+
+        public IActionResult CallActionFromJsApi()
+        {
+            return View();
+        }
+
+        static List<UserAddressModel> userAddressData = new List<UserAddressModel>();
+
+        [Route("/webservice/user/getUserAddresses")]
+        public IActionResult GetUserAddresses()
+        {
+            return Json(userAddressData);
+        }
+
+        [Route("/webservice/user/getUserAddress")]
+        public IActionResult GetUserAddress(int id)
+        {
+            var usrAddr = userAddressData.FirstOrDefault(x=>x.Id == id);
+
+            return Json(usrAddr);
+        }
+
+        [Route("/webservice/user/deleteUserAddress")]
+        public IActionResult DeleteUserAddress(int id)
+        {
+            var usrAddr = userAddressData.FirstOrDefault(x => x.Id == id);
+            if (usrAddr != null)
+            {
+                userAddressData.Remove(usrAddr);
+            }
+
+            return Json(usrAddr);
+        }
+
+        [Route("/webservice/user/saveUserAddress")]
+        public IActionResult SaveUserAddress(UserAddressModel model)
+        {
+            if (model.Id <= 0) //Add
+            {
+                var newId = userAddressData.Count>0 ? userAddressData.Max(x => x.Id) + 1 : 1;
+                userAddressData.Add(new UserAddressModel { 
+                    Id = newId,
+                    Name = model.Name,
+                    Email = model.Email,
+                    Address = model.Address
+                });
+                model.Id = newId;
+            }
+            else //Update
+            {
+                var usrAddr = userAddressData.FirstOrDefault(x => x.Id == model.Id);
+                if (usrAddr != null)
+                {
+                    usrAddr.Name = model.Name;
+                    usrAddr.Email = model.Email;
+                    usrAddr.Address = model.Address;
+                }
+            }
+
+            return Json(model);
+        }
+
+        public IActionResult ShowUserAddressList(List<UserAddressModel> modelList)
+        {
+            return PartialView("_ShowUserAddressList", modelList);
+        }
     }
 }
