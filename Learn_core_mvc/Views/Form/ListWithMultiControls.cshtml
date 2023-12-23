@@ -1,0 +1,114 @@
+﻿@model List<ListWithMultiControlsModel>
+
+@{
+}
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+</style>
+
+<table>
+    <tr>
+        <th>User Id</th>
+        <th>User Name</th>
+        <th>User Country</th>
+        <th>User Gender</th>
+        <th>User Hobby</th>
+        <th>Action</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.UserId</td>
+            <td>@item.UserName</td>
+            <td>
+                @{
+                    var countryIdAttr = "ddl_" + item.UserId;
+                }
+                @*<select asp-for="@item.UserCountryCode" asp-items="@item.UserCountries" id="@countryId"></select>*@
+                <select id="@countryIdAttr">
+                    @foreach (var country in item.UserCountries)
+                    {
+                        var isSelected = (country.Value == item.UserCountryCode) ? true : false;
+                        if (isSelected)
+                        {
+                            <option value='@country.Value' selected>@country.Text</option>
+                        }
+                        else
+                        {
+                            <option value='@country.Value'>@country.Text</option>
+                        }
+                    }
+                </select>
+            </td>
+            <td>
+                @foreach (var gender in item.UserGenders)
+                {
+                    <br />
+                    <label>
+                        @{
+                            var genderIdAttr = "rdo_" + gender.Value + "_" + item.UserId;
+                            var genderNameAttr = "rdo_" + item.UserId;
+                            var isChecked = (gender.Value == item.UserGenderCode) ? true : false;
+                        }
+                        @*<input asp-for="@item.UserGenderCode"
+                            type="radio"
+                            value="@gender.Value"
+                            id="@genderIdAttr"
+                            name="@genderNameAttr" />@gender.Text*@
+                        <input type="radio"
+                               value="@gender.Value"
+                               id="@genderIdAttr"
+                               name="@genderNameAttr"
+                               checked="@isChecked" />@gender.Text
+                        </label>
+                    }
+            </td>
+            <td>
+                @for (var index = 0; index < item.UserHobbies.Count; index++)
+                {
+                    var hobbyId = "chk_" + item.UserHobbies[index].HobbyId + "_" + item.UserId;
+
+                    @*<input type="checkbox" asp-for="@item.UserHobbies[index].IsChecked" class="form-check-input" id="@hobbyId" />*@
+                    if (item.UserHobbies[index].IsChecked)
+                    {
+                        <input type="checkbox" class="form-check-input" id="@hobbyId" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox" class="form-check-input" id="@hobbyId" />
+                    }
+
+                    <label class="form-check-label">
+                        @item.UserHobbies[index].HobbyLabel
+                    </label>
+                    @*<input type="hidden" asp-for="@item.UserHobbies[index].HobbyId" />
+                        <input type="hidden" asp-for="@item.UserHobbies[index].HobbyLabel" />*@
+                    <br />
+                }
+            </td>
+            <td>
+                <button type="button" onclick="OnEdit('@item.UserId')">Edit</button>
+            </td>
+        </tr>
+    }
+</table>
+
+@section Scripts{
+    <script>
+        function OnEdit(id) {
+
+        }
+    </script>
+}
+
+
+
+

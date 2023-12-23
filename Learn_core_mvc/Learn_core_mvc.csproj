@@ -34,6 +34,8 @@
     <Folder Include="TestStaticFiles\images\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\lib\fontawesome\" />
+    <Folder Include="wwwroot\Theme\css\" />
+    <Folder Include="wwwroot\Theme\js\" />
   </ItemGroup>
 
 </Project>

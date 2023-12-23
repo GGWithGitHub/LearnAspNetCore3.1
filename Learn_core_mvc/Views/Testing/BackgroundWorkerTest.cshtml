@@ -1,0 +1,32 @@
+﻿
+@{
+}
+
+@if (ViewBag.TestData != null) { 
+    <h2>@ViewBag.TestData</h2>
+}
+
+<a asp-controller="Home" asp-action="Index">Click me</a>
+<button onclick="OnClick()">Click</button>
+
+@section Scripts{
+    <script>
+        function OnClick() {
+            var data = {
+                "myData": "This is a data."
+            }
+            $.ajax({
+                url: "@Url.Action("PostBackgroundWorkerTest", "Testing")",
+                type: "GET",
+                //contentType: 'application/json',
+                data: data,
+                success: function (response) {
+                    window.location.href = "/Testing/Index";
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+    </script>
+}

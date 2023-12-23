@@ -366,5 +366,101 @@ namespace Learn_core_mvc.Controllers
             
             return View(model);
         }
+
+        public IActionResult ListWithMultiControls()
+        {
+            List<ListWithMultiControlsModel> model = new List<ListWithMultiControlsModel>
+            {
+                new ListWithMultiControlsModel
+                {
+                    UserId = 1,
+                    UserName = "Aman",
+                    UserCountries = new List<SelectListItem>
+                    {
+                        new SelectListItem("--Please Select--", ""),
+                        new SelectListItem("India", "Ind"),
+                        new SelectListItem("Pakistan", "PK"),
+                        new SelectListItem("France", "FR")
+                    },
+                    UserCountryCode = "Ind",
+                    UserGenders = new List<SelectListItem>
+                    {
+                        new SelectListItem("Male", "M"),
+                        new SelectListItem("Female", "F"),
+                        new SelectListItem("No Disclose", "N")
+                    },
+                    UserGenderCode = "F",
+                    UserHobbies = new List<ListWithMultiControlCB>
+                    {
+                        new ListWithMultiControlCB
+                        {
+                            HobbyId = 1,
+                            HobbyLabel = "Cricket",
+                            IsChecked = true
+                        },
+                        new ListWithMultiControlCB
+                        {
+                            HobbyId = 2,
+                            HobbyLabel = "Hockey",
+                            IsChecked = false
+                        },
+                        new ListWithMultiControlCB
+                        {
+                            HobbyId = 3,
+                            HobbyLabel = "Football",
+                            IsChecked = false
+                        }
+                    }
+                },
+                new ListWithMultiControlsModel
+                {
+                    UserId = 2,
+                    UserName = "Bman",
+                    UserCountries = new List<SelectListItem>
+                    {
+                        new SelectListItem("--Please Select--", ""),
+                        new SelectListItem("India", "Ind"),
+                        new SelectListItem("Pakistan", "PK"),
+                        new SelectListItem("France", "FR")
+                    },
+                    UserCountryCode = "PK",
+                    UserGenders = new List<SelectListItem>
+                    {
+                        new SelectListItem("Male", "M"),
+                        new SelectListItem("Female", "F"),
+                        new SelectListItem("No Disclose", "N")
+                    },
+                    UserGenderCode = "M",
+                    UserHobbies = new List<ListWithMultiControlCB>
+                    {
+                        new ListWithMultiControlCB
+                        {
+                            HobbyId = 1,
+                            HobbyLabel = "Cricket",
+                            IsChecked = false
+                        },
+                        new ListWithMultiControlCB
+                        {
+                            HobbyId = 2,
+                            HobbyLabel = "Hockey",
+                            IsChecked = true
+                        },
+                        new ListWithMultiControlCB
+                        {
+                            HobbyId = 3,
+                            HobbyLabel = "Football",
+                            IsChecked = false
+                        }
+                    }
+                }
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult ListWithMultiControls(ListWithMultiControlsModel model)
+        {
+            return View(model);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Learn_core_mvc.Attributes;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -64,5 +65,30 @@ namespace Learn_core_mvc.Models
 
         public bool NeedCard { get; set; }
 
+    }
+
+    public class ListWithMultiControlsModel
+    {
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+        public string UserCountryCode { get; set; }
+        //public List<ListWithMultiControlDD> UserCountries { get; set; }
+        public List<SelectListItem> UserCountries { get; set; }
+
+        public string UserGenderCode { get; set; }
+        public List<SelectListItem> UserGenders { get; set; }
+        public List<ListWithMultiControlCB> UserHobbies { get; set; }
+    }
+    public class ListWithMultiControlDD
+    {
+        public string CountryCode { get; set; }
+        public string CountryName { get; set; }
+    }
+
+    public class ListWithMultiControlCB
+    {
+        public int HobbyId { get; set; }
+        public string HobbyLabel { get; set; }
+        public bool IsChecked { get; set; }
     }
 }

@@ -13,3 +13,7 @@ Implement program for multiple file upload with progress bar.
 Implement program for cron job.
 
 Implement program for background worker.
+
+Implement program for CRUD using code first approach.
+
+Implement program for list with dropdown, radio button and checkboxes.
