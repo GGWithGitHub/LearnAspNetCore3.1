@@ -35,4 +35,9 @@ namespace Learn_core_mvc.ViewModels
         public List<LinqEmployee> EmployeesProperty { get; set; }
         public List<LinqDepartmentEmployee> DepartmentEmployeeProperty { get; set; }
     }
+
+    public class LinqSortVM
+    {
+        public List<LinqSortModel> SortProperty { get; set; }
+    }
 }

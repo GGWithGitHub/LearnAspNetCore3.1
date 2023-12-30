@@ -1,0 +1,55 @@
+﻿@model LinqSortVM
+
+@{
+}
+
+<table class="table-bordered">
+    @foreach (var item in Model.SortProperty)
+    {
+        <tr>
+            <td class="p-2">Id = @item.Id</td>
+            <td class="p-2">Name = @item.Name</td>
+            <td class="p-2">Email = @item.Email</td>
+            <td class="p-2">Date = @item.CreatedAt</td>
+        </tr>
+    }
+</table>
+
+<br />
+<br />
+
+<span>Page number:</span>
+<input type="text" id="pageNumber" />
+<br />
+<span>Page size:</span>
+<input type="text" id="pageSize" />
+
+<br />
+<button onclick="OnPaging()">Paging</button>
+
+<br />
+<br />
+
+<div id="pagedData">
+
+</div>
+
+@section Scripts{
+    <script>
+        function OnPaging() {
+            var pageNumber = $("#pageNumber").val();
+            var pageSize = $("#pageSize").val();
+            $.ajax({
+                url: `@Url.Action("PagingNumberSizeData", "LinqEx")?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+                type: "GET",
+                success: function (response) {
+                    $("#pagedData").empty().html(response);
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+
+    </script>
+}

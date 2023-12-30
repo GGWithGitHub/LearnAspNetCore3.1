@@ -1,0 +1,65 @@
+﻿@model LinqSortVM
+
+@{
+}
+
+<table class="table-bordered">
+    @foreach (var item in Model.SortProperty)
+    {
+        <tr>
+            <td class="p-2">Id = @item.Id</td>
+            <td class="p-2">Name = @item.Name</td>
+            <td class="p-2">Email = @item.Email</td>
+            <td class="p-2">Date = @item.CreatedAt</td>
+        </tr>
+    }
+</table>
+
+<br/>
+<button onclick="OnAsc()">ASC with name</button>
+<button onclick="OnDesc()">DESC with name</button>
+
+<br/><br />
+
+<div id="sortAscDiv">
+
+</div>
+<br/>
+<div id="sortDescDiv">
+
+</div>
+
+@section Scripts{
+    <script>
+        function OnAsc() {
+            $.ajax({
+                url: "@Url.Action("SortingAscDescData", "LinqEx")?sort=asc",
+                type: "GET",
+                success: function (response) {
+                    $("#sortAscDiv").empty().html(response);
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+
+        function OnDesc() {
+            $.ajax({
+                url: "@Url.Action("SortingAscDescData", "LinqEx")?sort=desc",
+                type: "GET",
+                success: function (response) {
+                    $("#sortDescDiv").empty().html(response);
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+    </script>
+}
+
+
+
+
+

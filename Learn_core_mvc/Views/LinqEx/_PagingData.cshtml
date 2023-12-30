@@ -1,0 +1,13 @@
+﻿@model List<LinqSortModel>
+
+<table class="table-bordered">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="p-2">Id = @item.Id</td>
+            <td class="p-2">Name = @item.Name</td>
+            <td class="p-2">Email = @item.Email</td>
+            <td class="p-2">Date = @item.CreatedAt</td>
+        </tr>
+    }
+</table>

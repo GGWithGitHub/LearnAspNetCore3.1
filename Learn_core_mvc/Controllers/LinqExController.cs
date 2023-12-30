@@ -302,6 +302,86 @@ namespace Learn_core_mvc.Controllers
                         .ToList();
             return View(result);
         }
+
+        LinqSortVM myDataList = new LinqSortVM
+        {
+            SortProperty = new List<LinqSortModel>
+                {
+                    new LinqSortModel
+                    {
+                        Id = 1,
+                        Name = "Bablu",
+                        Email = "bablu@gmail.com",
+                        CreatedAt = new DateTime(2022,2,2)
+                    },
+                    new LinqSortModel
+                    {
+                        Id = 2,
+                        Name = "Aman",
+                        Email = "aman@gmail.com",
+                        CreatedAt = new DateTime(2023,7,15)
+                    },new LinqSortModel
+                    {
+                        Id = 3,
+                        Name = "Chaman",
+                        Email = "chaman@gmail.com",
+                        CreatedAt = new DateTime(2021,4,21)
+                    },
+                    new LinqSortModel
+                    {
+                        Id = 4,
+                        Name = "Esha",
+                        Email = "esha@gmail.com",
+                        CreatedAt = new DateTime(2019,3,3)
+                    },
+                    new LinqSortModel
+                    {
+                        Id = 5,
+                        Name = "Dipak",
+                        Email = "dipak@gmail.com",
+                        CreatedAt = new DateTime(2022,5,25)
+                    },new LinqSortModel
+                    {
+                        Id = 6,
+                        Name = "Firoz",
+                        Email = "firoz@gmail.com",
+                        CreatedAt = new DateTime(2023,9,1)
+                    }
+                }
+        };
+        public IActionResult SortingData()
+        {
+            return View(myDataList);
+        }
+
+        public IActionResult SortingAscDescData(string sort)
+        {
+            IQueryable<LinqSortModel> sortDatas;
+            switch (sort)
+            {
+                case "desc":
+                    sortDatas = myDataList.SortProperty.OrderByDescending(x=>x.Name).AsQueryable();
+                    break;
+                case "asc":
+                    sortDatas = myDataList.SortProperty.OrderBy(x=>x.Name).AsQueryable();
+                    break;
+                default:
+                    sortDatas = myDataList.SortProperty.AsQueryable();
+                    break;
+            }
+            return PartialView("_SortingAscDescData", sortDatas);
+        }
+
+        public IActionResult PagingData()
+        {
+            return View(myDataList);
+        }
+        
+        public IActionResult PagingNumberSizeData(int pageNumber, int pageSize)
+        {
+            var pagedData = myDataList.SortProperty.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            return PartialView("_PagingData", pagedData);
+        }
     }
     
 }
