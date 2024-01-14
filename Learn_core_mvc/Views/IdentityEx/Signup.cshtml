@@ -9,6 +9,9 @@
 
 <div asp-validation-summary="All"></div>
 <form asp-controller="IdentityEx" asp-action="Signup" method="post">
+    <label>User Role</label>
+    <select asp-for="RoleId" asp-items="Model.UserRoles"></select><br />
+
     <label>User Email</label>
     <input asp-for="UserEmail" /><br />
 

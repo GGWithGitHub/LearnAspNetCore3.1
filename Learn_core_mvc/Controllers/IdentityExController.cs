@@ -1,8 +1,11 @@
-﻿using Learn_core_mvc.Models;
+﻿using Learn_core_mvc.IdentityDbContextFolder;
+using Learn_core_mvc.Models;
 using Learn_core_mvc.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -13,21 +16,27 @@ namespace Learn_core_mvc.Controllers
 {
     public class IdentityExController : Controller
     {
+        private readonly AppDbContext _appDbContext;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IIdentityUserService _identityUserService;
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
         public IdentityExController(
+            AppDbContext appDbContext,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
             IIdentityUserService identityUserService,
             IEmailService emailService,
             IConfiguration configuration
         )
         {
+            _appDbContext = appDbContext;
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _identityUserService = identityUserService;
             _emailService = emailService;
             _configuration = configuration;
@@ -38,9 +47,19 @@ namespace Learn_core_mvc.Controllers
             return View();
         }
 
-        public IActionResult Signup()
+        public async Task<IActionResult> Signup()
         {
-            return View();
+            SignupModelIdentity model = new SignupModelIdentity();
+            var roles = await _roleManager.Roles.ToListAsync();
+            roles.ForEach(item =>
+            {
+                model.UserRoles.Add(new SelectListItem
+                {
+                    Text = item.NormalizedName,
+                    Value = item.Id
+                });
+            });
+            return View(model);
         }
 
         [HttpPost]
@@ -57,6 +76,12 @@ namespace Learn_core_mvc.Controllers
                 var result = await _userManager.CreateAsync(user, signupModel.UserPassword);
                 if (result.Succeeded)
                 {
+                    //var roleResult = await _userManager.AddToRoleAsync(user, signupModel.RoleName);
+                    var userRole = new IdentityUserRole<string> { RoleId = signupModel.RoleId, UserId = user.Id };
+                    await _appDbContext.Set<IdentityUserRole<string>>().AddAsync(userRole);
+                    await _appDbContext.SaveChangesAsync();
+
+
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     
                     if (!string.IsNullOrEmpty(token))
@@ -203,6 +228,11 @@ namespace Learn_core_mvc.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "IdentityEx");
+        }
+
+        public IActionResult AddColumnsToAspNetUsersTable()
+        {
+            return View();
         }
     }
 }
