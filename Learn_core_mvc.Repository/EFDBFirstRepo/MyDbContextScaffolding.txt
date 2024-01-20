@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Server=DESKTOP-F92A9QM\SQLEXPRESS;Database=MyDB;Trusted_Connection=True;" Microsoft.EntityFrameWorkCore.SqlServer -outputdir EFDBFirstRepo/Models -context MyDBDbContext -contextdir EFDBFirstRepo -force

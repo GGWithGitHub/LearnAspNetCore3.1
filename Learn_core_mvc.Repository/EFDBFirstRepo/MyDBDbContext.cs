@@ -30,6 +30,7 @@ namespace Learn_core_mvc.Repository.EFDBFirstRepo
         public virtual DbSet<TblEmployee> TblEmployee { get; set; }
         public virtual DbSet<TblExceptionLogger> TblExceptionLogger { get; set; }
         public virtual DbSet<TblProduct> TblProduct { get; set; }
+        public virtual DbSet<TblSoftdelete> TblSoftdelete { get; set; }
         public virtual DbSet<TblStudent> TblStudent { get; set; }
         public virtual DbSet<TblUser> TblUser { get; set; }
         public virtual DbSet<TblUserRole> TblUserRole { get; set; }
@@ -311,6 +312,17 @@ namespace Learn_core_mvc.Repository.EFDBFirstRepo
                     .HasColumnType("money");
 
                 entity.Property(e => e.ProductRating).HasColumnName("product_rating");
+            });
+
+            modelBuilder.Entity<TblSoftdelete>(entity =>
+            {
+                entity.ToTable("tbl_softdelete");
+
+                entity.Property(e => e.Email).HasMaxLength(50);
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.Phone).HasMaxLength(50);
             });
 
             modelBuilder.Entity<TblStudent>(entity =>

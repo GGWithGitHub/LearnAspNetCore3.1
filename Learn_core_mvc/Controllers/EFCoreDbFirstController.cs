@@ -1,6 +1,11 @@
 ﻿using Learn_core_mvc.Core.Models;
+using Learn_core_mvc.Models;
+using Learn_core_mvc.Repository.EFDBFirstRepo;
+using Learn_core_mvc.Repository.EFDBFirstRepo.Models;
 using Learn_core_mvc.Service;
+using Learn_core_mvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -345,5 +350,47 @@ namespace Learn_core_mvc.Controllers
             return View("DeleteEmployeeUow", emp);
         }
         #endregion
+
+        public async Task<IActionResult> GetSoftDelete()
+        {
+            var entity = new TblSoftdelete();
+            using (var dbContext = new MyDBDbContext())
+            {
+                int id = 2;
+                entity = await dbContext.TblSoftdelete.Where(x => x.Id == id).FirstOrDefaultAsync();
+            }
+            SoftDeleteModel model = new SoftDeleteModel
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Email = entity.Email,
+                Phone = entity.Phone,
+                IsDeleted = entity.IsDeleted
+            };
+            SoftDeleteVM vmModel = new SoftDeleteVM
+            {
+                SoftDeleteModel = model
+            };
+            return View(vmModel);
+        }
+
+        [HttpPost, ActionName("SoftDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SoftDeleteConfirmed(SoftDeleteVM vmModel)
+        {
+            //if (ModelState.IsValid)
+            //{
+            using (var dbContext = new MyDBDbContext())
+            {
+                var entity = await dbContext.TblSoftdelete.Where(x => x.Id == vmModel.SoftDeleteModel.Id).FirstOrDefaultAsync();
+                if (entity != null)
+                {
+                    dbContext.TblSoftdelete.Remove(entity);
+                    await dbContext.SaveChangesAsync();
+                }
+            }
+            //}
+            return RedirectToAction("GetSoftDelete");
+        }
     }
 }
