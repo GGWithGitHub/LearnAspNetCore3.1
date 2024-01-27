@@ -382,6 +382,49 @@ namespace Learn_core_mvc.Controllers
             var pagedData = myDataList.SortProperty.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
             return PartialView("_PagingData", pagedData);
         }
+
+        LinqPersonVM linqPersonVM = new LinqPersonVM() { 
+            PersonProperty = new List<LinqPerson>
+            {
+                new LinqPerson { Name = "John", Age = 30 },
+                new LinqPerson { Name = "Alice", Age = 25 },
+                new LinqPerson { Name = "Bob", Age = 35 }
+            }
+        };
+        public IActionResult AllAny()
+        {
+            return View(linqPersonVM);
+        }
+
+        public IActionResult All()
+        {
+            bool allAboveTwenty = linqPersonVM.PersonProperty.All(person => person.Age > 30);
+            if (allAboveTwenty)
+            {
+                var msg = "All persons are above 30 years old";
+                return Json(new { success = true, msg = msg });
+            }
+            else
+            {
+                var msg = "All persons are not above 30 years old";
+                return Json(new { success = true, msg = msg });
+            }
+        }
+
+        public IActionResult Any()
+        {
+            bool anyAboveThirty = linqPersonVM.PersonProperty.Any(person => person.Age > 30);
+            if (anyAboveThirty)
+            {
+                var msg = "Any person is above 30 years old";
+                return Json(new { success = true, msg = msg });
+            }
+            else
+            {
+                var msg = "Any person is not above 30 years old";
+                return Json(new { success = true, msg = msg });
+            }
+        }
     }
     
 }

@@ -40,4 +40,9 @@ namespace Learn_core_mvc.ViewModels
     {
         public List<LinqSortModel> SortProperty { get; set; }
     }
+
+    public class LinqPersonVM
+    {
+        public List<LinqPerson> PersonProperty { get; set; }
+    }
 }

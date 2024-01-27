@@ -218,4 +218,10 @@ namespace Learn_core_mvc.Models
         public string Email { get; set; }
         public DateTime CreatedAt { get; set; }
     }
+
+    public class LinqPerson
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+    }
 }

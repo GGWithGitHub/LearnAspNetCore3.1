@@ -1,0 +1,69 @@
+﻿@model LinqPersonVM
+
+@{
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PersonProperty)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Age</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+
+<div class="row">
+    <div class="col-md-6">
+        <button class="btn btn-primary" onclick="OnAll()">Check if all persons are above 30 years old</button>
+    </div>
+    <div class="col-md-6">
+        <button class="btn btn-primary" onclick="OnAny()">Check if any person is above 30 years old</button>
+    </div>
+</div>
+
+<br/>
+
+@section Scripts{
+    <script>
+        function OnAll() {
+            $.ajax({
+                url: "@Url.Action("All", "LinqEx")",
+                type: "GET",
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.msg);
+                    }
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+
+        function OnAny() {
+            $.ajax({
+                url: "@Url.Action("Any", "LinqEx")",
+                type: "GET",
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.msg);
+                    }
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+    </script>
+}

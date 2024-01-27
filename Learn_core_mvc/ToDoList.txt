@@ -1,5 +1,4 @@
-﻿Implement program for "All" and "Any" in linq.
-
+﻿
 Implement program for "Lazy" and "Eager" loading data in linq.
 
 Implement program for sweet alert.
