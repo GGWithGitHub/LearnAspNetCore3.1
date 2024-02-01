@@ -224,4 +224,19 @@ namespace Learn_core_mvc.Models
         public string Name { get; set; }
         public int Age { get; set; }
     }
+
+    public class LinqAuthor
+    {
+        public int AuthorID { get; set; }
+        public string AuthorName { get; set; }
+        public string BookName { get; set; }
+    }
+
+    public class LinqAuthorsBook
+    {
+        public int AuthorID { get; set; }
+        public string AuthorName { get; set; }
+        public List<string> BookName { get; set; }
+        public string BookNameCommaSeprated { get; set; }
+    }
 }

@@ -45,4 +45,10 @@ namespace Learn_core_mvc.ViewModels
     {
         public List<LinqPerson> PersonProperty { get; set; }
     }
+
+    public class LinqAuthorVM
+    {
+        public List<LinqAuthor> AuthorProperty { get; set; }
+        public List<LinqAuthorsBook> AuthorsBookProperty { get; set; }
+    }
 }

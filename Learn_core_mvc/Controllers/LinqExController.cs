@@ -174,6 +174,33 @@ namespace Learn_core_mvc.Controllers
             return View(employeeGroups);
         }
 
+        public IActionResult GroupBy2()
+        {
+            List<LinqAuthor> authors = new List<LinqAuthor>{
+                new LinqAuthor{AuthorID=1, AuthorName="Ramesh", BookName="Ramesh Book 1"},
+                new LinqAuthor{AuthorID=2, AuthorName="Bamesh", BookName="Bamesh Book 1"},
+                new LinqAuthor{AuthorID=3, AuthorName="Tamesh", BookName="Tamesh Book 1"},
+                new LinqAuthor{AuthorID=1, AuthorName="Ramesh", BookName="Ramesh Book 2"},
+                new LinqAuthor{AuthorID=2, AuthorName="Bamesh", BookName="Bamesh Book 2"},
+                new LinqAuthor{AuthorID=3, AuthorName="Tamesh", BookName="Tamesh Book 2"}
+            };
+
+            LinqAuthorVM vm = new LinqAuthorVM();
+            vm.AuthorProperty = authors;
+
+            vm.AuthorsBookProperty = authors
+                                    .GroupBy(x => x.AuthorID)
+                                    .Select(x => new LinqAuthorsBook
+                                    {
+                                        AuthorID = x.FirstOrDefault().AuthorID,
+                                        AuthorName = x.FirstOrDefault().AuthorName,
+                                        BookName = x.Select(x=>x.BookName).ToList(),
+                                        BookNameCommaSeprated = String.Join(",", x.Select(x => x.BookName).ToList())
+                                    }).ToList();
+
+            return View(vm);
+        }
+
         public IActionResult InnerJoin()
         {
             LinqInnerJoinVM linqInnerJoinVM = new LinqInnerJoinVM();

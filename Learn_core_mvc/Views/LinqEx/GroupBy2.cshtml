@@ -1,0 +1,47 @@
+﻿@model LinqAuthorVM
+
+@{
+}
+
+<h3>Author</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Book</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.AuthorProperty)
+        {
+            <tr>
+                <td>@item.AuthorID</td>
+                <td>@item.AuthorName</td>
+                <td>@item.BookName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Book</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.AuthorsBookProperty)
+        {
+            <tr>
+                <td>@item.AuthorID</td>
+                <td>@item.AuthorName</td>
+                <td>@item.BookNameCommaSeprated</td>
+            </tr>
+        }
+    </tbody>
+</table>
