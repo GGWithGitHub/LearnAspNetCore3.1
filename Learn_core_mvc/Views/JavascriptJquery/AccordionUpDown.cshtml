@@ -1,0 +1,117 @@
+﻿
+@{
+}
+
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item" onclick="accordionItem(this)">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Accordion Item #1
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="bi bi-arrow-up-circle move-up" onclick="moveUp(this)"></i>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="bi bi-arrow-down-circle move-down" onclick="moveDown(this)"></i>
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Accordion Item #2
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="bi bi-arrow-up-circle move-up" onclick="moveUp(this)"></i>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="bi bi-arrow-down-circle move-down" onclick="moveDown(this)"></i>
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Accordion Item #3
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="bi bi-arrow-up-circle move-up" onclick="moveUp(this)"></i>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="bi bi-arrow-down-circle move-down" onclick="moveDown(this)"></i>
+            </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        
+        $(function () {
+            updateButtonsState();
+        });
+
+        function moveUp(button) {
+            
+            const currentItem = $(button).closest('.accordion-item');
+            var closestCollapseId = currentItem.find('.accordion-collapse').attr('id');
+            const isItemFolded = isAccordionItemFolded(`#${closestCollapseId}`);
+            if (isItemFolded) {
+                return;
+            }
+            const prevItem = currentItem.prev();
+            if (prevItem.length > 0) {
+                currentItem.insertBefore(prevItem);
+                updateButtonsState();
+            }
+        }
+
+        function moveDown(button) {
+            
+            const currentItem = $(button).closest('.accordion-item');
+            var closestCollapseId = currentItem.find('.accordion-collapse').attr('id');
+            const isItemFolded = isAccordionItemFolded(`#${closestCollapseId}`);
+            if (isItemFolded) {
+                return;
+            }
+            const nextItem = currentItem.next();
+            if (nextItem.length > 0) {
+                currentItem.insertAfter(nextItem);
+                updateButtonsState();
+            }
+        }
+
+        function updateButtonsState() {
+            $('.move-up, .move-down').css('color', '');
+
+            // Disable "Move Up" for the first item
+            $('.accordion-item:first-child .move-up').css('color', 'gainsboro');
+
+            // Disable "Move Down" for the last item
+            $('.accordion-item:last-child .move-down').css('color', 'gainsboro');
+        }
+
+        function isAccordionItemFolded(itemContentId) {
+            debugger
+            const itemContent = $(itemContentId);
+            if (itemContent.hasClass('accordion-show')) {
+                itemContent.removeClass('accordion-show');
+                return false;
+            }
+            else {
+                itemContent.addClass('accordion-show');
+                return true;
+            }
+        }
+
+    </script>
+}

@@ -369,5 +369,10 @@ namespace Learn_core_mvc.Controllers
         {
             return PartialView("_ShowUserAddressList", modelList);
         }
+
+        public IActionResult AccordionUpDown()
+        {
+            return View();
+        }
     }
 }
