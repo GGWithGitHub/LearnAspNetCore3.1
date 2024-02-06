@@ -27,7 +27,7 @@ namespace Learn_core_mvc.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateImage(ImageModel imageModel)
+        public async Task<IActionResult> CreateImage(UploadModel imageModel)
         {
             string wwwRootPath = _hostEnvironment.WebRootPath;
             string fileName = Path.GetFileNameWithoutExtension(imageModel.ImageFile.FileName);
@@ -100,6 +100,73 @@ namespace Learn_core_mvc.Controllers
             byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
 
             return fileBytes;
+        }
+
+        public IActionResult ModelWithFile()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult PostModelWithFile(DataWithFileModel model)
+        {
+            return View("ModelWithFile",model);
+        }
+
+        //public async Task<IActionResult> FillModelAndFile()
+        //{
+        //    DataWithFileModel model = new DataWithFileModel();
+        //    model.PersonId = 1;
+        //    model.PersonName = "Gaurav";
+        //    model.PersonEmail = "gaurav@testing.com";
+        //    model.PersonAge = 25;
+
+        //    string wwwRootPath = _hostEnvironment.WebRootPath;
+        //    string fileName = Path.GetFileName("Panda.jpg");
+        //    var dir = Path.Combine(wwwRootPath, "images");
+        //    if (Directory.Exists(dir))
+        //    {
+        //        var filePath = Path.Combine(dir, fileName);
+        //        using (var memoryStream = new MemoryStream())
+        //        {
+        //            using (var fileStream = new FileStream(filePath, FileMode.Open))
+        //            {
+        //                await fileStream.CopyToAsync(memoryStream);
+        //            }
+
+        //            string contentType = "application/octet-stream"; // Default to binary data
+        //            string extension = Path.GetExtension(filePath);
+        //            if (!string.IsNullOrEmpty(extension))
+        //            {
+        //                contentType = GetContentType(extension);
+        //            }
+
+        //            model.ImageFile = new FormFile(memoryStream, 0, memoryStream.Length, null, Path.GetFileName(filePath)) {
+        //                Headers = new HeaderDictionary(),
+        //                ContentType = contentType
+        //            };
+        //            // Example: Reset the position to the beginning of the stream
+        //            memoryStream.Position = 0;
+        //        }
+        //    }
+
+        //    return View("ModelWithFile",model);
+        //}
+
+        private string GetContentType(string fileExtension)
+        {
+            // Add additional mappings as needed
+            switch (fileExtension.ToLower())
+            {
+                case ".jpg":
+                case ".jpeg":
+                    return "image/jpeg";
+                case ".png":
+                    return "image/png";
+                // Add more cases for other file types...
+                default:
+                    return "application/octet-stream";
+            }
         }
     }
 }

@@ -1,0 +1,34 @@
+﻿@model DataWithFileModel
+
+@{
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Upload" asp-action="PostModelWithFile" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="control-label">Name</label>
+                <input type="text" asp-for="PersonName" />
+                <span asp-validation-for="PersonName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Email</label>
+                <input asp-for="PersonEmail" />
+                <span asp-validation-for="PersonEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Age</label>
+                <input asp-for="PersonAge" />
+                <span asp-validation-for="PersonAge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input type="file" asp-for="ImageFile" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
