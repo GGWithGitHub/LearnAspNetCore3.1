@@ -260,6 +260,53 @@ namespace Learn_core_mvc.Repository
 
             return isSuccessful;
         }
+
+        public async Task<List<Employee>> CreateMultiEmployeesBySp(List<Employee> emps)
+        {
+            MyDataTable dataTable = new MyDataTable();
+            dataTable.DataTableParam = "@empDataTableParam";
+            dataTable.DataTableTypeName = "dbo.EmpDataTableTypeName";
+
+            DataTable dt = new DataTable();
+
+            // Add columns to the DataTable
+            dt.Columns.Add("emp_name", typeof(string));
+            dt.Columns.Add("emp_email", typeof(string));
+            dt.Columns.Add("emp_phone", typeof(string));
+            dt.Columns.Add("emp_address", typeof(string));
+            dt.Columns.Add("emp_city", typeof(string));
+            dt.Columns.Add("emp_state", typeof(string));
+            dt.Columns.Add("emp_country", typeof(string));
+
+            // Add rows to the DataTable
+            foreach (var employee in emps)
+            {
+                dt.Rows.Add(employee.EmpName, employee.EmpEmail, employee.EmpPhone, employee.EmpAddress, employee.EmpCity, employee.EmpState, employee.EmpCountry);
+            }
+
+            dataTable.DataTable = dt;
+            
+            var employees = new List<Employee>();
+            using (var employeeData = await ExecuteTableType("dbo.spAddMultiEmployees", dataTable))
+            {
+                employees = GetToList(
+                                employeeData,
+                                x => new Employee()
+                                {
+                                    EmpId = x.Field<int>("emp_id"),
+                                    EmpName = x.Field<string>("emp_name"),
+                                    EmpEmail = x.Field<string>("emp_email"),
+                                    EmpPhone = x.Field<string>("emp_phone"),
+                                    EmpAddress = x.Field<string>("emp_address"),
+                                    EmpCity = x.Field<string>("emp_city"),
+                                    EmpState = x.Field<string>("emp_state"),
+                                    EmpCountry = x.Field<string>("emp_country")
+                                }
+                            );
+            }
+
+            return employees;
+        }
         public async Task<bool> UpdateEmployeeBySp(Employee emp)
         {
             var parameters = new Dictionary<string, object>()

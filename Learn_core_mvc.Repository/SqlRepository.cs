@@ -206,6 +206,51 @@ namespace Learn_core_mvc.Repository
             return true;
         }
 
+        public async Task<DataSet> ExecuteTableType(string commandName, MyDataTable dataTable = null, Dictionary<string, object> parameters = null)
+        {
+            var dataset = new DataSet();
+            var dts = new List<DataTable>();
+            try
+            {
+                using (var Connection = new SqlConnection(connectionString))
+                using (var cmd = new SqlCommand(commandName, Connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    await Connection.OpenAsync();
+
+                    if (dataTable != null)
+                    {
+                        var parameter = new SqlParameter(dataTable.DataTableParam, SqlDbType.Structured)
+                        {
+                            TypeName = dataTable.DataTableTypeName, // Name of your user-defined table type
+                            Value = dataTable.DataTable
+                        };
+                        cmd.Parameters.Add(parameter);
+                    }
+
+                    var reader = await cmd.ExecuteReaderAsync();
+                    do
+                    {
+                        var table = new DataTable();
+                        await LoadData(table, reader);
+                        dts.Add(table);
+                    }
+                    while (await reader.NextResultAsync());
+                    dataset.Tables.AddRange(dts.ToArray());
+
+                    await Connection.CloseAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.Data["parameters"] = parameters;
+                throw ex;
+            }
+
+            return dataset;
+        }
+
         //internal ParameterizedOrQuery BuildOrQuery(string columnName, string parameterPrefix, List<string> values)
         //{
         //    var query = new ParameterizedOrQuery()

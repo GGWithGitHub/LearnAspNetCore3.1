@@ -1,5 +1,6 @@
 ﻿using Learn_core_mvc.Core.Models;
 using Learn_core_mvc.Service;
+using Learn_core_mvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -85,6 +86,37 @@ namespace Learn_core_mvc.Controllers
             }
             ViewBag.errmsg = "Could not delete record!!";
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> MultiRecordToSp()
+        {
+            List<Employee> empList = new List<Employee>();
+            for (int i=1; i<=3; i++)
+            {
+                var emp = new Employee { EmpName = "", EmpPhone = "", EmpCity = "", EmpEmail = "", EmpState = "", EmpAddress = "", EmpCountry = "" };
+                empList.Add(emp);
+            }
+            EmployeeVM model = new EmployeeVM {
+                Employees = empList
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MultiRecordToSp(EmployeeVM model)
+        {
+            List<Employee> lst_employee = await this.sampleService.CreateMultiEmployeesBySp(model.Employees);
+            string msg = "";
+            if (lst_employee.Count > 0)
+            {
+                msg = "Added record!!";
+            }
+            else
+            {
+                msg = "Could not add record!!";
+            }
+            return Json(new { success = true, msg = msg });
         }
     }
 }

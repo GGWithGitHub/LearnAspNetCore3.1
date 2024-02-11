@@ -1,0 +1,101 @@
+﻿@model EmployeeVM
+
+@{
+    int i = 0;
+}
+
+<h1 id="msg"></h1>
+
+@using (Html.BeginForm("MultiRecordToSp", "ADOSP", FormMethod.Post, new { id = "myForm" }))
+{
+    <div class="row">
+        @foreach (var emp in Model.Employees)
+        {
+            i++;
+            <div class="col-md-4">
+                <table class="table-bordered myTable">
+                    <tr>
+                        <td>Employee Name</td>
+                        <td>
+                            <input type="text" id="empName_@i" name="empName" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Employee Email</td>
+                        <td>
+                            <input type="text" id="empEmail_@i" name="empEmail" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Employee Phone</td>
+                        <td>
+                            <input type="text" id="empPhone_@i" name="empPhone" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Employee Address</td>
+                        <td>
+                            <input type="text" id="empAddress_@i" name="empAddress" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Employee City</td>
+                        <td>
+                            <input type="text" id="empCity_@i" name="empCity" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Employee State</td>
+                        <td>
+                            <input type="text" id="empState_@i" name="empState" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Employee Country</td>
+                        <td>
+                            <input type="text" id="empCountry_@i" name="empCountry" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+}
+
+@section Scripts{
+    <script>
+        $('#myForm').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var listOfObjects = [];
+            $('table').each(function (index, table) {
+                debugger
+                var empName = $(table).find("input[name='empName']").val();
+                var empEmail = $(table).find("input[name='empEmail']").val();
+                var empPhone = $(table).find("input[name='empPhone']").val();
+                var empAddress = $(table).find("input[name='empAddress']").val();
+                var empCity = $(table).find("input[name='empCity']").val();
+                var empState = $(table).find("input[name='empState']").val();
+                var empCountry = $(table).find("input[name='empCountry']").val();
+
+                listOfObjects.push({ EmpName: empName, EmpPhone: empPhone, EmpCity: empCity, EmpEmail: empEmail, EmpState: empState, EmpAddress: empAddress, EmpCountry: empCountry });
+            });
+            var model = { Employees: listOfObjects };
+
+            $.ajax({
+                url: $(this).attr('action'), // Form action URL
+                type: $(this).attr('method'), // Form method (POST in this case)
+                data: model, 
+                success: function (response) {
+                    if (response.success) {
+                        $("#msg").html(response.msg);
+                    }
+                },
+                error: function () {
+                    alert('An error occurred.'); // Handle error scenario
+                }
+            });
+        });
+    </script>
+}

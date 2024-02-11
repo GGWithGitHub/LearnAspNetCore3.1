@@ -74,6 +74,10 @@ namespace Learn_core_mvc.Service
         {
             return await this.sampleSql.CreateEmployeeBySp(emp);
         }
+        public async Task<List<Employee>> CreateMultiEmployeesBySp(List<Employee> emps)
+        {
+            return await this.sampleSql.CreateMultiEmployeesBySp(emps);
+        }
         public async Task<bool> UpdateEmployeeBySp(Employee emp)
         {
             return await this.sampleSql.UpdateEmployeeBySp(emp);
