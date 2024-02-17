@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <Folder Include="AppLogs\" />
+    <Folder Include="Middlewares\" />
     <Folder Include="TestStaticFiles\images\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\lib\fontawesome\" />

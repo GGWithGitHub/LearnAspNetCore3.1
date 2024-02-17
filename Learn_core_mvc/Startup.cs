@@ -84,6 +84,14 @@ namespace Learn_core_mvc
                 config.LoginPath = "/IdentityEx/Login";
             });
 
+            //configured session
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10); // Set your session timeout value
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             // To get logged-in userid using identity, this is a custom servies
             services.AddScoped<IIdentityUserService, IdentityUserService>();
 

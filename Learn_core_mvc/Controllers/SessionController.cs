@@ -53,6 +53,10 @@ namespace Learn_core_mvc.Controllers
 
         public IActionResult Dashboard()
         {
+            if (HttpContext.Session.GetString("UserName") == null)
+            {
+                return RedirectToAction("Index");
+            }
             return View();
         }
 
