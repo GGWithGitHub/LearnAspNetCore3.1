@@ -1,0 +1,33 @@
+﻿
+@{
+   
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <span>Set sale end date:</span>
+        <input id="endDateTime" type="datetime-local" class="form-control" />
+        <br />
+        <button onclick="setSaleEndDate()" class="btn btn-primary form-control">Set</button>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function setSaleEndDate() {
+            var endDateTime = $("#endDateTime").val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SetSaleEndDateTime", "JavascriptJquery")',
+                data: { saleEndDateTime: endDateTime },
+                success: function (result) {
+                    debugger
+                    window.location.reload();
+                },
+                error: function(error) {
+                    
+                }
+            });
+        }
+    </script>
+}

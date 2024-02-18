@@ -1,0 +1,61 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+}
+
+<div class="row" style="background-color:black; color:whitesmoke;">
+    <div class="col-md-12" id="sale-timer">
+
+    </div>
+</div>
+
+<script>
+    // Function to update timer
+    function updateTimer() {
+        if ("@HttpContextAccessor.HttpContext.Session.GetString("SaleEndDate")" != "")
+        {
+            // Get the sale end date from session state
+            var saleEndTime = new Date('@HttpContextAccessor.HttpContext.Session.GetString("SaleEndDate")').getTime();
+
+            // Get current date and time
+            var now = new Date().getTime();
+
+            // Calculate remaining time
+            var distance = saleEndTime - now;
+
+            // Calculate days, hours, minutes, and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the timer in the HTML element with id="timer"
+            document.getElementById("sale-timer").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+            // Check if the sale has ended
+            if (distance < 0) {
+                clearInterval(timerInterval); // Stop the timer
+                document.getElementById("sale-timer").innerHTML = "Sale Ended";
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("ClearSaleEndDateTime", "JavascriptJquery")',
+                    success: function(result) {
+                        window.location.reload();
+                    },
+                    error: function(error) {
+
+                    }
+                });
+            }
+        }
+    }
+
+    // Update timer every second
+    var timerInterval = setInterval(updateTimer, 1000);
+
+    // Initial call to updateTimer to avoid delay in starting the timer
+    updateTimer();
+
+</script>

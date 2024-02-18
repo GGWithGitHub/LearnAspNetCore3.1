@@ -1,5 +1,6 @@
 ﻿using Learn_core_mvc.Models;
 using Learn_core_mvc.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -373,6 +374,24 @@ namespace Learn_core_mvc.Controllers
         public IActionResult AccordionUpDown()
         {
             return View();
+        }
+        
+        public IActionResult SaleTimer()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult SetSaleEndDateTime(string saleEndDateTime)
+        {
+            HttpContext.Session.SetString("SaleEndDate", saleEndDateTime);
+            return Ok();
+        }
+        
+        public IActionResult ClearSaleEndDateTime()
+        {
+            HttpContext.Session.Remove("SaleEndDate");
+            return Ok();
         }
     }
 }

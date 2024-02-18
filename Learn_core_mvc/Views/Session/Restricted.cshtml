@@ -10,6 +10,16 @@
     <br />
 }
 
-<span style="color:red;">Note: Session timeout value is 10 seconds</span>
+<p style="color:red;">Note: If you want to clear session after specific time then you need to uncomment below code from startup.cs file</p>
+<pre style="color:red;">
+    services.AddSession(options =&gt;
+    {
+        options.IdleTimeout = TimeSpan.FromSeconds(10); // Set your session timeout value
+        options.Cookie.HttpOnly = true;
+        options.Cookie.IsEssential = true;
+    });
+
+    This code was commented due to sale timer functionality
+</pre>
 
 <h1>This is a restricted page.</h1>
