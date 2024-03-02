@@ -3,9 +3,11 @@ using Learn_core_mvc.Models;
 using Learn_core_mvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Learn_core_mvc.Controllers
@@ -130,6 +132,60 @@ namespace Learn_core_mvc.Controllers
                 }
             }
             return View();
+        }
+
+        public IActionResult FormValidationGoogleReCaptureV3()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> FormValidationGoogleReCaptureV3(ContactUsVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var isCaptchaValid = await IsCaptchaValid(model.GoogleCaptchaToken);
+                if (isCaptchaValid)
+                {
+                    ViewBag.Success = "<h4>Form submitted successfully.</h4>";
+                }
+                else
+                {
+                    ModelState.AddModelError("GoogleCaptcha", "The captcha is not valid");
+                }
+            }
+            return View(model);
+        }
+
+        private async Task<bool> IsCaptchaValid(string response)
+        {
+            try
+            {
+                var secret = "6LcHpYoUAAAAAIQTMx-RL3WjsTN9k710FPn-DpOw";
+                using (var client = new HttpClient())
+                {
+                    var values = new Dictionary<string, string>
+                    {
+                        {"secret", secret},
+                        {"response", response},
+                        {"remoteip", Request.Host.Value}
+                    };
+
+                    var content = new FormUrlEncodedContent(values);
+                    var verify = await client.PostAsync("https://www.google.com/recaptcha/api/siteverify", content);
+                    var captchaResponseJson = await verify.Content.ReadAsStringAsync();
+                    var captchaResult = JsonConvert.DeserializeObject<CaptchaResponseVM>(captchaResponseJson);
+                    return captchaResult.Success
+                           && captchaResult.Action == "contact_us"
+                           && captchaResult.Score > 0.5;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
         }
 
         public IActionResult FormWithDynmcDdRbCb()

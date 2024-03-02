@@ -1,0 +1,42 @@
+﻿@model ContactUsVM
+
+@{
+}
+
+<h3 style="color:red;">If site key and secret key are correct, It will work.</h3>
+
+@if (ViewBag.Success != null)
+{
+    <div class="alert alert-success form-message">@Html.Raw(ViewBag.Success)</div>
+}
+<form asp-controller="Form" asp-action="FormValidationGoogleReCaptureV3" method="post">
+    <div style="color:red;">
+        @Html.ValidationSummary()
+    </div>
+
+    <div class="form-group">
+        <label for="Name">Your Name:</label>
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Email">Your Email:</label>
+        <input type="text" asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Message">Type your message:</label>
+        <textarea asp-for="Message" class="form-control" rows="5"></textarea>
+    </div>
+    <input type="hidden" asp-for="GoogleCaptchaToken" />
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@section Scripts{
+    <script src="https://www.google.com/recaptcha/api.js?render=6LcHpYoUAAAAAITt2G2PEeawHQ8vdvRvUyIf8cKT"></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('6LcHpYoUAAAAAITt2G2PEeawHQ8vdvRvUyIf8cKT', { action: 'contact_us' }).then(function (token) {
+                $("#GoogleCaptchaToken").val(token);
+            });
+        });
+    </script>
+}

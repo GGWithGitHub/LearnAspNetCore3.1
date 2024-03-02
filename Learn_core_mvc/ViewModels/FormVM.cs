@@ -1,4 +1,5 @@
 ﻿using Learn_core_mvc.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -73,5 +74,33 @@ namespace Learn_core_mvc.ViewModels
         [Required]
         public string ContactEmail { get; set; }
         public List<PhoneWithPhoneAttributes> PhoneWithPhoneAttributes { get; set; } = new List<PhoneWithPhoneAttributes>();
+    }
+
+    public class ContactUsVM
+    {
+        [Required(ErrorMessage = "Please enter name")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "Please enter email")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Please enter message")]
+        public string Message { get; set; }
+        public string GoogleCaptchaToken { get; set; }
+    }
+
+    public class CaptchaResponseVM
+    {
+        public bool Success { get; set; }
+
+        [JsonProperty(PropertyName = "error-codes")]
+        public IEnumerable<string> ErrorCodes { get; set; }
+
+        [JsonProperty(PropertyName = "challenge_ts")]
+        public DateTime ChallengeTime { get; set; }
+
+        public string HostName { get; set; }
+        public double Score { get; set; }
+        public string Action { get; set; }
     }
 }
