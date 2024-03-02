@@ -103,4 +103,9 @@ namespace Learn_core_mvc.ViewModels
         public double Score { get; set; }
         public string Action { get; set; }
     }
+
+    public class PartialRefreshVM
+    {
+        public CustRegisterModel CustRegisterModel { get; set; } = new CustRegisterModel();
+    }
 }

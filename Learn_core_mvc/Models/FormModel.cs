@@ -91,4 +91,20 @@ namespace Learn_core_mvc.Models
         public string HobbyLabel { get; set; }
         public bool IsChecked { get; set; }
     }
+
+    public class CustRegisterModel
+    {
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "Enter name")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage ="Enter phone number")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$", ErrorMessage = "Invalid phone number")]
+        public string Phone { get; set; }
+
+        [Required(ErrorMessage ="Enter email")]
+        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Invalid email address")]
+        public string Email { get; set; }
+    }
 }

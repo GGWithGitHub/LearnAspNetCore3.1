@@ -1,0 +1,27 @@
+﻿@model PartialRefreshVM
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-controller="Form" asp-action="RegCustomer" method="post" 
+              data-ajax="true" data-ajax-mode="replace" data-ajax-update="#custRegister">
+            <div class="form-group">
+                <label asp-for="CustRegisterModel.Name" class="lable-control"></label>
+                <input asp-for="CustRegisterModel.Name" class="form-control" />
+                <span asp-validation-for="CustRegisterModel.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustRegisterModel.Phone" class="lable-control"></label>
+                <input asp-for="CustRegisterModel.Phone" class="form-control" />
+                <span asp-validation-for="CustRegisterModel.Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustRegisterModel.Email" class="lable-control"></label>
+                <input asp-for="CustRegisterModel.Email" class="form-control" />
+                <span asp-validation-for="CustRegisterModel.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary rounded-0">Register</button>
+            </div>
+        </form>
+    </div>
+</div>

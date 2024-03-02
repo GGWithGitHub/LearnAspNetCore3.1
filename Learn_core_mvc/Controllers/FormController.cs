@@ -518,5 +518,27 @@ namespace Learn_core_mvc.Controllers
         {
             return View(model);
         }
+
+        public IActionResult PartialRefresh()
+        {
+            PartialRefreshVM model = new PartialRefreshVM();
+            return View(model);
+        }
+        
+        [HttpPost]
+        public IActionResult RegCustomer(PartialRefreshVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView("_CustomerRegister",model);
+            }
+            return PartialView("_Successs");
+        }
+
+        public IActionResult GoToCustRegForm()
+        {
+            PartialRefreshVM model = new PartialRefreshVM();
+            return PartialView("_CustomerRegister", model);
+        }
     }
 }
