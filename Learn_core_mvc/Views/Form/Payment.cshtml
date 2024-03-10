@@ -1,0 +1,243 @@
+﻿@model PaymentModel
+
+@{
+    var Issuers = new List<SelectListItem>{
+        new SelectListItem { Value = "VISA", Text = "VISA" },
+        new SelectListItem { Value = "MASTERCARD", Text = "MASTERCARD" },
+        new SelectListItem { Value = "DISCOVER", Text = "DISCOVER" },
+        new SelectListItem { Value = "AMEX", Text = "AMEX" }
+    };
+}
+
+@section Styles{
+    <style>
+        .gradient-custom {
+            background: radial-gradient(50% 123.47% at 50% 50%, #00ff94 0%, #720059 100%), linear-gradient(121.28deg, #669600 0%, #ff0000 100%), linear-gradient(360deg, #0029ff 0%, #8fff00 100%), radial-gradient(100% 164.72% at 100% 100%, #6100ff 0%, #00ff57 100%), radial-gradient(100% 148.07% at 0% 0%, #fff500 0%, #51d500 100%);
+            background-blend-mode: screen, color-dodge, overlay, difference, normal;
+        }
+
+        .error{
+            color:red;
+        }
+    </style>
+}
+
+<section class="gradient-custom">
+    <div class="container my-5 py-5">
+        <div class="row d-flex justify-content-center py-5">
+            <div class="col-md-8 col-lg-8 col-xl-8">
+                <div class="card" style="border-radius: 15px;">
+                    <div class="card-body p-4">
+                        <form id="myForm" asp-controller="Form" asp-action="Payment" method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="form-outline">
+                                    <label class="form-label">Card Number</label>
+                                    <input type="text"
+                                           id="txtCardNum"
+                                           name="CardNumber"
+                                           class="form-control form-control-lg"
+                                           size="20"
+                                           placeholder="1234 5678 9012 3457"
+                                           minlength="19"
+                                           maxlength="19" />
+                                </div>
+                                <div class="form-outline">
+                                    <label class="form-label">Issuer</label>
+                                    <select id="slIssuer" 
+                                            name="Issuer" 
+                                            asp-items="@Issuers" 
+                                            class="form-control form-control-lg">
+                                        <option selected="selected" value="NONE">--Please select--</option>
+                                    </select>
+                                </div>
+                                <img src="https://img.icons8.com/color/48/000000/visa.png" alt="visa" width="64px" />
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="form-outline">
+                                    <label class="form-label">Cardholder's Name</label>
+                                    <input type="text"
+                                           id="txtCardHolderName"
+                                           name="CardHolderName"
+                                           class="form-control form-control-lg"
+                                           siez="17"
+                                           placeholder="Cardholder's Name" />
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center pb-2">
+                                <div class="form-outline">
+                                    <label class="form-label">Expiration</label>
+                                    <input type="text"
+                                           id="txtExpireDate"
+                                           name="ExpireDate"
+                                           class="form-control form-control-lg"
+                                           placeholder="MM/YY"
+                                           size="7"
+                                           minlength="5"
+                                           maxlength="5" />
+                                </div>
+                                <div class="form-outline">
+                                    <label class="form-label">Cvv</label>
+                                    <input type="password"
+                                           id="txtCVV"
+                                           name="CVV"
+                                           class="form-control form-control-lg"
+                                           placeholder="&#9679;&#9679;&#9679;"
+                                           size="1"
+                                           minlength="3"
+                                           maxlength="3" />
+                                </div>
+                                <button id="btnSubmit" type="submit" class="btn btn-info btn-lg btn-rounded">
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <!-- For Client-Side Validation -->
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            if ("@ViewBag.Error" != "") {
+                fillModel();
+            }
+
+            $("#btnSubmit").click(function (event) {
+                event.preventDefault();
+                if ($("#myForm").valid()) {
+                    $("#myForm").submit();
+                }
+            });
+            
+            $('#txtCardNum').on('input', function () {
+                var value = $(this).val().replace(/\s+/g, ''); // Remove existing spaces
+                var newValue = '';
+                // Loop through each character in the input
+                for (var i = 0; i < value.length; i++) {
+                    // Check if the character is a digit
+                    if (/^\d$/.test(value[i])) {
+                        // Append the character to the new value
+                        newValue += value[i];
+                        // Add a space after every four digits
+                        if ((i + 1) % 4 === 0 && i < value.length - 1) {
+                            newValue += ' ';
+                        }
+                    }
+                }
+                // Update the input value
+                $(this).val(newValue);
+            });
+
+            $('#txtExpireDate').on('input', function () {
+                var value = $(this).val().replace(/\s+/g, ''); // Remove existing spaces
+                var newValue = '';
+                // Loop through each character in the input
+                for (var i = 0; i < value.length; i++) {
+                    // Check if the character is a digit
+                    if (/^\d$/.test(value[i])) {
+                        // Append the character to the new value
+                        newValue += value[i];
+                    }
+                    // Add "/" after two digits
+                    if (newValue.length === 2 && value[i] !== '/') {
+                        newValue += '/';
+                    }
+                }
+                // Update the input value
+                $(this).val(newValue);
+            });
+        });
+
+        function fillModel() {
+            $("#txtCardNum").val("@Model.CardNumber");
+            $("#txtCardHolderName").val("@Model.CardHolderName");
+            $("#txtExpireDate").val("@Model.ExpireDate");
+            $("#txtCVV").val("@Model.CVV");
+            $("#slIssuer").val("@Model.Issuer");
+        }
+
+        $.validator.addMethod("customExpireDate", function (value, element) {
+            var input = value;
+            var parts = input.split('/');
+            if (parts.length === 2) {
+                var month = parseInt(parts[0], 10);
+                var year = parseInt(parts[1], 10);
+                var currentDate = new Date();
+                var currentYear = currentDate.getFullYear() % 100; // Get last two digits of current year
+                var currentMonth = currentDate.getMonth() + 1; // Get current month (0-based index)
+
+                if (year > currentYear || (year === currentYear && month >= currentMonth)) {
+                    // Valid expiry date
+                    return true;
+                } else {
+                    // Invalid expiry date
+                    return false;
+                }
+            } else {
+                // Invalid input format
+                return false;
+            }
+        });
+        
+        $("#myForm").validate({
+            rules: {
+                CardNumber: {
+                    required: true,
+                    minlength: 18,
+                    maxlength:19
+                },
+                CardHolderName: {
+                    required: true
+                },
+                ExpireDate: {
+                    required: true,
+                    customExpireDate:true
+                },
+                CVV: {
+                    required: true,
+                    digits: true,
+                    minlength: 3,
+                    maxlength: 4
+                }
+            },
+            messages: {
+                CardNumber: {
+                    required: "Please enter card number",
+                    minlength: "Please enter valid card number",
+                    maxlength: "Please enter valid card number",
+                },
+                CardHolderName: {
+                    required: "Please enter card holder name"
+                },
+                ExpireDate: {
+                    required: "Please enter card expire date",
+                    customExpireDate: "Enter valid expire date"
+                },
+                CVV: {
+                    required: "Please enter card CVV number",
+                    digits: "Please enter only digit",
+                    minlength: "Please enter valid card CVV number",
+                    maxlength: "Please enter valid card CVV number",
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+            //submitHandler: function (form) {
+            //    form.submit();
+            //}
+        });
+
+        
+    </script>
+}

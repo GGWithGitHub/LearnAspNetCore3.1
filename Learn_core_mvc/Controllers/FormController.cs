@@ -540,5 +540,29 @@ namespace Learn_core_mvc.Controllers
             PartialRefreshVM model = new PartialRefreshVM();
             return PartialView("_CustomerRegister", model);
         }
+        
+        public IActionResult Payment()
+        {
+            PaymentModel model = new PaymentModel();
+            //ViewBag.Issuers = new List<SelectListItem>
+            //{
+            //    new SelectListItem { Value = "VISA", Text = "VISA" },
+            //    new SelectListItem { Value = "MASTERCARD", Text = "MASTERCARD" },
+            //    new SelectListItem { Value = "DISCOVER", Text = "DISCOVER" },
+            //    new SelectListItem { Value = "AMEX", Text = "AMEX" }
+            //};
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Payment(PaymentModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Error = "ModelState error";
+                return View(model);
+            }
+            return View(model);
+        }
     }
 }
