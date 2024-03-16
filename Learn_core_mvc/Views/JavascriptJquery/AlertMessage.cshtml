@@ -1,0 +1,85 @@
+﻿
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="alert_container">
+
+        </div>
+
+        <button type="button" class="btn btn-success" onclick="onSuccess()">Success</button>
+        <button type="button" class="btn btn-warning" onclick="onWarning()">Warning</button>
+        <button type="button" class="btn btn-danger" onclick="onError()">Error</button>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function showAlert(message, messagetype, attribute, attributeval) {
+            var cssclass;
+            switch (messagetype) {
+                case 'Success':
+                    cssclass = 'alert-success'
+                    break;
+                case 'Error':
+                    cssclass = 'alert-danger'
+                    break;
+                case 'Warning':
+                    cssclass = 'alert-warning'
+                    break;
+                default:
+                    cssclass = 'alert-info'
+            }
+            var html = `<div id="alert_div" class="alert ${cssclass}">
+                            <a href="#" class="close" style="text-decoration: none;" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>${messagetype}!</strong><span> ${message}</span>
+                        </div>`;
+
+            var selector;
+            switch (attribute) {
+                case 'id':
+                    selector = $(`#${attributeval}`)
+                    break;
+                case 'class':
+                    selector = $(`.${attributeval}`)
+                    break;
+                default:
+                    selector = $(`#${attributeval}`)
+            }
+            selector.append(html);
+
+            setTimeout(function () {
+                $("#alert_div").fadeTo(1000, 500).slideUp(500, function () {
+                    $("#alert_div").remove();
+                });
+            }, 2000);
+        }
+
+        function onSuccess() {
+            var msg = "This is a success message.";
+            var messagetype = "Success";
+            var attribute = "id";
+            var attributeval = "alert_container";
+            showAlert(msg, messagetype, attribute, attributeval);
+        }
+
+        function onWarning() {
+            var msg = "This is a warning message.";
+            var messagetype = "Warning";
+            var attribute = "id";
+            var attributeval = "alert_container";
+            showAlert(msg, messagetype, attribute, attributeval);
+        }
+
+        function onError() {
+            var msg = "This is a error message.";
+            var messagetype = "Error";
+            var attribute = "id";
+            var attributeval = "alert_container";
+            showAlert(msg, messagetype, attribute, attributeval);
+        }
+    </script>
+}
+
+

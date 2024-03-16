@@ -544,13 +544,6 @@ namespace Learn_core_mvc.Controllers
         public IActionResult Payment()
         {
             PaymentModel model = new PaymentModel();
-            //ViewBag.Issuers = new List<SelectListItem>
-            //{
-            //    new SelectListItem { Value = "VISA", Text = "VISA" },
-            //    new SelectListItem { Value = "MASTERCARD", Text = "MASTERCARD" },
-            //    new SelectListItem { Value = "DISCOVER", Text = "DISCOVER" },
-            //    new SelectListItem { Value = "AMEX", Text = "AMEX" }
-            //};
             return View(model);
         }
 

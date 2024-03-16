@@ -393,5 +393,10 @@ namespace Learn_core_mvc.Controllers
             HttpContext.Session.Remove("SaleEndDate");
             return Ok();
         }
+
+        public IActionResult AlertMessage()
+        {
+            return View();
+        }
     }
 }
