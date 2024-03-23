@@ -187,7 +187,7 @@ namespace Learn_core_mvc.Controllers
         }
         #endregion
 
-        #region CRUD Using SP In EF Core With DB First Approach And Repository And Unit Of Work Pattern
+        #region CRUD Using SP In EF Core With DB First Approach And Repository
         public async Task<IActionResult> CrudSpRepoUow()
         {
             return View();
