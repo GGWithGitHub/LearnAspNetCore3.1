@@ -37,6 +37,12 @@
         </nav>
     </header>
     <div class="container">
+        <environment names="Development">
+            <h1>Development Site</h1>
+        </environment>
+        <environment names="Production">
+            <h1>Production Site</h1>
+        </environment>
         <main role="main" class="pb-2">
             <partial name="_SaleTimer" />
             @RenderBody()

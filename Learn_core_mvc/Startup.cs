@@ -34,7 +34,7 @@ namespace Learn_core_mvc
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -145,6 +145,14 @@ namespace Learn_core_mvc
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // For Deployment
+            IConfigurationBuilder configBuilder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+                .AddEnvironmentVariables();
+            Configuration = configBuilder.Build();
+
             if (env.IsDevelopment())
             {
                 //app.UseDeveloperExceptionPage();
@@ -152,9 +160,10 @@ namespace Learn_core_mvc
             }
             else
             {
+                //app.UseDeveloperExceptionPage();
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
 
             app.UseSession();
@@ -163,13 +172,13 @@ namespace Learn_core_mvc
 
             app.UseStaticFiles();
 
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                FileProvider = new PhysicalFileProvider(
-                                    Path.Combine(Directory.GetCurrentDirectory(), "TestStaticFiles")
-                                ),
-                RequestPath = "/TestStaticFiles"
-            });
+            //app.UseStaticFiles(new StaticFileOptions()
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //                        Path.Combine(Directory.GetCurrentDirectory(), "TestStaticFiles")
+            //                    ),
+            //    RequestPath = "/TestStaticFiles"
+            //});
 
             app.UseRouting();
 
