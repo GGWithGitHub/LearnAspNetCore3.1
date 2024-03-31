@@ -278,18 +278,18 @@ namespace Learn_core_mvc.Controllers
         public async Task<IActionResult> GetEmployeesUow2()
         {
             List<EmpDbFirstRepoUowModel> lst_employee = await _eFCoreDBFirstRepoUowService.GetEmployees2();
-            return View("GetEmployeesUow", lst_employee);
+            return View("GetEmployeesUow2", lst_employee);
         }
 
         public async Task<IActionResult> GetEmployeeDetailUow2(int empId)
         {
             EmpDbFirstRepoUowModel emp = await _eFCoreDBFirstRepoUowService.GetEmployeeById2(empId);
-            return View("GetEmployeeDetailUow",emp);
+            return View("GetEmployeeDetailUow2",emp);
         }
 
         public async Task<IActionResult> CreateEmployeeUow2()
         {
-            return View("CreateEmployeeUow");
+            return View("CreateEmployeeUow2");
         }
 
         [HttpPost]
@@ -305,13 +305,13 @@ namespace Learn_core_mvc.Controllers
                 }
             }
 
-            return View("CreateEmployeeUow");
+            return View("CreateEmployeeUow2");
         }
 
         public async Task<IActionResult> UpdateEmployeeUow2(int empId)
         {
             EmpDbFirstRepoUowModel emp = await _eFCoreDBFirstRepoUowService.GetEmployeeById2(empId);
-            return View("UpdateEmployeeUow",emp);
+            return View("UpdateEmployeeUow2",emp);
         }
 
         [HttpPost]
@@ -326,13 +326,13 @@ namespace Learn_core_mvc.Controllers
                     return RedirectToAction("GetEmployeesUow2");
                 }
             }
-            return View("UpdateEmployeeUow", emp);
+            return View("UpdateEmployeeUow2", emp);
         }
 
         public async Task<IActionResult> DeleteEmployeeUow2(int empId)
         {
             EmpDbFirstRepoUowModel emp = await _eFCoreDBFirstRepoUowService.GetEmployeeById2(empId);
-            return View("DeleteEmployeeUow", emp);
+            return View("DeleteEmployeeUow2", emp);
         }
 
         [HttpPost, ActionName("DeleteEmployeeUow2")]
@@ -347,7 +347,7 @@ namespace Learn_core_mvc.Controllers
                 return RedirectToAction("GetEmployeesUow2");
             }
             //}
-            return View("DeleteEmployeeUow", emp);
+            return View("DeleteEmployeeUow2", emp);
         }
         #endregion
 
