@@ -82,13 +82,8 @@ namespace Learn_core_mvc.Controllers
                     await _appDbContext.SaveChangesAsync();
 
 
-                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    
-                    if (!string.IsNullOrEmpty(token))
-                    {
-                        await SendEmailConfirmationEmail(user, token);
-                        ViewBag.UserCreated = "User signup done";
-                    }
+                    ModelState.Clear();
+                    return RedirectToAction("ReSendConfirmEmail", new { email = signupModel.UserEmail });
                 }
                 else
                 {
@@ -103,11 +98,11 @@ namespace Learn_core_mvc.Controllers
         }
 
         [HttpGet("confirm-email")]
-        public async Task<IActionResult> ConfirmEmail(string uid, string token, string email)
+        public async Task<IActionResult> ConfirmEmail(string uid, string token)
         {
-            token = token.Replace(' ', '+');
             if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token))
             {
+                token = token.Replace(' ', '+');
                 var result = await _userManager.ConfirmEmailAsync(await _userManager.FindByIdAsync(uid), token);
                 if (result.Succeeded)
                 {
@@ -116,6 +111,50 @@ namespace Learn_core_mvc.Controllers
             }
 
             return View();
+        }
+
+        public async Task<IActionResult> ReSendConfirmEmail(string email)
+        {
+            EmailConfirmModel model = new EmailConfirmModel
+            {
+                Email = email
+            };
+
+            var user = await _userManager.FindByEmailAsync(email);
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            if (!string.IsNullOrEmpty(token))
+            {
+                await SendEmailConfirmationEmail(user, token);
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReSendConfirmEmail(EmailConfirmModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user != null)
+            {
+                if (user.EmailConfirmed)
+                {
+                    model.EmailVerified = true;
+                    return View(model);
+                }
+
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                if (!string.IsNullOrEmpty(token))
+                {
+                    await SendEmailConfirmationEmail(user, token);
+                }
+                model.EmailSent = true;
+                ModelState.Clear();
+            }
+            else
+            {
+                ModelState.AddModelError("", "Something went wrong.");
+            }
+            return View(model);
         }
 
         private async Task SendEmailConfirmationEmail(IdentityUser user, string token)
