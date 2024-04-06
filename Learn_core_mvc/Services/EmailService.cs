@@ -45,6 +45,15 @@ namespace Learn_core_mvc.Services
             await SendEmail(userEmailOptions);
         }
 
+        public async Task SendEmailForForgotPassword(UserEmailOptions userEmailOptions)
+        {
+            userEmailOptions.Subject = UpdatePlaceHolders("Hello {{UserName}}, reset your password.", userEmailOptions.PlaceHolders);
+
+            userEmailOptions.Body = UpdatePlaceHolders(GetEmailBody("ForgotPassword"), userEmailOptions.PlaceHolders);
+
+            await SendEmail(userEmailOptions);
+        }
+
         private async Task SendEmail(UserEmailOptions userEmailOptions)
         {
             MailMessage mail = new MailMessage

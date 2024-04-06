@@ -26,4 +26,29 @@ namespace Learn_core_mvc.Models
         public bool EmailSent { get; set; }
         public bool EmailVerified { get; set; }
     }
+
+    public class ForgotPasswordModel
+    {
+        [Required, EmailAddress, Display(Name = "Registered email address")]
+        public string Email { get; set; }
+        public bool EmailSent { get; set; }
+    }
+
+    public class ResetPasswordIdentityModel
+    {
+        [Required]
+        public string UserId { get; set; }
+
+        [Required]
+        public string Token { get; set; }
+
+        [Required, DataType(DataType.Password)]
+        public string NewPassword { get; set; }
+
+        [Required, DataType(DataType.Password)]
+        [Compare("NewPassword")]
+        public string ConfirmNewPassword { get; set; }
+
+        public bool IsSuccess { get; set; }
+    }
 }

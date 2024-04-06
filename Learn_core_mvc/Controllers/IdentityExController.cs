@@ -273,5 +273,90 @@ namespace Learn_core_mvc.Controllers
         {
             return View();
         }
+
+        [AllowAnonymous, HttpGet("fotgot-password")]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [AllowAnonymous, HttpPost("fotgot-password")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // code here
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    if (!string.IsNullOrEmpty(token))
+                    {
+                        await SendForgotPasswordEmail(user, token);
+
+                        ModelState.Clear();
+                        model.EmailSent = true;
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "You are not registered with us");
+                }
+            }
+            return View(model);
+        }
+
+        private async Task SendForgotPasswordEmail(IdentityUser user, string token)
+        {
+            string appDomain = _configuration.GetSection("Application:AppDomain").Value;
+            string confirmationLink = _configuration.GetSection("Application:ForgotPassword").Value;
+
+            UserEmailOptions options = new UserEmailOptions
+            {
+                ToEmails = new List<string>() { user.Email },
+                PlaceHolders = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("{{UserName}}", user.Email),
+                    new KeyValuePair<string, string>("{{Link}}",
+                        string.Format(appDomain + confirmationLink, user.Id, token))
+                }
+            };
+
+            await _emailService.SendEmailForForgotPassword(options);
+        }
+
+        [AllowAnonymous, HttpGet("reset-password")]
+        public IActionResult ResetPassword(string uid, string token)
+        {
+            ResetPasswordIdentityModel resetPasswordModel = new ResetPasswordIdentityModel
+            {
+                Token = token,
+                UserId = uid
+            };
+            return View(resetPasswordModel);
+        }
+
+        [AllowAnonymous, HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordIdentityModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.Token = model.Token.Replace(' ', '+');
+                var user = await _userManager.FindByIdAsync(model.UserId);
+                var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    ModelState.Clear();
+                    model.IsSuccess = true;
+                    return View(model);
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            return View(model);
+        }
     }
 }
