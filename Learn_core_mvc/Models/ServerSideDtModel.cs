@@ -12,6 +12,7 @@ namespace Learn_core_mvc.Models
         public string EmpEmail { get; set; }
         public string EmpAddress { get; set; }
         public DateTime EmpJoinDate { get; set; }
+        public string DisplayEmpJoinDate { get; set; }
         public decimal EmpSalary { get; set; }
 
         public List<ServerSideDtModel> GetData()

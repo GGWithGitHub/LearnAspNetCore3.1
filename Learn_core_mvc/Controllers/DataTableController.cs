@@ -98,6 +98,11 @@ namespace Learn_core_mvc.Controllers
             var totalRecords = data.Count;
             var filteredData = data.Skip(request.Start).Take(request.Length);
 
+            foreach (var item in filteredData)
+            {
+                item.DisplayEmpJoinDate = item.EmpJoinDate.ToString("MM/dd/yyyy");
+            }
+
             return Json(new
             {
                 draw = request.Draw,
