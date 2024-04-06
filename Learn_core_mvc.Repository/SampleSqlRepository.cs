@@ -65,6 +65,8 @@ namespace Learn_core_mvc.Repository
 
         private const string RETRIEVE_COMPANIES = @"SELECT * FROM tbl_company";
 
+        private const string RETRIEVE_DT_EMPS_All = @"select * from tbl_datatable_emp;";
+
         private const string RETRIEVE_DT_EMPS_All_COUNT = @"select count(*) as allcount from tbl_datatable_emp;";
 
         private const string RETRIEVE_DT_FILTER_EMPS_All_COUNT = @"SELECT COUNT(*) as allcount from tbl_datatable_emp WHERE emp_name LIKE @searchValue OR emp_email LIKE @searchValue OR emp_city LIKE @searchValue";
@@ -461,6 +463,36 @@ namespace Learn_core_mvc.Repository
             }
 
             return user;
+        }
+
+        public async Task<List<DatatableEmp>> GetDTEmps()
+        {
+            List<DatatableEmp> dtEmps = null;
+
+            try
+            {
+                using (var dtEmpData = await ExecuteQuery(RETRIEVE_DT_EMPS_All))
+                {
+                    dtEmps = GetToList(
+                                    dtEmpData,
+                                    x => new DatatableEmp()
+                                    {
+                                        EmpId = x.Field<int>("emp_id"),
+                                        EmpName = x.Field<string>("emp_name"),
+                                        EmpEmail = x.Field<string>("emp_email"),
+                                        EmpGender = x.Field<string>("emp_gender"),
+                                        EmpSalary = x.Field<decimal>("emp_salary"),
+                                        EmpCity = x.Field<string>("emp_city"),
+                                    }
+                                );
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return dtEmps;
         }
         
         public async Task<List<DatatableEmp>> GetDTEmpsLimit(DatatableProperties dtProp)

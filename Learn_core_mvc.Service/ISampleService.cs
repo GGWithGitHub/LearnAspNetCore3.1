@@ -25,6 +25,7 @@ namespace Learn_core_mvc.Service
         Task<bool> LoginUser(string email, string password);
         Task<Login> GetUserByEmail(string email);
         Task<bool> RegisterUser(Login user);
+        Task<List<DatatableEmp>> GetDataTableEmps();
         Task<DatatableResponse> GetDataTableEmps(DatatableProperties dtProp);
         Task AddException(IExceptionHandlerPathFeature exceptionHandlerPathFeature);
         Task<bool> UpdateUserToken(long userId, Guid token);

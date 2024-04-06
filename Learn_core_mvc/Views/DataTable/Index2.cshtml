@@ -1,0 +1,60 @@
+﻿@model List<DatatableEmp>
+
+@{
+}
+
+<!-- Datatable CSS -->
+<link href='https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
+
+<!-- Table -->
+<span>
+    <input type="checkbox" id="onlyMale" /> Only Male
+</span>
+<table id='empTable' class='display dataTable'>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Salary</th>
+            <th>City</th>
+            <th style="display:none;"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.EmpName</td>
+                <td>@item.EmpEmail</td>
+                <td>@item.EmpGender</td>
+                <td>@item.EmpCity</td>
+                <td>@item.EmpSalary</td>
+                <td style="display:none;">
+                    @(item.EmpGender.Trim().ToLower() == "male" ? "onlymale" : "")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <!-- Datatable JS -->
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var empDataTable = $('#empTable').DataTable();
+
+            $("#onlyMale").change(function () {
+                if ($(this).is(':checked')) {
+                    var filterValue = "onlymale";
+                    empDataTable.search(''); // Clear filter
+                    empDataTable.search(filterValue).draw();
+                }
+                else {
+                    empDataTable.search('').draw();
+                }
+            });
+        });
+    </script>
+}

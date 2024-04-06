@@ -24,6 +24,8 @@ namespace Learn_core_mvc.Repository
         Task<Login> LoginUser(string email);
         Task<Login> GetUserByEmail(string email);
         Task<bool> RegisterUser(Login user);
+
+        Task<List<DatatableEmp>> GetDTEmps();
         Task<List<DatatableEmp>> GetDTEmpsLimit(DatatableProperties dtProp);
         Task<int> GetDTTotalEmpsCount();
         Task<int> GetDTTotalFilterEmpsCount(string searchValue);

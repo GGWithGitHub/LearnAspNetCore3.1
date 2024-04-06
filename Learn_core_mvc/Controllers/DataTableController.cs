@@ -22,6 +22,12 @@ namespace Learn_core_mvc.Controllers
         {
             return View();
         }
+        
+        public async Task<IActionResult> Index2()
+        {
+            List<DatatableEmp> listDtEmps = await this.sampleService.GetDataTableEmps();
+            return View(listDtEmps);
+        }
 
         public async Task<IActionResult> GetData()
         {

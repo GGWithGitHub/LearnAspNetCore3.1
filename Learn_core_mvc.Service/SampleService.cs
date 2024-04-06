@@ -86,6 +86,11 @@ namespace Learn_core_mvc.Service
         {
             return await this.sampleSql.DeleteEmployeeByIdBySp(id);
         }
+
+        public async Task<List<DatatableEmp>> GetDataTableEmps()
+        {
+            return await this.sampleSql.GetDTEmps();
+        }
         public async Task<DatatableResponse> GetDataTableEmps(DatatableProperties dtProp)
         {
             var totalRecords = await this.sampleSql.GetDTTotalEmpsCount();
