@@ -1,0 +1,38 @@
+﻿@model ExcelDataVM
+
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ExcelDatas)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Email</td>
+                        <td>@item.Phone</td>
+                        <td>@item.City</td>
+                        <td>@item.State</td>
+                        <td>@item.Salary</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <form method="post" asp-controller="ThirdParty" asp-action="ExcelExport">
+            <input type="submit" value="Export" />
+        </form>
+    </div>
+</div>

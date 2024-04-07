@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ClosedXML.Excel;
+using Learn_core_mvc.Models;
+using Learn_core_mvc.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Twilio;
@@ -37,6 +42,51 @@ namespace Learn_core_mvc.Controllers
             }
 
             return View();
+        }
+
+        public IActionResult ExcelIndex()
+        {
+            ExcelDataVM excelDataVM = new ExcelDataVM();
+            ExcelDataModel excelDataModel = new ExcelDataModel();
+            excelDataVM.ExcelDatas = excelDataModel.GetExcelDatas();
+            
+            return View(excelDataVM);
+        }
+
+        [HttpPost]
+        public IActionResult ExcelExport()
+        {
+            ExcelDataModel excelDataModel = new ExcelDataModel();
+            DataTable dt = new DataTable("Grid");
+            dt.Columns.AddRange(new DataColumn[6] {
+                new DataColumn("Name"),
+                new DataColumn("Email"),
+                new DataColumn("Phone"),
+                new DataColumn("City"),
+                new DataColumn("State"),
+                new DataColumn("Salary"),
+            });
+            var excelDatas = excelDataModel.GetExcelDatas();
+            foreach (var excelData in excelDatas)
+            {
+                dt.Rows.Add(
+                    excelData.Name,
+                    excelData.Email,
+                    excelData.Phone,
+                    excelData.City,
+                    excelData.State,
+                    excelData.Salary
+                );
+            }
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Grid.xlsx");
+                }
+            }
         }
     }
 }
