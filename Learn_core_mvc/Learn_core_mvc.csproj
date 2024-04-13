@@ -37,6 +37,8 @@
     <Folder Include="TestStaticFiles\images\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\lib\fontawesome\" />
+    <Folder Include="wwwroot\vtt\" />
+    <Folder Include="wwwroot\video\" />
     <Folder Include="wwwroot\Theme\css\" />
     <Folder Include="wwwroot\Theme\js\" />
   </ItemGroup>

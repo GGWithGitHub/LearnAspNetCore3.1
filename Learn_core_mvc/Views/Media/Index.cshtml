@@ -1,0 +1,26 @@
+﻿
+@{
+}
+
+@section Styles{ 
+    <style>
+        .video{
+            width:1000px;
+            height:400px;
+        }
+    </style>
+    @*<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />*@
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <video class="video" controls>
+            <source src="~/video/Ram ji.mp4" type="video/mp4">
+            <track src="~/vtt/Ramji.vtt" kind="subtitles" srclang="en" label="English">
+        </video>
+    </div>
+</div>
+
+@section Scripts{ 
+    @*<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>*@
+}

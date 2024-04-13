@@ -12,11 +12,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using Rotativa.AspNetCore;
 using System;
 using System.Collections.Generic;
@@ -40,6 +42,13 @@ namespace Learn_core_mvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            // Configure MIME types for video vtt
+            //services.AddMvc(options =>
+            //{
+            //    options.FormatterMappings.SetMediaTypeMappingForFormat("vtt", MediaTypeHeaderValue.Parse("text/vtt"));
+            //    options.EnableEndpointRouting = false;
+            //});
 
             services.AddSession();
 
@@ -170,7 +179,15 @@ namespace Learn_core_mvc
 
             app.UseHttpsRedirection();
 
-            app.UseStaticFiles();
+            //var provider = new FileExtensionContentTypeProvider();
+            //provider.Mappings[".vtt"] = "text/vtt";
+
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    ContentTypeProvider = provider
+            //});
+
+            //app.UseMvc(); // for video vtt
 
             //app.UseStaticFiles(new StaticFileOptions()
             //{
