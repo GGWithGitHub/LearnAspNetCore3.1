@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
@@ -87,6 +88,30 @@ namespace Learn_core_mvc.Controllers
                     return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Grid.xlsx");
                 }
             }
+        }
+
+        public IActionResult ExportHtmlTblToExcelByJquery()
+        {
+            ExcelDataVM excelDataVM = new ExcelDataVM();
+            ExcelDataModel excelDataModel = new ExcelDataModel();
+            excelDataVM.ExcelDatas = excelDataModel.GetExcelDatas();
+
+            return View(excelDataVM);
+        }
+        
+        public IActionResult HtmlStringToExcelIndex()
+        {
+            ExcelDataVM excelDataVM = new ExcelDataVM();
+            ExcelDataModel excelDataModel = new ExcelDataModel();
+            excelDataVM.ExcelDatas = excelDataModel.GetExcelDatas();
+
+            return View(excelDataVM);
+        }
+
+        [HttpPost]
+        public FileResult ExportHtmlStringToExcel(string GridHtml)
+        {
+            return File(Encoding.ASCII.GetBytes(GridHtml), "application/vnd.ms-excel", "Grid.xls");
         }
     }
 }

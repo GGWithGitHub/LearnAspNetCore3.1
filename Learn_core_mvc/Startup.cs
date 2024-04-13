@@ -179,6 +179,8 @@ namespace Learn_core_mvc
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
+
             //var provider = new FileExtensionContentTypeProvider();
             //provider.Mappings[".vtt"] = "text/vtt";
 
