@@ -3,6 +3,7 @@ using Learn_core_mvc.Filters;
 using Learn_core_mvc.IdentityDbContextFolder;
 using Learn_core_mvc.Models;
 using Learn_core_mvc.Repository;
+using Learn_core_mvc.Repository.EFCodeFirst;
 using Learn_core_mvc.Repository.EFDBFirstRepo;
 using Learn_core_mvc.Service;
 using Learn_core_mvc.Services;
@@ -57,6 +58,11 @@ namespace Learn_core_mvc
                 options.LoginPath = "/ClaimBaseAuth/LogIn";
                 options.LogoutPath = "/ClaimBaseAuth/LogOff";
                 options.AccessDeniedPath = "/Home/AccessDenied";
+            });
+
+            //For code first 
+            services.AddDbContext<CodeFirstDbContext>(options => {
+                options.UseSqlServer(this.Configuration.GetConnectionString("MyConnectionString"));
             });
 
             //For Unit of work
@@ -130,7 +136,11 @@ namespace Learn_core_mvc
             });
             services.AddScoped<IEFCoreDBFirstRepository, EFCoreDBFirstRepository>();
 
+            services.AddScoped<IEFCoreCodeFirstRepository, EFCoreCodeFirstRepository>(); //For code first 
+
             services.AddScoped<IUnitOfWork, UnitOfWork>(); //For Unit of work
+
+            services.AddScoped<IUnitOfWorkCodeFirst, UnitOfWorkCodeFirst>();//For code first 
 
             //If you use UnitOfWork2.cs then you do not need to register other repository classes in Startup.cs
             //because in UnitOfWork2.cs we are using other repository classes

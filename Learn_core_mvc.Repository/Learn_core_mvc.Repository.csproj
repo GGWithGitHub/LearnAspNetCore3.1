@@ -5,6 +5,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="EFCodeFirst\Migrations\20240421173911_Test.cs" />
+    <Compile Remove="EFCodeFirst\Migrations\20240421173911_Test.Designer.cs" />
+    <Compile Remove="EFCodeFirst\Migrations\20240421174320_AddIsRequiredFalse.cs" />
+    <Compile Remove="EFCodeFirst\Migrations\20240421174320_AddIsRequiredFalse.Designer.cs" />
+    <Compile Remove="EFCodeFirst\Migrations\20240421174723_Test.cs" />
+    <Compile Remove="EFCodeFirst\Migrations\20240421174723_Test.Designer.cs" />
+    <Compile Remove="EFCodeFirst\Migrations\20240421174818_Test.cs" />
+    <Compile Remove="EFCodeFirst\Migrations\20240421174818_Test.Designer.cs" />
+    <Compile Remove="EFCodeFirst\Migrations\20240421175204_CommentDelCascadeCode.cs" />
+    <Compile Remove="EFCodeFirst\Migrations\20240421175204_CommentDelCascadeCode.Designer.cs" />
+    <Compile Remove="EFCodeFirst\Migrations\20240421175448_UnCommentDelCascadeCode.cs" />
+    <Compile Remove="EFCodeFirst\Migrations\20240421175448_UnCommentDelCascadeCode.Designer.cs" />
+    <Compile Remove="EFCodeFirst\Migrations\20240421180916_AddAgainSetNullInDelCas.cs" />
+    <Compile Remove="EFCodeFirst\Migrations\20240421180916_AddAgainSetNullInDelCas.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AWSSDK.Core" Version="3.7.12.13" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.9.30" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
