@@ -101,4 +101,9 @@ namespace Learn_core_mvc.Models
             return excelDatas;
         }
     }
+
+    public class ChatGptReqModel
+    {
+        public string ReqContent { get; set; }
+    }
 }

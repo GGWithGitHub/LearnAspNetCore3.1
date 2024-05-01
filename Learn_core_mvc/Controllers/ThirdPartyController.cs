@@ -2,11 +2,13 @@
 using Learn_core_mvc.Models;
 using Learn_core_mvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Twilio;
@@ -112,6 +114,58 @@ namespace Learn_core_mvc.Controllers
         public FileResult ExportHtmlStringToExcel(string GridHtml)
         {
             return File(Encoding.ASCII.GetBytes(GridHtml), "application/vnd.ms-excel", "Grid.xls");
+        }
+
+        public IActionResult ResFromChatGpt()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UseChatGPT(ChatGptReqModel model)
+        {
+            string chatApiKey = "";  
+            var prompt = "For this data: ";
+            string combinedText = $"{prompt} {model.ReqContent}";
+
+            var requestBody = new
+            {
+                model = "gpt-3.5-turbo-0125",
+                messages = new[] {
+                new { role = "system", content = prompt },
+                new { role = "user", content = combinedText }
+            },
+                max_tokens = 1000,
+                temperature = 0.1
+            };
+
+            var jsonPayload = JsonConvert.SerializeObject(requestBody);
+            var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+            var chatGptUrl = "https://api.openai.com/v1/chat/completions";
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", chatApiKey);
+
+                try
+                {
+                    HttpResponseMessage response = await client.PostAsync(chatGptUrl, content);
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return Json(new { success = true, message = responseContent });
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = responseContent });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception details here to understand what went wrong
+                    return Json(new { success = false, message = ex.Message });
+                }
+            }
         }
     }
 }

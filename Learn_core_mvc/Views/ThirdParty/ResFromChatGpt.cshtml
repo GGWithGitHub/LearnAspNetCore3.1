@@ -1,0 +1,33 @@
+﻿
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <span>Search:</span>
+        <textarea id="txtSearch" class="form-control" rows="10"></textarea>
+        <button id="btnSubmit" onclick="onSubmit()">Submit</button>
+    </div>
+</div>
+
+@section Scripts{ 
+    <script>
+        function onSubmit() {
+            var txtSearch = $("#txtSearch").val().trim();
+            var data = {
+                "ReqContent": txtSearch
+            };
+            $.ajax({
+                url: "@Url.Action("UseChatGPT", "ThirdParty")",
+                type: "POST",
+                data:data,
+                success: function (response) {
+                    alert('Success.');
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+    </script>
+}
