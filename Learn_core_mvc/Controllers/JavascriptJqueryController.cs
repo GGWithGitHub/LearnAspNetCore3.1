@@ -398,5 +398,10 @@ namespace Learn_core_mvc.Controllers
         {
             return View();
         }
+
+        public IActionResult JsonWithJsonEditor()
+        {
+            return View();
+        }
     }
 }
