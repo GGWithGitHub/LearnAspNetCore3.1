@@ -1,0 +1,237 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.Options
+@inject IConfiguration _configuration
+
+@{
+    ViewBag.Title = "Stripe Checkout";
+}
+
+<style>
+    .error {
+        color: red;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="errorContainer" class="error"></div>
+        <form id="user-form">
+            <h3>Total Price: $10</h3>
+            <div class="form-group">
+                <label for="first-name">First Name:</label>
+                <input type="text" id="idFirstName" name="nmFirstName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="last-name">Last Name:</label>
+                <input type="text" id="idLastName" name="nmLastName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="idEmail" name="nmEmail" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="idPassword" name="nmPassword" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="password-confirm">Confirm Password:</label>
+                <input type="password" id="idPasswordConfirm" name="nmPasswordConfirm" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="sms-phone">SMS Phone (optional):</label>
+                <input type="tel" id="idSmsPhone" name="nmSmsPhone" class="form-control" placeholder="e.g., +1234567890" pattern="[+]{1}[0-9]{11,14}" />
+            </div>
+            <div class="form-group">
+                <label for="address1">Address Line 1:</label>
+                <input type="text" id="idAddress1" name="nmAddress1" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" id="idCity" name="nmCity" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="state">State:</label>
+                <input type="text" id="idState" name="nmState" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <input type="text" id="idCountry" name="nmCountry" class="form-control" />
+            </div>
+
+            <button id="idCheckoutButton" type="button" class="btn btn-primary">Checkout</button>
+        </form>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <!-- jQuery Validation Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+    <script>
+		$(document).ready(function () {
+
+			var stripePublishableKey = "@(_configuration.GetValue<string>("Stripe:Publishable"))";
+            var stripe = Stripe(stripePublishableKey);
+
+			$("#user-form").validate({
+				rules: {
+					nmFirstName: {
+						required: true
+					},
+					nmLastName: {
+						required: true
+					},
+					nmEmail: {
+						required: true,
+						email: true,
+						remote: {
+							url: '@Url.Action("CheckEmailExists", "Payment")', // Action method to check email
+							type: "post",
+							dataType: "json",
+							data: {
+								email: function() {
+									return $("#idEmail").val();
+								}
+							}
+						}
+					},
+					nmPassword: {
+						required: true,
+						minlength: 6,
+						pwcheck: true
+					},
+					nmPasswordConfirm: {
+						required: true,
+						equalTo: "#idPassword"
+					},
+					nmAddress1: {
+						required: true
+					},
+					nmCity: {
+						required: true
+					},
+					nmState: {
+						required: true
+					},
+					nmCountry: {
+                        required: true
+                    }
+				},
+				messages: {
+                    nmFirstName: {
+						required: "Please enter your first name"
+					},
+                    nmLastName: {
+						required: "Please enter your last name"
+					},
+                    nmEmail: {
+						required: "Please enter your email",
+						email: "Please enter a valid email address",
+						remote: "Email already exists"
+					},
+                    nmPassword: {
+						required: "Please enter a password",
+						minlength: "Password must be at least 6 characters",
+						pwcheck: "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
+					},
+                    nmPasswordConfirm: {
+						required: "Please confirm your password",
+						equalTo: "Passwords do not match"
+					},
+                    nmAddress1: {
+						required: "Please enter your address1"
+					},
+                    nmCity: {
+						required: "Please enter your city"
+					},
+                    nmState: {
+						required: "Please enter your state"
+					},
+					nmCountry: {
+                        required: "Please enter your country"
+                    }
+				},
+				//submitHandler: function (form) {
+				//	form.submit();
+				//}
+			});
+
+			$.validator.addMethod("pwcheck",
+				function (value, element) {
+					var pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W\_]).{6,}$/;
+					return pattern.test(value);
+				}
+			);
+
+			$("#idCheckoutButton").click(function () {
+				if (!$("#user-form").valid()) {
+					return;
+				}
+				else {
+                    var data = {
+                        firstName: $("#idFirstName").val(),
+                        lastName: $("#idLastName").val(),
+                        email: $("#idEmail").val(),
+                        password: $("#idPassword").val(),
+                        confirmPassword: $("#idPasswordConfirm").val(),
+                        smsPhone: $("#idSmsPhone").val(),
+                        address1: $("#idAddress1").val(),
+                        city: $("#idCity").val(),
+                        state: $("#idState").val(),
+                        country: $("#idCountry").val(),
+                        subscriptionTypeId: 1
+                    }
+					$.ajax({
+						url: "@Url.Action("CheckStripeUserForm", "Payment")",
+						type: "POST",
+						data:data,
+						success: function (res) {
+							if (res.success) {
+								$.ajax({
+									url: "@Url.Action("CreateCheckoutSession", "Payment")",
+									type: "POST",
+									data: data,
+									success: function (res) {
+										if (res.success) {
+											return stripe.redirectToCheckout({ sessionId: res.sessionId })
+												.then(function (result) {
+													if (result.error) {
+														console.error(result.error.message);
+													}
+												})
+												.catch(function (error) {
+													console.error('Error:', error);
+												});
+										}
+										else {
+                                            $('#errorContainer').html(res.error);
+										}
+									},
+									error: function (err) {
+                                        $('#errorContainer').html(err);
+									}
+								});
+							}
+							else {
+                                // Handle validation errors
+                                var errorsHtml = '<ul>';
+                                $.each(res.errors, function (index, value) {
+                                    errorsHtml += '<li>' + value + '</li>';
+                                });
+                                errorsHtml += '</ul>';
+
+                                $('#errorContainer').html(errorsHtml);
+                            }
+						},
+						error: function (err) {
+                            $('#errorContainer').html(err);
+						}
+					});
+                }
+			});
+		});
+
+    </script>
+}
