@@ -71,6 +71,10 @@ namespace Learn_core_mvc.Repository
             if (student != null)
             {
                 student.Name = std.Name;
+                student.DateOfBirth = std.DateOfBirth;
+                student.EmailId = std.EmailId;
+                student.Address = std.Address;
+                student.City = std.City;
                 _unitOfWork.Save();
 
                 isSuccessful = true;
