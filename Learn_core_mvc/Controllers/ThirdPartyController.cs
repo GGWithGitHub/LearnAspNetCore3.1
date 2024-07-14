@@ -2,6 +2,9 @@
 using Learn_core_mvc.Models;
 using Learn_core_mvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using MQTTnet;
+using MQTTnet.Client;
+using MQTTnet.Protocol;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
@@ -166,6 +170,57 @@ namespace Learn_core_mvc.Controllers
                     return Json(new { success = false, message = ex.Message });
                 }
             }
+        }
+
+        public IActionResult MqttExample()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MqttExample(string data,string mqttBrokerIp, int mqttBrokerPort, 
+            string mqttBrokerUsername, string mqttBrokerPassword)
+        {
+            // Specify the MQTT broker options using the dynamic values
+            var factory = new MqttFactory();
+            var client = factory.CreateMqttClient();
+            var options = new MqttClientOptionsBuilder()
+                .WithTcpServer(mqttBrokerIp, mqttBrokerPort)
+                .WithCredentials(mqttBrokerUsername, mqttBrokerPassword)
+                .Build();
+
+            try
+            {
+                // Connect to the MQTT broker
+                await client.ConnectAsync(options, CancellationToken.None);
+
+                string jsonPayload = data;
+                string mqttTopic = "xapi/statements/";
+
+                // Create an MQTT application message with the JSON payload
+                var message = new MqttApplicationMessageBuilder()
+                    .WithTopic(mqttTopic)
+                    .WithPayload(jsonPayload)
+                    .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce)
+                    .WithRetainFlag(false)
+                    .Build();
+
+                // Publish the message to the MQTT broker
+                await client.PublishAsync(message, CancellationToken.None);
+
+                ViewBag.msg = "Data send successfully ...";
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.InnerException?.Message ?? ex.Message;
+            }
+            finally
+            {
+                // Disconnect from the MQTT broker and re-enable the button
+                if (client.IsConnected)
+                    await client.DisconnectAsync();
+            }
+            return View();
         }
     }
 }

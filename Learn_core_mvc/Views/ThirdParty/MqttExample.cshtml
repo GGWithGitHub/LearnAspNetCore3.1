@@ -1,0 +1,60 @@
+﻿
+@{
+
+}
+
+<div class="fw-bold fs-5 mt-5 mb-5" style="color:red;">
+    First install "Mosquitto" in your PC.
+    Then Open "Services" and find "Mosquitto Broker" and strat it.
+    You will need IP, port, username and password of MQTT. Get this details from Node-Red application.
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        @if (ViewBag.msg != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span>@ViewBag.msg</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <form asp-controller="ThirdParty" asp-action="MqttExample" method="post">
+            <div class="form-group">
+                <label>IP Address</label>
+                <input type="text" value="127.0.0.1" class="form-control" name="mqttBrokerIp">
+            </div>
+            <div class="form-group">
+                <label>Port</label>
+                <input type="text" value="1883" class="form-control" name="mqttBrokerPort">
+            </div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" value="ggmqttbroker" class="form-control" name="mqttBrokerUsername">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="text" value="ggmqttpassword" class="form-control" name="mqttBrokerPassword">
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" rows="10" cols="50" name="data">
+                    {
+                      "name": "John Doe",
+                      "age": 30,
+                      "city": "New York",
+                      "isStudent": false,
+                      "hobbies": ["reading", "traveling", "coding"],
+                      "address": {
+                        "street": "123 Main St",
+                        "city": "Anytown",
+                        "zipcode": "12345"
+                      }
+                    }
+                </textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Data</button>
+        </form>
+    </div>
+</div>
+
+
