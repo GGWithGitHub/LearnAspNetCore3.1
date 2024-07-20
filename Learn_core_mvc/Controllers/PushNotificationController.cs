@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FirebaseAdmin;
+using FirebaseAdmin.Messaging;
+using Google.Apis.Auth.OAuth2;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -127,6 +130,58 @@ namespace Learn_core_mvc.Controllers
                 ViewBag.Msg = ex.Message;
             }
 
+            return View();
+        }
+    
+        public IActionResult NewSendPushNotification()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NewSendPushNotification(object obj)
+        {
+            var credentialJsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "firebase-service-account-file.json");
+
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile(credentialJsonFilePath),
+            });
+
+            var message = new Message()
+            {
+                Notification = new Notification()
+                {
+                    Title = "",
+                    Body = ""
+                },
+                Data = new Dictionary<string, string>
+                {
+                    { "custum", "Data Tag!" },
+                    { "detail", "Data Message" },
+                    { "title", "" },
+                    { "body", "" },
+                    { "sound", "" },
+                    { "color", "" },
+                    { "appeventtype", "" },
+                    { "android_channel_id", "" },
+                    { "click_action", "SplashActivity" },
+                    { "mobileappmessage_id", "" }
+                },
+                Token = "",
+                Android = new AndroidConfig() { Priority = Priority.High },
+                Apns = new ApnsConfig() { Aps = new Aps { Sound = "" } }
+            };
+
+            try
+            {
+                // Send the message
+                string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             return View();
         }
     }
