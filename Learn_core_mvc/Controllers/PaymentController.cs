@@ -147,5 +147,43 @@ namespace Learn_core_mvc.Controllers
         {
             return View();
         }
+
+        public IActionResult DotnetCharge()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult DotnetCharge(object obj)
+        {
+            var objcc = new dotnetCHARGE.CC();
+
+            objcc.Amount = default; // doubt in this 
+            objcc.Number = default;//TxtCardNumber.Text.ToString;
+            objcc.Month = default;//Convert.ToInt32(TxtExpiredMonth.Text);
+            objcc.Year = default;  //Convert.ToInt32(TxtExpiredYear.Text);
+            objcc.AvsCode = default;
+            // objcc.TransactionKey = "7h5p43z823yPDKr9"
+            objcc.Login = default;
+            objcc.UserName = default;
+            objcc.Password = default;
+            objcc.MerchantUrl = default;
+            objcc.Server = default;
+            objcc.TransactionType = default;
+            objcc.AvsIndicator = default; //0: no avs 1:full avs 2:only full avs 3:avs zip 4:only avs zip
+            objcc.FirstName = default;      //txtBillingFirstName.Text.Trim;
+            objcc.LastName = default;        //txtBillingLastName.Text.Trim;
+            objcc.Address = default;         //txtBillingAddress1.Text.Trim;
+            objcc.City = default;                //txtBillingCity.Text.Trim;
+            objcc.StateProvince = default;      //txtBillingState.Text.Trim;
+            objcc.ZipPostal = default;            //txtBillingZipCode.Text.Trim;
+            objcc.Country = default;          //DropDownListBillingCountry.SelectedValue.Trim;
+            objcc.Phone = default;
+            objcc.TestMode = default;
+
+            int iResult = objcc.Charge(dotnetCHARGE.Processor.ElavonConverge);  // execute the charge
+
+            return View();
+        }
     }
 }
