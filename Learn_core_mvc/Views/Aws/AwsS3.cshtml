@@ -1,0 +1,86 @@
+﻿
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-primary" onclick="GetStringFromAwsS3()">Get string from S3 bucket</button>
+        <br /><br />
+        <button class="btn btn-primary" onclick="GetListStringFromAwsS3()">Get list string from S3 bucket</button>
+        <br /><br />
+        <button class="btn btn-primary" onclick="GetObjFromAwsS3()">Get object from S3 bucket</button>
+        <br /><br />
+        <button class="btn btn-primary" onclick="GetListObjFromAwsS3()">Get list object from S3 bucket</button>
+        <br /><br />
+        <button class="btn btn-primary" onclick="AddObjToAwsS3()">Add object to S3 bucket</button>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function GetStringFromAwsS3() {
+            $.ajax({
+                url: "@Url.Action("GetStringFromAwsS3", "Aws")",
+                type: "GET",
+                success: function (response) {
+                    alert('Success.');
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+
+        function GetListStringFromAwsS3() {
+            $.ajax({
+                url: "@Url.Action("GetListStringFromAwsS3", "Aws")",
+                type: "GET",
+                success: function (response) {
+                    alert('Success.');
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+
+        function GetObjFromAwsS3() {
+            $.ajax({
+                url: "@Url.Action("GetObjFromAwsS3", "Aws")",
+                type: "GET",
+                success: function (response) {
+                    alert('Success.');
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+
+        function GetListObjFromAwsS3() {
+            $.ajax({
+                url: "@Url.Action("GetListObjFromAwsS3", "Aws")",
+                type: "GET",
+                success: function (response) {
+                    alert('Success.');
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+
+        function AddObjToAwsS3() {
+            $.ajax({
+                url: "@Url.Action("AddObjToAwsS3", "Aws")",
+                type: "GET",
+                success: function (response) {
+                    alert('Success.');
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+    </script>
+}
