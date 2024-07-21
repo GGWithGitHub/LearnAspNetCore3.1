@@ -1,0 +1,78 @@
+﻿
+@{
+}
+
+<div class="row text-danger">
+    <div class="col-md-12">
+        <h4>Installed "Microsoft.WindowsAzure.Storage" package</h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-primary" onclick="GetFileURL()">GetFileURL</button>
+        <br /><br />                    
+        <button class="btn btn-primary" onclick="UploadFileToBlob()">UploadFileToBlob</button>
+        <br /><br />                   
+        <button class="btn btn-primary" onclick="GetAllBlobs()">GetAllBlobs</button>
+        <br /><br />                    
+        <button class="btn btn-primary" onclick="DeleteFile()">DeleteFile</button>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function GetFileURL() {
+            $.ajax({
+                url: "@Url.Action("GetFileURL", "Azure")",
+                type: "GET",
+                success: function (response) {
+                    alert('Success.');
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+
+        function UploadFileToBlob() {
+            $.ajax({
+                url: "@Url.Action("UploadFileToBlob", "Azure")",
+                type: "GET",
+                success: function (response) {
+                    alert('Success.');
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+
+        function GetAllBlobs() {
+            $.ajax({
+                url: "@Url.Action("GetAllBlobs", "Azure")",
+                type: "GET",
+                success: function (response) {
+                    alert('Success.');
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+
+        function DeleteFile() {
+            $.ajax({
+                url: "@Url.Action("DeleteFile", "Azure")",
+                type: "GET",
+                success: function (response) {
+                    alert('Success.');
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+
+    </script>
+}
