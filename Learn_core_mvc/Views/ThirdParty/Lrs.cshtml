@@ -1,0 +1,40 @@
+﻿
+@{
+}
+
+<div class="row">
+    <div class="col-md-12 text-danger">
+        <h6>Note: We are able to retrieve statements from the LRS; however, we have observed discrepancies and inaccuracies in the statements obtained using the .NET approach.</h6>
+    </div>
+    <div class="col-md-12 mt-3">
+        <span>Put registration ID:</span>
+        <input type="text" id="registrationId" value="bb8399f6-b3ee-4ee4-a9d9-7b2b7d199c65" class="form-control" />
+        <button onclick="funGetRegStatements()" class="btn btn-primary mt-2">Get registration statements</button>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function funGetRegStatements() {
+            var registrationId = $("#registrationId").val();
+            $.ajax({
+                url: "@Url.Action("GetRegStatements","ThirdParty")",
+                type: "GET",
+                data: {
+                    registrationId: registrationId
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.data);
+                    }
+                    else {
+                        alert(response.msg);
+                    }
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        }
+    </script>
+}

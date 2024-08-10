@@ -9,12 +9,14 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TinCan;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
@@ -220,6 +222,75 @@ namespace Learn_core_mvc.Controllers
                 if (client.IsConnected)
                     await client.DisconnectAsync();
             }
+            return View();
+        }
+
+        public IActionResult Lrs()
+        {
+            return View();
+        }
+        
+        public IActionResult GetRegStatements(string registrationId)
+        {
+            string endpoint = "https://www.lrsendpoint.com/xapihelloworld/xAPI/";
+            string username = "komufe";
+            string password = "amcopg";
+
+            try
+            {
+                var lrs = new RemoteLRS(endpoint, username, password);
+                
+                var query = new StatementsQuery();
+                query.limit = 5000;
+
+                var allStatements = new List<Statement>();
+                var more = true;
+                while (more)
+                {
+                    var statementsResult = lrs.QueryStatements(query);
+                    List<Statement> statements = statementsResult.content.statements;
+
+                    allStatements.AddRange(statements);
+
+                    more = statementsResult.content.more != null;
+
+                    if (more)
+                    {
+                        query.until = statements[statements.Count - 1].timestamp.Value;
+                    }
+                }
+
+                if (allStatements.Any())
+                {
+                    var filteredStatements = allStatements.Where(statement =>
+                    statement.context != null &&
+                    statement.context.registration != null &&
+                    statement.context.registration.ToString() == registrationId).ToList();
+
+                    if (filteredStatements.Any())
+                    {
+                        var statementsOfReg = JsonConvert.SerializeObject(filteredStatements);
+
+                        return Json(new { success = true, data = statementsOfReg });
+                    }
+                    else
+                    {
+                        return Json(new { success = false, msg = "Can not get the registration's data." });
+                    }
+                }
+                else
+                {
+                    return Json(new { success = false, msg = "Can not get the data." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, msg = "Connection failed" });
+            }
+        }
+
+        public IActionResult LrsJs()
+        {
             return View();
         }
     }
