@@ -18,6 +18,8 @@ namespace Learn_core_mvc.Repository
         Task<List<Employee>> GetEmployeesBySp();
         Task<bool> CreateEmployeeBySp(Employee emp);
         Task<List<Employee>> CreateMultiEmployeesBySp(List<Employee> emps);
+        Task<List<Employee>> UpdateMultiEmployeesBySp(List<Employee> emps);
+        Task<List<Employee>> GetFirstThreeEmployees();
         Task<bool> UpdateEmployeeBySp(Employee emp);
         Task<bool> DeleteEmployeeByIdBySp(int id);
         Task<List<Company>> GetCompanies();

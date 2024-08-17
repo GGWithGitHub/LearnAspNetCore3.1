@@ -12,6 +12,7 @@ namespace Learn_core_mvc.Repository
     public class SampleSqlRepository : SqlRepository, ISampleSqlRepository
     {
         private const string RETRIEVE_ALL_QUERY = @"SELECT * FROM tbl_employee";
+        private const string RETRIEVE_FirstThree_QUERY = @"SELECT TOP 3 * FROM tbl_employee";
         private const string RETRIEVE_QUERY = @"SELECT * FROM tbl_employee WHERE emp_id=@emp_id;";
         private const string USER_LOGIN_QUERY = @"SELECT * FROM tbl_user WHERE user_email=@user_email;";
         private const string UPDATE_QUERY = @"UPDATE tbl_employee
@@ -290,6 +291,78 @@ namespace Learn_core_mvc.Repository
             
             var employees = new List<Employee>();
             using (var employeeData = await ExecuteTableType("dbo.spAddMultiEmployees", dataTable))
+            {
+                employees = GetToList(
+                                employeeData,
+                                x => new Employee()
+                                {
+                                    EmpId = x.Field<int>("emp_id"),
+                                    EmpName = x.Field<string>("emp_name"),
+                                    EmpEmail = x.Field<string>("emp_email"),
+                                    EmpPhone = x.Field<string>("emp_phone"),
+                                    EmpAddress = x.Field<string>("emp_address"),
+                                    EmpCity = x.Field<string>("emp_city"),
+                                    EmpState = x.Field<string>("emp_state"),
+                                    EmpCountry = x.Field<string>("emp_country")
+                                }
+                            );
+            }
+
+            return employees;
+        }
+
+        public async Task<List<Employee>> UpdateMultiEmployeesBySp(List<Employee> emps)
+        {
+            MyDataTable dataTable = new MyDataTable();
+            dataTable.DataTableParam = "@empDataTableParam";
+            dataTable.DataTableTypeName = "dbo.EmpDataTableTypeName";
+
+            DataTable dt = new DataTable();
+
+            // Add columns to the DataTable
+            dt.Columns.Add("emp_id", typeof(int));
+            dt.Columns.Add("emp_name", typeof(string));
+            dt.Columns.Add("emp_email", typeof(string));
+            dt.Columns.Add("emp_phone", typeof(string));
+            dt.Columns.Add("emp_address", typeof(string));
+            dt.Columns.Add("emp_city", typeof(string));
+            dt.Columns.Add("emp_state", typeof(string));
+            dt.Columns.Add("emp_country", typeof(string));
+
+            // Add rows to the DataTable
+            foreach (var employee in emps)
+            {
+                dt.Rows.Add(employee.EmpId , employee.EmpName, employee.EmpEmail, employee.EmpPhone, employee.EmpAddress, employee.EmpCity, employee.EmpState, employee.EmpCountry);
+            }
+
+            dataTable.DataTable = dt;
+
+            var employees = new List<Employee>();
+            using (var employeeData = await ExecuteTableType("dbo.spUpdateMultiEmployees", dataTable))
+            {
+                employees = GetToList(
+                                employeeData,
+                                x => new Employee()
+                                {
+                                    EmpId = x.Field<int>("emp_id"),
+                                    EmpName = x.Field<string>("emp_name"),
+                                    EmpEmail = x.Field<string>("emp_email"),
+                                    EmpPhone = x.Field<string>("emp_phone"),
+                                    EmpAddress = x.Field<string>("emp_address"),
+                                    EmpCity = x.Field<string>("emp_city"),
+                                    EmpState = x.Field<string>("emp_state"),
+                                    EmpCountry = x.Field<string>("emp_country")
+                                }
+                            );
+            }
+
+            return employees;
+        }
+
+        public async Task<List<Employee>> GetFirstThreeEmployees()
+        {
+            var employees = new List<Employee>();
+            using (var employeeData = await ExecuteQuery(RETRIEVE_FirstThree_QUERY, new Dictionary<string, object>() { }))
             {
                 employees = GetToList(
                                 employeeData,

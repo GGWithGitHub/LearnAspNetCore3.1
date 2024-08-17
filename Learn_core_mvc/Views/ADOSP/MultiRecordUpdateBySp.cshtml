@@ -6,7 +6,7 @@
 
 <h1 id="msg"></h1>
 
-@using (Html.BeginForm("MultiRecordToSp", "ADOSP", FormMethod.Post, new { id = "myForm" }))
+@using (Html.BeginForm("MultiRecordUpdateBySp", "ADOSP", FormMethod.Post, new { id = "myForm" }))
 {
     <div class="row">
         @foreach (var emp in Model.Employees)
@@ -15,45 +15,51 @@
             <div class="col-md-4">
                 <table class="table-bordered myTable">
                     <tr>
+                        <td>Employee Id</td>
+                        <td>
+                            <input type="text" id="empId_@i" name="empId" value="@emp.EmpId" />
+                        </td>
+                    </tr>
+                    <tr>
                         <td>Employee Name</td>
                         <td>
-                            <input type="text" id="empName_@i" name="empName" />
+                            <input type="text" id="empName_@i" name="empName" value="@emp.EmpName" />
                         </td>
                     </tr>
                     <tr>
                         <td>Employee Email</td>
                         <td>
-                            <input type="text" id="empEmail_@i" name="empEmail" />
+                            <input type="text" id="empEmail_@i" name="empEmail" value="@emp.EmpEmail" />
                         </td>
                     </tr>
                     <tr>
                         <td>Employee Phone</td>
                         <td>
-                            <input type="text" id="empPhone_@i" name="empPhone" />
+                            <input type="text" id="empPhone_@i" name="empPhone" value="@emp.EmpPhone" />
                         </td>
                     </tr>
                     <tr>
                         <td>Employee Address</td>
                         <td>
-                            <input type="text" id="empAddress_@i" name="empAddress" />
+                            <input type="text" id="empAddress_@i" name="empAddress" value="@emp.EmpAddress" />
                         </td>
                     </tr>
                     <tr>
                         <td>Employee City</td>
                         <td>
-                            <input type="text" id="empCity_@i" name="empCity" />
+                            <input type="text" id="empCity_@i" name="empCity" value="@emp.EmpCity" />
                         </td>
                     </tr>
                     <tr>
                         <td>Employee State</td>
                         <td>
-                            <input type="text" id="empState_@i" name="empState" />
+                            <input type="text" id="empState_@i" name="empState" value="@emp.EmpState" />
                         </td>
                     </tr>
                     <tr>
                         <td>Employee Country</td>
                         <td>
-                            <input type="text" id="empCountry_@i" name="empCountry" />
+                            <input type="text" id="empCountry_@i" name="empCountry" value="@emp.EmpCountry" />
                         </td>
                     </tr>
                 </table>
@@ -68,6 +74,7 @@
         <table id="employeeTable" class="table table-bordered">
             <thead>
                 <tr>
+                    <th>Employee Id</th>
                     <th>Employee Name</th>
                     <th>Employee Email</th>
                     <th>Employee Phone</th>
@@ -78,7 +85,6 @@
                 </tr>
             </thead>
             <tbody>
-                
             </tbody>
         </table>
     </div>
@@ -91,7 +97,7 @@
 
             var listOfObjects = [];
             $('table').each(function (index, table) {
-                debugger
+                var empId = $(table).find("input[name='empId']").val();
                 var empName = $(table).find("input[name='empName']").val();
                 var empEmail = $(table).find("input[name='empEmail']").val();
                 var empPhone = $(table).find("input[name='empPhone']").val();
@@ -100,20 +106,21 @@
                 var empState = $(table).find("input[name='empState']").val();
                 var empCountry = $(table).find("input[name='empCountry']").val();
 
-                listOfObjects.push({ EmpName: empName, EmpPhone: empPhone, EmpCity: empCity, EmpEmail: empEmail, EmpState: empState, EmpAddress: empAddress, EmpCountry: empCountry });
+                listOfObjects.push({ EmpId: empId, EmpName: empName, EmpPhone: empPhone, EmpCity: empCity, EmpEmail: empEmail, EmpState: empState, EmpAddress: empAddress, EmpCountry: empCountry });
             });
             var model = { Employees: listOfObjects };
 
             $.ajax({
                 url: $(this).attr('action'), // Form action URL
                 type: $(this).attr('method'), // Form method (POST in this case)
-                data: model, 
+                data: model,
                 success: function (response) {
                     if (response.success) {
                         var tableBody = $('#employeeTable tbody');
                         tableBody.empty(); // Clear any existing rows
                         $.each(response.data, function (index, employee) {
                             var row = '<tr>' +
+                                '<td>' + employee.empId + '</td>' +
                                 '<td>' + employee.empName + '</td>' +
                                 '<td>' + employee.empEmail + '</td>' +
                                 '<td>' + employee.empPhone + '</td>' +

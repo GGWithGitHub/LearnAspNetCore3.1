@@ -111,12 +111,44 @@ namespace Learn_core_mvc.Controllers
             if (lst_employee.Count > 0)
             {
                 msg = "Added record!!";
+                return Json(new { success = true, msg = msg, data = lst_employee });
             }
             else
             {
                 msg = "Could not add record!!";
+                return Json(new { success = false, msg = msg });
             }
-            return Json(new { success = true, msg = msg });
+            
+        }
+
+        public async Task<IActionResult> MultiRecordUpdateBySp()
+        {
+            List<Employee> empList = new List<Employee>();
+            empList = await this.sampleService.GetFirstThreeEmployees();
+            EmployeeVM model = new EmployeeVM
+            {
+                Employees = empList
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MultiRecordUpdateBySp(EmployeeVM model)
+        {
+            List<Employee> lst_employee = await this.sampleService.UpdateMultiEmployeesBySp(model.Employees);
+            string msg = "";
+            if (lst_employee.Count > 0)
+            {
+                msg = "Updated record!!";
+                return Json(new { success = true, msg = msg, data = lst_employee });
+            }
+            else
+            {
+                msg = "Could not update record!!";
+                return Json(new { success = false, msg = msg });
+            }
+
         }
     }
 }
