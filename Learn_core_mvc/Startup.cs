@@ -1,6 +1,7 @@
 using Learn_core_mvc.Core.Models;
 using Learn_core_mvc.Filters;
 using Learn_core_mvc.IdentityDbContextFolder;
+using Learn_core_mvc.Middlewares;
 using Learn_core_mvc.Models;
 using Learn_core_mvc.Repository;
 using Learn_core_mvc.Repository.EFCodeFirst;
@@ -21,6 +22,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 using Rotativa.AspNetCore;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -187,6 +189,8 @@ namespace Learn_core_mvc
 
             app.UseSession();
 
+            //app.UseSerilogRequestLogging(); //Logging using SeriLog
+
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
@@ -208,6 +212,8 @@ namespace Learn_core_mvc
             //                    ),
             //    RequestPath = "/TestStaticFiles"
             //});
+
+            //app.UseMiddleware<GlobalErrorHandlingMiddleware>();
 
             app.UseRouting();
 

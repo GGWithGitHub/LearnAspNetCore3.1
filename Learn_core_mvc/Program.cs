@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,6 +27,10 @@ namespace Learn_core_mvc
                 // Enable NLog as one of the Logging Provider
                 logging.AddNLog();
             })
+            //.UseSerilog((context, config) => //Logging using SeriLog
+            //{
+            //    config.ReadFrom.Configuration(context.Configuration);
+            //})
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();

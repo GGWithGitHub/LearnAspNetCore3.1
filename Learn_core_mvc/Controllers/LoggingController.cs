@@ -84,5 +84,19 @@ namespace Learn_core_mvc.Controllers
             }
             return View("LogErrInFile");
         }
+
+        public IActionResult LogUsingSerilog()
+        {
+            return View();
+        }
+        
+        [HttpPost]
+        public IActionResult PostLogUsingSerilog()
+        {
+            var a = 0;
+            var b = 10;
+            var c = b / a;
+            return RedirectToAction("LogUsingSerilog");
+        }
     }
 }
