@@ -17,6 +17,7 @@ namespace Learn_core_mvc.Repository.EFCodeFirst
         public DbSet<TblCourseCf> TblCourseCf { get; set; }
         public DbSet<TblStudentFluentAPI> TblStudentFluentAPI { get; set; }
         public DbSet<TblStudentDetailsFluentAPI> TblStudentDetailsFluentAPI { get; set; }
+        public DbSet<TblEvaluationFluentAPI> TblEvaluationFluentAPI { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

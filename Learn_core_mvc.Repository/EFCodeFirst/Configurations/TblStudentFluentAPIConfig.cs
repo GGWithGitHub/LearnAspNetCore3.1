@@ -36,6 +36,11 @@ namespace Learn_core_mvc.Repository.EFCodeFirst.Configurations
             builder.HasOne(s => s.StudentDetails)
                 .WithOne(sd => sd.Student)
                 .HasForeignKey<TblStudentDetailsFluentAPI>(sd => sd.StudentId);
+
+            // Configure One-to-Many relationship with Evaluations
+            builder.HasMany(e => e.Evaluations)
+                .WithOne(s => s.Student)
+                .HasForeignKey(s => s.StudentId);
         }
     }
 }
