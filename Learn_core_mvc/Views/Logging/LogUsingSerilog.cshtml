@@ -5,6 +5,7 @@
 <div class="row">
     <div class="col-md-12">
         <h6>Install "SeriLog.AspNetCore" package</h6>
+        <h6>Install "Serilog.Sinks.MSSqlServer" package to save log in table</h6>
         <h6>Go to program.cs file and uncomment following code</h6>
         <pre>
             .UseSerilog((context, config) => //Logging using SeriLog
@@ -15,11 +16,15 @@
         <h6>Go to "Startup.cs" file and go to "Configure" method and uncomment following code</h6>
         <pre>
             app.UseSerilogRequestLogging();
+
+            app.UseMiddleware<GlobalErrorHandlingMiddleware>();
         </pre>
     </div>
     <div class="col-md-12">
         <form asp-controller="Logging" asp-action="PostLogUsingSerilog" method="post">
-            <button type="submit" class="btn btn-primary">Click on me to error log</button>
+            <button type="submit" class="btn btn-primary">Click on me to error log into file</button>
+            <br/><br />
+            <button type="submit" class="btn btn-primary">Click on me to error log into table</button>
         </form>
     </div>
 </div>

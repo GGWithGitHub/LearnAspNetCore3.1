@@ -1,4 +1,5 @@
-﻿using Learn_core_mvc.Repository.EFCodeFirst.Models;
+﻿using Learn_core_mvc.Repository.EFCodeFirst.Configurations;
+using Learn_core_mvc.Repository.EFCodeFirst.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,14 @@ namespace Learn_core_mvc.Repository.EFCodeFirst
 
         public DbSet<TblStudentCf> TblStudentCf { get; set; }
         public DbSet<TblCourseCf> TblCourseCf { get; set; }
+        public DbSet<TblStudentFluentAPI> TblStudentFluentAPI { get; set; }
+        public DbSet<TblStudentDetailsFluentAPI> TblStudentDetailsFluentAPI { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new TblStudentFluentAPIConfig());
+            modelBuilder.ApplyConfiguration(new TblStudentDetailsFluentAPIConfig());
+
             modelBuilder.Entity<TblStudentCf>()
                 .HasOne(p => p.Course)
                 .WithMany(p => p.Students)

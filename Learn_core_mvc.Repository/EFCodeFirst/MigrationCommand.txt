@@ -1,0 +1,8 @@
+﻿If you want to add migration in specific folder and specify your context then:
+	Add-Migration InitialMigration -context CodeFirstDbContext -OutputDir "EFCodeFirst/Migrations"
+
+Changes to take effect in the database:
+	Update-Database -Context CodeFirstDbContext
+
+Remove last migration:
+	Remove-Migration -Context CodeFirstDbContext

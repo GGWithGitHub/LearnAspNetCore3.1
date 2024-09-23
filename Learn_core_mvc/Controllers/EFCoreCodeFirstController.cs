@@ -92,5 +92,9 @@ namespace Learn_core_mvc.Controllers
             return View(std);
         }
 
+        public IActionResult FluentAPI()
+        {
+            return View();
+        }
     }
 }
