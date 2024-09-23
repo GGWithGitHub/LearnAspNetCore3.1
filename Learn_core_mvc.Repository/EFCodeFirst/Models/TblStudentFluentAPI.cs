@@ -12,5 +12,6 @@ namespace Learn_core_mvc.Repository.EFCodeFirst.Models
         public bool IsRegularStudent { get; set; }
         public TblStudentDetailsFluentAPI StudentDetails { get; set; }
         public ICollection<TblEvaluationFluentAPI> Evaluations { get; set; }
+        public ICollection<TblStudentSubjectFluentAPI> StudentSubjects { get; set; }
     }
 }

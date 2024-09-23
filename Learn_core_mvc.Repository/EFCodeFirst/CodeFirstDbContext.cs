@@ -18,11 +18,14 @@ namespace Learn_core_mvc.Repository.EFCodeFirst
         public DbSet<TblStudentFluentAPI> TblStudentFluentAPI { get; set; }
         public DbSet<TblStudentDetailsFluentAPI> TblStudentDetailsFluentAPI { get; set; }
         public DbSet<TblEvaluationFluentAPI> TblEvaluationFluentAPI { get; set; }
+        public DbSet<TblStudentSubjectFluentAPI> TblStudentSubjectFluentAPI { get; set; }
+        public DbSet<TblSubjectFluentAPI> TblSubjectFluentAPI { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new TblStudentFluentAPIConfig());
             modelBuilder.ApplyConfiguration(new TblStudentDetailsFluentAPIConfig());
+            modelBuilder.ApplyConfiguration(new TblStudentSubjectFluentAPIConfig());
 
             modelBuilder.Entity<TblStudentCf>()
                 .HasOne(p => p.Course)
