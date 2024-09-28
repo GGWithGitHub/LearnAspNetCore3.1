@@ -2,7 +2,8 @@
 @{
 }
 
-@if (ViewBag.MaliciousData!=null)
+
+@if (ViewBag.MaliciousData != null)
 {
     <h1>@ViewBag.MaliciousData</h1>
 }
@@ -15,3 +16,26 @@ else
     <input name="check" type="text" />
     <input type="submit" value="Save" />
 </form>
+
+<div>
+    <input id="myDate" type="text" />
+
+    <button id="myBtn">click</button>
+</div>
+
+@section Scripts{
+    <script>
+        $(function () {
+            $("#myDate").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                minDate: "09/10/2024",
+                maxDate: "09/27/2024"
+            });
+            $("#myBtn").click(function () {
+                $("#myDate").datepicker("show");
+            });
+        });
+    </script>
+}
+
