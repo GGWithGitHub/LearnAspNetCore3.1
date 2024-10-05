@@ -1,0 +1,226 @@
+﻿@model FluentAPIVM
+
+@{
+}
+
+<style>
+    .scrollable-row {
+        height: 400px; /* Set your desired height */
+        overflow-y: auto; /* Enable vertical scrolling */
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-6 scrollable-row">
+        <h6>Table - Student</h6>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>IsRegularStudent</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in Model.ListStudent)
+                {
+                    <tr>
+                        <td>@student.Id</td>
+                        <td>@student.Name</td>
+                        <td>@student.Age</td>
+                        <td>@student.IsRegularStudent</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6 scrollable-row">
+        <h6>Table - StudentDetail</h6>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Address</th>
+                    <th>AdditionalInformation</th>
+                    <th>StudentId</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var stdDetail in Model.ListStudentDetail)
+                {
+                    <tr>
+                        <td>@stdDetail.Id</td>
+                        <td>@stdDetail.Address</td>
+                        <td>@stdDetail.AdditionalInformation</td>
+                        <td>@stdDetail.StudentId</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-6 scrollable-row">
+        <h6>Table - Evaluation</h6>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Grade</th>
+                    <th>AdditionalExplanation</th>
+                    <th>StudentId</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var evl in Model.ListEvaluation)
+                {
+                    <tr>
+                        <td>@evl.Id</td>
+                        <td>@evl.Grade</td>
+                        <td>@evl.AdditionalExplanation</td>
+                        <td>@evl.StudentId</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-3 scrollable-row">
+        <h6>Table - Subject</h6>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>SubjectName</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sub in Model.ListSubject)
+                {
+                    <tr>
+                        <td>@sub.Id</td>
+                        <td>@sub.SubjectName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-3 scrollable-row">
+        <h6>Table - StudentSubject</h6>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>StudentId</th>
+                    <th>SubjectId</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var stdSub in Model.ListStudentSubject)
+                {
+                    <tr>
+                        <td>@stdSub.StudentId</td>
+                        <td>@stdSub.SubjectId</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <span></span>
+    <h5>One to one relationship between <strong>Student</strong> and <strong>StudentDetail</strong>:</h5>
+    <div class="col-md-12 scrollable-row">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>StudentId</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>IsRegularStudent</th>
+                    <th>StudentDetailId</th>
+                    <th>Address</th>
+                    <th>AdditionalInformation</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var stdStdDet in Model.ListStdStdDetail)
+                {
+                    <tr>
+                        <td>@stdStdDet.Id</td>
+                        <td>@stdStdDet.Name</td>
+                        <td>@stdStdDet.Age</td>
+                        <td>@stdStdDet.IsRegularStudent</td>
+                        <td>@stdStdDet.StudentDetails.Id</td>
+                        <td>@stdStdDet.StudentDetails.Address</td>
+                        <td>@stdStdDet.StudentDetails.AdditionalInformation</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12 mt-3">
+        <h6>learn how to include relationships while adding the main entity to the database</h6>
+        <fieldset>
+            <legend class="w-auto">Student Information</legend>
+            <form method="post" action="/EFCoreCodeFirst/AddMainEntityWithRelatedEntity" id="myForm1" style="max-width: 400px;">
+                <div class="mb-2">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control form-control-sm" id="name" name="Name" required>
+                </div>
+
+                <div class="mb-2">
+                    <label for="age" class="form-label">Age</label>
+                    <input type="number" class="form-control form-control-sm" id="age" name="Age" required>
+                </div>
+
+                <div class="mb-2">
+                    <label for="isRegularStudent" class="form-label">Is Regular Student</label>
+                    <select class="form-select form-select-sm" id="isRegularStudent" name="IsRegularStudent" required>
+                        <option value="">Select...</option>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+
+                <div class="mb-2">
+                    <label for="address" class="form-label">Address</label>
+                    <textarea class="form-control form-control-sm" id="address" name="StudentDetails.Address" rows="2" required></textarea>
+                </div>
+
+                <div class="mb-2">
+                    <label for="additionalInfo" class="form-label">Additional Information</label>
+                    <textarea class="form-control form-control-sm" id="additionalInfo" name="StudentDetails.AdditionalInformation" rows="2"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+            </form>
+        </fieldset>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $('#myForm1').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var formData = $(this).serialize(); // Serialize form data
+
+            $.ajax({
+                url: $(this).attr('action'), // Form action URL
+                type: $(this).attr('method'), // Form method (POST in this case)
+                data: formData, // Serialized form data
+                success: function (response) {
+                    if (response.success) {
+                        window.location.reload();
+                    }
+                },
+                error: function () {
+                    alert('An error occurred.'); // Handle error scenario
+                }
+            });
+        });
+    </script>
+}

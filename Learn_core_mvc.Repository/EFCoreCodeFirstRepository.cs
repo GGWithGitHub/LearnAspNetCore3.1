@@ -81,5 +81,73 @@ namespace Learn_core_mvc.Repository
             }
             return isSuccessful;
         }
+
+        public async Task<List<TblStudentFluentAPI>> GetTblStudentFluentAPI()
+        {
+            var students = new List<TblStudentFluentAPI>();
+            students = await _dbContext.TblStudentFluentAPI.ToListAsync();
+            return students;
+        }
+
+        public async Task<List<TblStudentDetailsFluentAPI>> GetTblStudentDetailsFluentAPI()
+        {
+            var studentDetails = new List<TblStudentDetailsFluentAPI>();
+            studentDetails = await _dbContext.TblStudentDetailsFluentAPI.ToListAsync();
+            return studentDetails;
+        }
+
+        public async Task<List<TblEvaluationFluentAPI>> GetTblEvaluationFluentAPI()
+        {
+            var evalutions = new List<TblEvaluationFluentAPI>();
+            evalutions = await _dbContext.TblEvaluationFluentAPI.ToListAsync();
+            return evalutions;
+        }
+
+        public async Task<List<TblSubjectFluentAPI>> GetTblSubjectFluentAPI()
+        {
+            var subjects = new List<TblSubjectFluentAPI>();
+            subjects = await _dbContext.TblSubjectFluentAPI.ToListAsync();
+            return subjects;
+        }
+
+        public async Task<List<TblStudentSubjectFluentAPI>> GetTblStudentSubjectFluentAPI()
+        {
+            var stdSubjects = new List<TblStudentSubjectFluentAPI>();
+            stdSubjects = await _dbContext.TblStudentSubjectFluentAPI.ToListAsync();
+            return stdSubjects;
+        }
+
+        public async Task<List<TblStudentFluentAPI>> GetOneToOneData()
+        {
+            var stdStdDetail = await _dbContext.TblStudentFluentAPI
+                                .AsNoTracking()
+                                .Include(stdDet => stdDet.StudentDetails)
+                                .Select(std => new TblStudentFluentAPI
+                                {
+                                    Id = std.Id,
+                                    Name = std.Name,
+                                    Age = std.Age,
+                                    IsRegularStudent = std.IsRegularStudent,
+                                    StudentDetails = new TblStudentDetailsFluentAPI
+                                    {
+                                        Id = std.StudentDetails.Id,
+                                        Address = std.StudentDetails.Address,
+                                        AdditionalInformation = std.StudentDetails.AdditionalInformation,
+                                        StudentId = std.StudentDetails.StudentId
+                                    }
+                                })
+                                .ToListAsync();
+            return stdStdDetail;
+        }
+
+        public async Task<bool> AddMainEntityWithRelatedEntity(TblStudentFluentAPI student)
+        {
+            student.Id = Guid.NewGuid();
+            student.StudentDetails.Id = Guid.NewGuid();
+
+            _dbContext.TblStudentFluentAPI.Add(student);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
     }
 }
