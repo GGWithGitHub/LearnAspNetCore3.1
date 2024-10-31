@@ -13,6 +13,6 @@ namespace Learn_core_mvc.ViewModels
         public List<EvaluationFluentAPIModel> ListEvaluation { get; set; }
         public List<StudentSubjectFluentAPIModel> ListStudentSubject { get; set; }
         public List<SubjectFluentAPIModel> ListSubject { get; set; }
-        public List<StdStdDetailsFluentAPIModel> ListStdStdDetail { get; set; }
+        public List<StdDetailsStdFluentAPIModel> ListStdDetailStd { get; set; }
     }
 }

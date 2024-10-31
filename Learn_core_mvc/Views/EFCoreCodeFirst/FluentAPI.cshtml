@@ -16,6 +16,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>S.No.</th>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Age</th>
@@ -23,9 +24,13 @@
                 </tr>
             </thead>
             <tbody>
+                @{ 
+                    int studentCount = 0;
+                }
                 @foreach (var student in Model.ListStudent)
                 {
                     <tr>
+                        <td>@(++studentCount)</td>
                         <td>@student.Id</td>
                         <td>@student.Name</td>
                         <td>@student.Age</td>
@@ -40,6 +45,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>S.No.</th>
                     <th>ID</th>
                     <th>Address</th>
                     <th>AdditionalInformation</th>
@@ -47,9 +53,13 @@
                 </tr>
             </thead>
             <tbody>
+                @{
+                    int studentDetailCount = 0;
+                }
                 @foreach (var stdDetail in Model.ListStudentDetail)
                 {
                     <tr>
+                        <td>@(++studentDetailCount)</td>
                         <td>@stdDetail.Id</td>
                         <td>@stdDetail.Address</td>
                         <td>@stdDetail.AdditionalInformation</td>
@@ -66,6 +76,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>S.No.</th>
                     <th>ID</th>
                     <th>Grade</th>
                     <th>AdditionalExplanation</th>
@@ -73,9 +84,13 @@
                 </tr>
             </thead>
             <tbody>
+                @{ 
+                    int evaluationCount = 0;
+                }
                 @foreach (var evl in Model.ListEvaluation)
                 {
                     <tr>
+                        <td>@(++evaluationCount)</td>
                         <td>@evl.Id</td>
                         <td>@evl.Grade</td>
                         <td>@evl.AdditionalExplanation</td>
@@ -90,14 +105,19 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>S.No.</th>
                     <th>ID</th>
                     <th>SubjectName</th>
                 </tr>
             </thead>
             <tbody>
+                @{ 
+                    int subjectCount = 0;
+                }
                 @foreach (var sub in Model.ListSubject)
                 {
                     <tr>
+                        <td>@(++subjectCount)</td>
                         <td>@sub.Id</td>
                         <td>@sub.SubjectName</td>
                     </tr>
@@ -110,14 +130,19 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>S.No.</th>
                     <th>StudentId</th>
                     <th>SubjectId</th>
                 </tr>
             </thead>
             <tbody>
+                @{ 
+                    int studentSubjectCount = 0;
+                }
                 @foreach (var stdSub in Model.ListStudentSubject)
                 {
                     <tr>
+                        <td>@(++studentSubjectCount)</td>
                         <td>@stdSub.StudentId</td>
                         <td>@stdSub.SubjectId</td>
                     </tr>
@@ -136,6 +161,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>S.No.</th>
                     <th>StudentId</th>
                     <th>Name</th>
                     <th>Age</th>
@@ -146,23 +172,27 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var stdStdDet in Model.ListStdStdDetail)
+                @{ 
+                    int stdDetailStdCount = 0;
+                }
+                @foreach (var stdDetStd in Model.ListStdDetailStd)
                 {
                     <tr>
-                        <td>@stdStdDet.Id</td>
-                        <td>@stdStdDet.Name</td>
-                        <td>@stdStdDet.Age</td>
-                        <td>@stdStdDet.IsRegularStudent</td>
-                        <td>@stdStdDet.StudentDetails.Id</td>
-                        <td>@stdStdDet.StudentDetails.Address</td>
-                        <td>@stdStdDet.StudentDetails.AdditionalInformation</td>
+                        <td>@(++stdDetailStdCount)</td>
+                        <td>@stdDetStd.Student.Id</td>
+                        <td>@stdDetStd.Student.Name</td>
+                        <td>@stdDetStd.Student.Age</td>
+                        <td>@stdDetStd.Student.IsRegularStudent</td>
+                        <td>@stdDetStd.Id</td>
+                        <td>@stdDetStd.Address</td>
+                        <td>@stdDetStd.AdditionalInformation</td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
     <div class="col-md-12 mt-3">
-        <h6>learn how to include relationships while adding the main entity to the database</h6>
+        <h6>Learn how to include relationships while adding the main entity to the database</h6>
         <fieldset>
             <legend class="w-auto">Student Information</legend>
             <form method="post" action="/EFCoreCodeFirst/AddMainEntityWithRelatedEntity" id="myForm1" style="max-width: 400px;">
@@ -199,11 +229,42 @@
             </form>
         </fieldset>
     </div>
+    <div class="col-md-12 mt-3">
+        <h6>Learn how to delete principal entity then dependent entity isn’t deleted</h6>
+        <form method="post" action="/EFCoreCodeFirst/DelMainEntity" id="myForm2" style="max-width: 400px;">
+            <div class="mb-2">
+                <label class="form-label">StudentId</label>
+                <input type="text" class="form-control form-control-sm" name="studentId" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+        </form>
+    </div>
 </div>
 
 @section Scripts{
     <script>
         $('#myForm1').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var formData = $(this).serialize(); // Serialize form data
+
+            $.ajax({
+                url: $(this).attr('action'), // Form action URL
+                type: $(this).attr('method'), // Form method (POST in this case)
+                data: formData, // Serialized form data
+                success: function (response) {
+                    if (response.success) {
+                        window.location.reload();
+                    }
+                },
+                error: function () {
+                    alert('An error occurred.'); // Handle error scenario
+                }
+            });
+        });
+
+        $('#myForm2').submit(function (event) {
             event.preventDefault(); // Prevent default form submission
 
             var formData = $(this).serialize(); // Serialize form data

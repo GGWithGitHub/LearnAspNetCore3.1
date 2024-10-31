@@ -55,6 +55,7 @@ namespace Learn_core_mvc.Controllers
                     .ReverseMap();
             });
             _stdStdDetailsFluentMapper = new Mapper(_configStdStdDetail);
+
         }
         public async Task<IActionResult> GetStudents()
         {
@@ -149,10 +150,26 @@ namespace Learn_core_mvc.Controllers
             model.ListSubject = subRes;
             model.ListStudentSubject = stdSubRes;
 
-            var stdStdDetails = await _eFCoreCodeFirstRepo.GetOneToOneData();
-            var stdStdDetailsRes = _stdStdDetailsFluentMapper.Map<List<TblStudentFluentAPI>,List<StdStdDetailsFluentAPIModel>>(stdStdDetails);
+            var stdDetailsStd = await _eFCoreCodeFirstRepo.GetOneToOneData();
+            //var stdStdDetailsRes = _stdStdDetailsFluentMapper.Map<List<TblStudentFluentAPI>,List<StdStdDetailsFluentAPIModel>>(stdStdDetails);
+            List<StdDetailsStdFluentAPIModel> stdDetailsStdList = new List<StdDetailsStdFluentAPIModel>();
+            foreach (var ss in stdDetailsStd)
+            {
+                stdDetailsStdList.Add(new StdDetailsStdFluentAPIModel
+                { 
+                    Id = ss.Id,
+                    Address = ss.Address,
+                    AdditionalInformation = ss.AdditionalInformation,
+                    Student = new StudentFluentAPIModel { 
+                        Id = ss.Student?.Id,
+                        Age = ss.Student?.Age,
+                        Name = ss.Student?.Name,
+                        IsRegularStudent = ss.Student?.IsRegularStudent
+                    }
+                });
+            }
 
-            model.ListStdStdDetail = stdStdDetailsRes;
+            model.ListStdDetailStd = stdDetailsStdList;
 
             return View(model);
         }
@@ -161,7 +178,13 @@ namespace Learn_core_mvc.Controllers
         {
             var stdStdDetailsMap = _stdStdDetailsFluentMapper.Map<StdStdDetailsFluentAPIModel, TblStudentFluentAPI>(model);
             var res = await _eFCoreCodeFirstRepo.AddMainEntityWithRelatedEntity(stdStdDetailsMap);
-            return Json(new { success = true });
+            return Json(new { success = res });
+        }
+
+        public async Task<IActionResult> DelMainEntity(Guid studentId)
+        {
+            var res = await _eFCoreCodeFirstRepo.DelMainEntity(studentId);
+            return Json(new { success = res });
         }
     }
 }

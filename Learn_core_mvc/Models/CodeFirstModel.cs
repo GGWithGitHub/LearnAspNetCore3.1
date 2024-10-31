@@ -7,10 +7,10 @@ namespace Learn_core_mvc.Models
 {
     public class StudentFluentAPIModel
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        public Guid? Id { get; set; }
+        public string? Name { get; set; }
         public int? Age { get; set; }
-        public bool IsRegularStudent { get; set; }
+        public bool? IsRegularStudent { get; set; }
     }
 
     public class StudentDetailsFluentAPIModel
@@ -28,6 +28,14 @@ namespace Learn_core_mvc.Models
         public int? Age { get; set; }
         public bool IsRegularStudent { get; set; }
         public StudentDetailsFluentAPIModel StudentDetails { get; set; }
+    }
+
+    public class StdDetailsStdFluentAPIModel
+    {
+        public Guid Id { get; set; }
+        public string Address { get; set; }
+        public string AdditionalInformation { get; set; }
+        public StudentFluentAPIModel Student { get; set; }
     }
 
     public class EvaluationFluentAPIModel

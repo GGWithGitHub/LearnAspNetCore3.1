@@ -41,6 +41,12 @@ namespace Learn_core_mvc.Repository.EFCodeFirst.Configurations
             builder.HasMany(e => e.Evaluations)
                 .WithOne(s => s.Student)
                 .HasForeignKey(s => s.StudentId);
+
+            // Configure one-to-one set null with StudentDetails
+            builder.HasOne(p => p.StudentDetails)
+                .WithOne(p => p.Student)
+                .HasForeignKey<TblStudentDetailsFluentAPI>(sd => sd.StudentId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

@@ -18,7 +18,8 @@ namespace Learn_core_mvc.Repository
         Task<List<TblEvaluationFluentAPI>> GetTblEvaluationFluentAPI();
         Task<List<TblSubjectFluentAPI>> GetTblSubjectFluentAPI();
         Task<List<TblStudentSubjectFluentAPI>> GetTblStudentSubjectFluentAPI();
-        Task<List<TblStudentFluentAPI>> GetOneToOneData();
+        Task<List<TblStudentDetailsFluentAPI>> GetOneToOneData();
         Task<bool> AddMainEntityWithRelatedEntity(TblStudentFluentAPI student);
+        Task<bool> DelMainEntity(Guid studentId);
     }
 }
