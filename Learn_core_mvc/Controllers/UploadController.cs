@@ -1,4 +1,6 @@
 ﻿using Learn_core_mvc.Models;
+using Learn_core_mvc.Repository;
+using Learn_core_mvc.Repository.EFCodeFirst.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +18,12 @@ namespace Learn_core_mvc.Controllers
     public class UploadController : Controller
     {
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly IFileRepository _fileRepo;
 
-        public UploadController(IWebHostEnvironment hostEnvironment)
+        public UploadController(IWebHostEnvironment hostEnvironment, IFileRepository fileRepo)
         {
             _hostEnvironment = hostEnvironment;
+            _fileRepo = fileRepo;
         }
         public IActionResult UploadImage()
         {
@@ -167,6 +171,45 @@ namespace Learn_core_mvc.Controllers
                 default:
                     return "application/octet-stream";
             }
+        }
+
+        public async Task<IActionResult> UploadDownloadFiles()
+        {
+            var files = await _fileRepo.GetAll();
+            return View(files);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            if (file.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    file.CopyTo(ms);
+                    
+                    var newFile = new TblFile();
+                    newFile.MimeType = file.ContentType;
+                    newFile.FileName = Path.GetFileName(file.FileName);
+                    newFile.Content = ms.ToArray();
+                    
+                    await _fileRepo.AddFile(newFile);
+                }
+            }
+            
+            return RedirectToAction("UploadDownloadFiles");
+        }
+
+        public async Task<FileResult> DownloadFile(string fileId)
+        {
+            var file = await _fileRepo.GetFile(fileId);
+            if (file == null || file.Content == null)
+            {
+                return null; // Or handle the error appropriately
+            }
+
+            Response.Headers.Add("Content-Disposition", $"attachment; filename={file.FileName}");
+            return File(file.Content, file.MimeType);
         }
     }
 }

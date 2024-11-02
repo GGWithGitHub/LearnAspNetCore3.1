@@ -1,0 +1,35 @@
+﻿
+@model IEnumerable<Learn_core_mvc.Repository.EFCodeFirst.Models.TblFile>
+
+<form asp-controller="Upload" asp-action="UploadFile" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <input type="file" name="file" class="form-control-file" />
+        </div>
+        <div class="col-md-6">
+            <button type="submit" class="btn btn-primary">Upload File</button>
+        </div>
+    </div>
+</form>
+
+<table class="table mt-5">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.FileName)</th>
+            <th>Download</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var file in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => file.FileName)
+                </td>
+                <td>
+                    @Html.ActionLink("Download this file", "DownloadFile", "Upload", new { fileId = file.Id }, null)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

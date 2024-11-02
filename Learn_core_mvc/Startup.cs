@@ -146,6 +146,7 @@ namespace Learn_core_mvc
             services.AddScoped<IUnitOfWork, UnitOfWork>(); //For Unit of work
 
             services.AddScoped<IUnitOfWorkCodeFirst, UnitOfWorkCodeFirst>();//For code first 
+            services.AddScoped<IFileRepository, FileRepository>();
 
             //If you use UnitOfWork2.cs then you do not need to register other repository classes in Startup.cs
             //because in UnitOfWork2.cs we are using other repository classes

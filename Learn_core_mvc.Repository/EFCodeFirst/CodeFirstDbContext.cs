@@ -20,6 +20,7 @@ namespace Learn_core_mvc.Repository.EFCodeFirst
         public DbSet<TblEvaluationFluentAPI> TblEvaluationFluentAPI { get; set; }
         public DbSet<TblStudentSubjectFluentAPI> TblStudentSubjectFluentAPI { get; set; }
         public DbSet<TblSubjectFluentAPI> TblSubjectFluentAPI { get; set; }
+        public DbSet<TblFile> TblFile { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
