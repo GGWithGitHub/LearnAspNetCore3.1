@@ -1,0 +1,59 @@
+﻿@model TwoFactorTokenVM
+
+@{
+    ViewData["Title"] = "Manage Two-Factor Authentication";
+}
+
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <!-- Page Header -->
+        <div class="text-center mb-4">
+            <h1 class="display-6">Two-Factor Authentication</h1>
+            <p class="text-muted">
+                Secure your account with an additional layer of protection. Enter the verification code sent to your registered email address.
+            </p>
+        </div>
+
+        <!-- Card for Verification -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title text-center">Verification Required</h5>
+                <p class="text-center text-muted">
+                    Please enter the 6-digit verification code to proceed.
+                </p>
+
+                <!-- Display Success/Error Message -->
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger text-center">
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
+
+                <!-- Verification Form -->
+                <form method="post" asp-action="ManageTwoFactorAuthentication" asp-controller="IdentityEx">
+                    <div class="mb-3">
+                        <label asp-for="TwoFactorToken" class="form-label"></label>
+                        <input asp-for="TwoFactorToken" value="@ViewBag.TwoFAToken" class="form-control" placeholder="Enter your code" maxlength="6" />
+                        <span asp-validation-for="TwoFactorToken" class="text-danger"></span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            Verify
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer Note -->
+        <div class="text-center mt-4">
+            <p class="text-muted">
+                Didn't receive the code? <a asp-action="ManageTwoFactorAuthentication" asp-controller="IdentityEx" class="text-primary">Resend Verification Code</a>
+            </p>
+        </div>
+    </div>
+</div>

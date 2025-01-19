@@ -8,5 +8,7 @@ namespace Learn_core_mvc.Services
         Task SendTestEmail(UserEmailOptions userEmailOptions);
         Task SendEmailForEmailConfirmation(UserEmailOptions userEmailOptions);
         Task SendEmailForForgotPassword(UserEmailOptions userEmailOptions);
+        Task SendTwoFactorToken(UserEmailOptions userEmailOptions);
+        Task SendEmailTwoFactorEnableDisable(UserEmailOptions userEmailOptions);
     }
 }

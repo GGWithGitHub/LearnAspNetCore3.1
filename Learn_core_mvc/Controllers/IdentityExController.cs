@@ -1,6 +1,7 @@
 ﻿using Learn_core_mvc.IdentityDbContextFolder;
 using Learn_core_mvc.Models;
 using Learn_core_mvc.Services;
+using Learn_core_mvc.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -176,6 +177,37 @@ namespace Learn_core_mvc.Controllers
             await _emailService.SendEmailForEmailConfirmation(options);
         }
 
+        private async Task SendTwoFactorTokenEmail(IdentityUser user, string token)
+        {
+            UserEmailOptions options = new UserEmailOptions
+            {
+                ToEmails = new List<string>() { user.Email },
+                PlaceHolders = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("{{UserName}}", user.Email),
+                    new KeyValuePair<string, string>("{{Token}}",token)
+                }
+            };
+
+            await _emailService.SendTwoFactorToken(options);
+        }
+
+        private async Task SendTwoFactorEnableDisableEmail(IdentityUser user, string token)
+        {
+            string actionMessage = user.TwoFactorEnabled ? "Disable Two-Factor Authentication" : "Enable Two-Factor Authentication";
+            UserEmailOptions options = new UserEmailOptions
+            {
+                ToEmails = new List<string>() { user.Email },
+                PlaceHolders = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("{{UserName}}", user.Email),
+                    new KeyValuePair<string, string>("{{EnableDisable2FAMsg}}", actionMessage),
+                    new KeyValuePair<string, string>("{{Token}}",token)
+                }
+            };
+            await _emailService.SendEmailTwoFactorEnableDisable(options);
+        }
+
         public IActionResult Login()
         {
             return View();
@@ -187,11 +219,32 @@ namespace Learn_core_mvc.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.FindByEmailAsync(signInModel.UserEmail);
+
                 bool lockoutOnFailure = true;
                 var result = await _signInManager.PasswordSignInAsync(signInModel.UserEmail, signInModel.UserPassword, signInModel.IsRemember, lockoutOnFailure);
                 if (result.Succeeded)
                 {
                     return RedirectToActionPermanent("Home");
+                }
+                else if (result.RequiresTwoFactor)
+                {
+                    var TwoFactorAuthenticationToken = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
+
+                    // Send SMS if the phone number is confirmed
+                    if (!string.IsNullOrEmpty(user.PhoneNumber) && user.PhoneNumberConfirmed)
+                    {
+                        //var smsMessage = $"Your Two-Factor Authentication code is: {TwoFactorAuthenticationToken}. Please use this code to log in.";
+                        //await smsSender.SendSmsAsync(user.PhoneNumber, smsMessage);
+                    }
+
+                    // Send Email if the email is confirmed
+                    if (!string.IsNullOrEmpty(user.Email) && user.EmailConfirmed)
+                    {
+                        await SendTwoFactorTokenEmail(user, TwoFactorAuthenticationToken);
+                    }
+
+                    return RedirectToAction("VerifyTwoFactorToken", "IdentityEx", new { email=signInModel.UserEmail, rememberMe=signInModel.IsRemember, twoFactorAuthenticationToken=TwoFactorAuthenticationToken });
                 }
                 else if (result.IsNotAllowed)
                 {
@@ -208,6 +261,162 @@ namespace Learn_core_mvc.Controllers
             }
 
             return View("Login", signInModel);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> ManageTwoFactorAuthentication()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "IdentityEx");
+            }
+            // First, ensure the user's email and phone number are confirmed
+            //if (!user.PhoneNumberConfirmed || !user.EmailConfirmed)
+            if (!user.EmailConfirmed)
+            {
+                ViewBag.ErrorTitle = "Two-Factor Authentication Setup Error";
+                ViewBag.ErrorMessage = "You cannot enable or disable Two-Factor Authentication because your email is not yet confirmed.";
+                return RedirectToAction("Login", "IdentityEx");
+            }
+            // Determine the action (Enable or Disable 2FA)
+            string actionMessage = user.TwoFactorEnabled ? "Disable Two-Factor Authentication" : "Enable Two-Factor Authentication";
+            // Generate the Two-Factor Authentication Token
+            var twoFactorToken = await _userManager.GenerateTwoFactorTokenAsync(user, TokenOptions.DefaultPhoneProvider);
+            // Send the token via SMS if the phone number is confirmed
+            if (!string.IsNullOrEmpty(user.PhoneNumber) && user.PhoneNumberConfirmed)
+            {
+                //string smsMessage = $"Your security code to {actionMessage.ToLower()} is: {twoFactorToken}. Please do not share this code with anyone.";
+                //await smsSender.SendSmsAsync(user.PhoneNumber, smsMessage);
+            }
+            // Send the token via Email if the email is confirmed
+            if (!string.IsNullOrEmpty(user.Email) && user.EmailConfirmed)
+            {
+                await SendTwoFactorEnableDisableEmail(user, twoFactorToken);
+            }
+            ViewBag.TwoFAToken = twoFactorToken;
+            // Notify the user that the token has been sent
+            return View(); // View for the user to enter the token
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ManageTwoFactorAuthentication(TwoFactorTokenVM model)
+        {
+            // Validate the model
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Please enter a valid security code.";
+                return View(model);
+            }
+            // Fetch the user
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "User session expired. Please log in again.";
+                return RedirectToAction("Login", "IdentityEx");
+            }
+            // Verify the token
+            var isTokenValid = await _userManager.VerifyTwoFactorTokenAsync(user, TokenOptions.DefaultPhoneProvider, model.TwoFactorToken);
+            if (isTokenValid)
+            {
+                // Toggle Two-Factor Authentication status
+                user.TwoFactorEnabled = !user.TwoFactorEnabled;
+                await _userManager.UpdateAsync(user);
+                // Set a success message
+                TempData["SuccessMessage"] = user.TwoFactorEnabled
+                    ? "Two-Factor Authentication has been successfully enabled for your account."
+                    : "Two-Factor Authentication has been successfully disabled for your account.";
+                return RedirectToAction("TwoFactorAuthenticationSuccessful");
+            }
+            // Handle invalid token
+            TempData["ErrorMessage"] = "The security code is invalid or has expired. Please try again.";
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult TwoFactorAuthenticationSuccessful()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult VerifyTwoFactorToken(string email, bool rememberMe, string twoFactorAuthenticationToken)
+        {
+            VerifyTwoFactorTokenVM model = new VerifyTwoFactorTokenVM()
+            {
+                RememberMe = rememberMe,
+                Email = email,
+                Token = twoFactorAuthenticationToken
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VerifyTwoFactorToken(VerifyTwoFactorTokenVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid Login Attempt.");
+                return View(model);
+            }
+
+            // Validate the 2FA token
+            var result = await _userManager.VerifyTwoFactorTokenAsync(user, "Email", model.TwoFactorCode);
+            if (result)
+            {
+                // Sign in the user and redirect
+                await _signInManager.SignInAsync(user, isPersistent: model.RememberMe);
+                // Redirect to default page
+                return RedirectToAction("Home", "IdentityEx");
+            }
+
+            ModelState.AddModelError(string.Empty, "Invalid verification code.");
+            return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResendTwoFactorToken(string Email, string ReturnUrl, bool RememberMe)
+        {
+            var user = await _userManager.FindByEmailAsync(Email);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "IdentityEx");
+            }
+
+            // Generate a 2FA token either using DefaultPhoneProvider or DefaultEmailProvider
+            // Which provider we use here, same we need to use while doing the verification
+            var TwoFactorAuthenticationToken = await _userManager.GenerateTwoFactorTokenAsync(user, TokenOptions.DefaultEmailProvider);
+            //var TwoFactorAuthenticationToken3 = await userManager.GenerateTwoFactorTokenAsync(user, TokenOptions.DefaultPhoneProvider);
+
+            // Send SMS if the phone number is confirmed
+            if (!string.IsNullOrEmpty(user.PhoneNumber) && user.PhoneNumberConfirmed)
+            {
+                //var smsMessage = $"Your Two-Factor Authentication code is: {TwoFactorAuthenticationToken}. Please use this code to log in.";
+                //await smsSender.SendSmsAsync(user.PhoneNumber, smsMessage);
+            }
+
+            // Send Email if the email is confirmed
+            if (!string.IsNullOrEmpty(user.Email) && user.EmailConfirmed)
+            {
+                await SendTwoFactorTokenEmail(user, TwoFactorAuthenticationToken);
+            }
+
+            // Redirect to Two-Factor Authentication verification page with data
+            return RedirectToAction("VerifyTwoFactorToken", "IdentityEx", new { Email, ReturnUrl, RememberMe });
         }
 
         [Authorize]

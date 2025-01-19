@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> SignInManager;
+
+@{
+    ViewData["Title"] = "Two-Factor Authentication Status";
+
+    var isUserLoggedIn = SignInManager.IsSignedIn(User);
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-6 text-success">Success!</h1>
+            <p class="text-muted">
+                @TempData["SuccessMessage"]
+            </p>
+            @if (isUserLoggedIn)
+            {
+                <a asp-action="Home" asp-controller="IdentityEx" class="btn btn-primary btn-lg mt-3">Go to Home</a>
+            }
+            else
+            {
+                <a asp-action="Login" asp-controller="IdentityEx" class="btn btn-primary btn-lg mt-3">Go to Login</a>
+            }
+        </div>
+    </div>
+</div>

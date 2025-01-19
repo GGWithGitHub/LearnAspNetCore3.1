@@ -1,8 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity;
-@inject SignInManager<IdentityUser> signInManager;
+@inject SignInManager<IdentityUser> SignInManager;
+@inject UserManager<IdentityUser> UserManager
 
 @{
-    var isUserLoggedIn = signInManager.IsSignedIn(User);
+    var isUserLoggedIn = SignInManager.IsSignedIn(User);
+
+    // Fetch the current user
+    var currentUser = await UserManager.GetUserAsync(User);
+
+    // Check if 2FA is enabled
+    bool is2FAEnabled = await UserManager.GetTwoFactorEnabledAsync(currentUser);
 }
 
 <button onclick="location.href='@Url.Action("LogOut", "IdentityEx")'">Log out</button>
@@ -11,6 +18,19 @@
 <button onclick="location.href='@Url.Action("ChangePassword", "IdentityEx")'">Change Password</button>
 <br />
 <br />
+@if (is2FAEnabled)
+{
+    <button onclick="location.href='@Url.Action("ManageTwoFactorAuthentication", "IdentityEx")'">Disable Two Factor Authentication</button>
+    <br />
+    <br />
+}
+else
+{
+    <button onclick="location.href='@Url.Action("ManageTwoFactorAuthentication", "IdentityEx")'">Enable Two Factor Authentication</button>
+    <br />
+    <br />
+}
+
 
 <h6>User Id: @ViewBag.UserId</h6>
 <h6>User Name: @ViewBag.UserName</h6>
