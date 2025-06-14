@@ -11,6 +11,7 @@ namespace Learn_core_mvc.Repository.EFCodeFirst.Configurations
     {
         public void Configure(EntityTypeBuilder<TblStudentSubjectFluentAPI> builder)
         {
+            // Configure Many-to-Many relationship
             builder.HasKey(s => new { s.StudentId, s.SubjectId });
             builder.HasOne(ss => ss.Student)
                 .WithMany(s => s.StudentSubjects)
