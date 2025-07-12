@@ -31,6 +31,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (User.HasClaim(c => c.Type == "ImpersonatorId"))
+                        {
+                            <li class="nav-item">
+                                <form asp-controller="IdentityEx" asp-action="StopImpersonation" method="post">
+                                    <button type="submit" class="btn btn-sm btn-danger">Stop Impersonation</button>
+                                </form>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

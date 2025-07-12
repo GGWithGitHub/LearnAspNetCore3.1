@@ -12,6 +12,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using System.Diagnostics;
+using Amazon.Auth.AccessControlPolicy;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Learn_core_mvc.Controllers
 {
@@ -436,6 +440,8 @@ namespace Learn_core_mvc.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult AuthorizePage()
         {
+            var users = _userManager.Users.ToList();
+            ViewData["Users"] = users;
             return View();
         }
 
@@ -566,6 +572,58 @@ namespace Learn_core_mvc.Controllers
                 }
             }
             return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Impersonate(string userId)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var impersonatedUser = await _userManager.FindByIdAsync(userId);
+
+            if (impersonatedUser == null || currentUser == null)
+            {
+                return NotFound();
+            }
+
+            // Sign out current user
+            await _signInManager.SignOutAsync();
+
+            // Get impersonated user's identity
+            var userPrincipal = await _signInManager.CreateUserPrincipalAsync(impersonatedUser);
+
+            // Add a claim for the original user
+            var identity = (ClaimsIdentity)userPrincipal.Identity;
+            identity.AddClaim(new Claim("ImpersonatorId", currentUser.Id));
+
+            await _signInManager.Context.SignInAsync(IdentityConstants.ApplicationScheme, userPrincipal);
+
+            foreach (var claim in User.Claims)
+            {
+                Debug.WriteLine($"Claim Type: {claim.Type}, Value: {claim.Value}");
+            }
+
+            return RedirectToAction("Home", "IdentityEx");
+        }
+
+        public async Task<IActionResult> StopImpersonation()
+        {
+            var impersonatorId = User.FindFirstValue("ImpersonatorId");
+
+            if (impersonatorId == null)
+            {
+                return Forbid();
+            }
+
+            var impersonator = await _userManager.FindByIdAsync(impersonatorId);
+            if (impersonator == null)
+            {
+                return NotFound();
+            }
+
+            await _signInManager.SignOutAsync();
+            await _signInManager.SignInAsync(impersonator, isPersistent: false);
+
+            return RedirectToAction("Home", "IdentityEx");
         }
     }
 }
