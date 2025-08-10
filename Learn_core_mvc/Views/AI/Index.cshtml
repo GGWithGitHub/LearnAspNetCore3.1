@@ -1,0 +1,38 @@
+﻿
+@{
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <button>Call xAI(Grok)</button>
+        <button>Call openAI(chatGPT)</button>
+    </div>
+</div>
+
+<script>
+    $('#callGrokBtn').click(function () {
+        $.ajax({
+            url: '/AI/CallGrok',
+            type: 'POST',
+            success: function (data) {
+                alert(data.message);
+            },
+            error: function () {
+                alert('Error calling xAI(Grok).');
+            }
+        });
+    });
+
+    $('#callChatGPTBtn').click(function () {
+        $.ajax({
+            url: '/AI/CallChatGPT',
+            type: 'POST',
+            success: function (data) {
+                alert(data.message);
+            },
+            error: function () {
+                alert('Error calling ChatGPT.');
+            }
+        });
+    });
+</script>
